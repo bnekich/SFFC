@@ -3,14 +3,14 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\ReminderType;
+use App\Models\Notification;
 
-class ReminderTypeFactory extends Factory
+class NotificationFactory extends Factory
 {
     public function definition(): array
     {
         return [
-            'name' => "Reminder type"
+            'description' => fake()->paragraph()
         ];
     }
 }

@@ -17,7 +17,11 @@ class VolunteerFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'training_status' => Status::factory(),
+            'availability' => Status::factory(), 
+            'assignment_date' => fake()->now(), 
+            'created_by' => fake()->lastName(), 
+            'updated_by' => ""
         ];
     }
 }

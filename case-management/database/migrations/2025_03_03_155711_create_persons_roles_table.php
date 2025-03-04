@@ -11,6 +11,7 @@ class CreatePersonsRolesTable extends Migration
         Schema::create('persons_roles', function (Blueprint $table) {
             $table->unsignedBigInteger('person_id')->nullable();
             $table->unsignedBigInteger('role_id')->nullable();
+            $table->timestamps();
         });
     }
 

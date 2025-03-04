@@ -3,21 +3,14 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\PersonType;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\PersonType>
- */
 class PersonTypeFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
-            //
+            "name" => "Person Type"
         ];
     }
 }

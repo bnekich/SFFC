@@ -21,7 +21,6 @@ class CreateCasesTable extends Migration
             $table->timestamps();
             $table->string('created_by', 255);
             $table->string('updated_by', 255);
-            $table->comment('Tracks individual cases of support');
         });
     }
 

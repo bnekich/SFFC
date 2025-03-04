@@ -11,7 +11,7 @@ class CreateRolesTable extends Migration
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255)->nullable();
-            $table->comment('Stores types of role a person is assigned (i.e., Staff, Volunteer, Client)');
+            $table->timestamps();
         });
     }
 

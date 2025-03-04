@@ -3,21 +3,25 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Family;
+use App\Models\Person;
+use App\Models\Status;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CaseModel>
- */
 class CaseModelFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
-            //
+            'case_identifier' => "CASE001AB",
+            'case_description' => fake()->paragraph(),
+            'client_family_id' => Family::factory(), 
+            'host_family_id' => Family::factory(), 
+            'assigned_staff_id' => Person::factory(), 
+            'start_date' => fake()->now(),
+            'end_date' => fake()->now(),
+            'status_id' => Status::factory(), 
+            'created_by' => fake()->lastName(), 
+            'updated_by' => "",
         ];
     }
 }

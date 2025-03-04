@@ -18,7 +18,7 @@ class AddForeignKeysToTables extends Migration
 
         // Persons
         Schema::table('persons', function (Blueprint $table) {
-            $table->foreign('person_type')->references('id')->on('persons_types')->onDelete('set null');
+            $table->foreign('person_type')->references('id')->on('person_types')->onDelete('set null');
         });
 
         // Families

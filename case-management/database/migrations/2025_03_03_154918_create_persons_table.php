@@ -23,7 +23,6 @@ class CreatePersonsTable extends Migration
             $table->timestamps();
             $table->string('created_by', 255);
             $table->string('updated_by', 255);
-            $table->comment('Stores all individuals involved (i.e., children, family members, volunteers, staff)');
         });
     }
 

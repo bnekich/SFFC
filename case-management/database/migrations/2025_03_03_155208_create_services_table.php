@@ -16,7 +16,6 @@ class CreateServicesTable extends Migration
             $table->timestamps();
             $table->string('created_by', 255);
             $table->string('updated_by', 255);
-            $table->comment('Services offered or facilitated by SFFC');
         });
     }
 

@@ -16,7 +16,6 @@ class CreateFamiliesTable extends Migration
             $table->timestamps();
             $table->string('created_by', 255);
             $table->string('updated_by', 255);
-            $table->comment('Represents a household unit, giving or receiving help');
         });
     }
 

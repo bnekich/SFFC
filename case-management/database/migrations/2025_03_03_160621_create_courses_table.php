@@ -12,6 +12,7 @@ class CreateCoursesTable extends Migration
             $table->id();
             $table->string('title', 255);
             $table->unsignedBigInteger('instructor_id')->nullable();
+            $table->timestamps();
         });
     }
 
