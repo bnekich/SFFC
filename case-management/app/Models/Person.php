@@ -4,10 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Elloquent\Relations\BelongsToMany;
-use Illuminate\Database\Elloquent\Relations\HasMany;
-use Illuminate\Database\Elloquent\Relations\HasOne;
-use Illuminate\Database\Elloquent\Relations\BelongsTo;
 
 class Person extends Model
 {

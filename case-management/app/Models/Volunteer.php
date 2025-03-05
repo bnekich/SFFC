@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Volunteer extends Model
 {
+    use HasFactory;
+
     protected $fillable = ['training_status', 'availability', 'assignment_date', 'created_by', 'updated_by'];
 
     public function person()

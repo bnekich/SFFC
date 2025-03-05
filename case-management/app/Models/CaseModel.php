@@ -4,14 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CaseModel extends Model
 {
     // Named CaseModel to avoid clashes with case keyword in PHP
-    /** @use HasFactory<\Database\Factories\CaseModelFactory> */
     use HasFactory;
 
     protected $table = 'cases';
