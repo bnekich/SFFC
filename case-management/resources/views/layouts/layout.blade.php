@@ -9,29 +9,27 @@
 </head>
 
 <body>
-    <header>
-        <h1>Safe Families for Children</h1>
-        @yield('header')
-    </header>
+    <div id="app">
+        <header>
+            <h1>Safe Families for Children</h1>
+        </header>
+        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{{ route('logout') }}"
+                onclick="event.preventDefault();
+                             document.getElementById('logout-form').submit();">
+                {{ __('Logout') }}
+            </a>
 
-    <nav>
-        <ul class="nav">
-            <li><a class="{{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Home</a></li>
-            <li><a class="{{ request()->routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">About</a></li>
-        </ul>
-        @yield('navigation')
-    </nav>
-
-    <main>
-        @yield('content')
-    </main>
-
-    <footer>
-        <p>Footer Section</p>
-        @yield('footer')
-    </footer>
-
-    {{-- <script src="{{ asset('js/app.js') }}"></script> --}}
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
+        </div>
+        <main class="py-4">
+            @yield('content')
+        </main>
+    </div>
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
+
 
 </html>
