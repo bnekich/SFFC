@@ -1,4 +1,4 @@
-@extends('layouts.layout') <!-- Assuming you have a layout -->
+@extends('layouts.app') <!-- Assuming you have a layout -->
 
 @section('content')
     <h1>Manage Users</h1>

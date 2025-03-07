@@ -14,5 +14,7 @@
       "username": "root",
       "askForPassword": true
     }
-  ]
+  ],
+  "css.lint.unknownAtRules": "ignore",
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
