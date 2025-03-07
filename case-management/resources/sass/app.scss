@@ -1,3 +1,9 @@
+// Variables
+@use "variables" as *;
+
+// Bootstrap
+@use "bootstrap/scss/bootstrap" as *;
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,8 +11,6 @@
 // Fonts
 @import url("https://fonts.bunny.net/css?family=Nunito");
 
-// Variables
-@import "variables";
-
-// Bootstrap
-@import "bootstrap/scss/bootstrap";
+.custom-color {
+    color: $custom-color;
+}
