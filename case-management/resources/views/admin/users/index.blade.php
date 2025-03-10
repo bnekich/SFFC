@@ -9,7 +9,6 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Admin</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -19,7 +18,6 @@
                     <td>{{ $user->id }}</td>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
-                    <td>{{ $user->is_admin ? 'Yes' : 'No' }}</td>
                     <td>
                         {{-- <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-sm btn-warning">Edit</a>
                         <form action="{{ route('admin.users.destroy', $user) }}" method="POST" style="display:inline;">

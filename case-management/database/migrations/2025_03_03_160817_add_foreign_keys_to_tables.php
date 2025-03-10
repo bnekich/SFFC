@@ -27,12 +27,6 @@ class AddForeignKeysToTables extends Migration
             $table->foreign('status_id')->references('id')->on('statuses')->onDelete('set null');
         });
 
-        // Persons_Roles
-        Schema::table('persons_roles', function (Blueprint $table) {
-            $table->foreign('person_id')->references('id')->on('persons')->onDelete('cascade');
-            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
-        });
-
         // Relationships
         Schema::table('relationships', function (Blueprint $table) {
             $table->foreign('person_id_1')->references('id')->on('persons')->onDelete('set null');
@@ -173,11 +167,6 @@ class AddForeignKeysToTables extends Migration
             $table->dropForeign(['relationship_type_id']);
         });
 
-        Schema::table('persons_roles', function (Blueprint $table) {
-            $table->dropForeign(['person_id']);
-            $table->dropForeign(['role_id']);
-        });
-
         Schema::table('families', function (Blueprint $table) {
             $table->dropForeign(['address_id']);
             $table->dropForeign(['status_id']);
@@ -186,7 +175,7 @@ class AddForeignKeysToTables extends Migration
         Schema::table('persons', function (Blueprint $table) {
             $table->dropForeign(['person_type']);
         });
-        Schema::table('volunteers', function(Blueprint $table){
+        Schema::table('volunteers', function (Blueprint $table) {
             $table->dropForeign(['person_id']);
         });
     }

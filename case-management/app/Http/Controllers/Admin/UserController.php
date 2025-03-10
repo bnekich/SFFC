@@ -5,12 +5,19 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:manage users');
+    }
+
     public function index()
     {
-        $users = User::all();
+        $users = User::with('roles')->get();
         return view('admin.users.index', compact('users'));
     }
 
@@ -24,15 +31,13 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'is_admin' => 'boolean', // Optional: for admin role
+            'password' => 'required|string|min:8|confirmed'
         ]);
 
         User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'is_admin' => $request->is_admin ?? 0,
+            'password' => bcrypt($request->password)
         ]);
 
         return redirect()->route('admin.users.index')->with('success', 'User created successfully.');
@@ -40,7 +45,9 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        return view('admin.users.edit', compact('user'));
+        $roles = Role::all();
+        $permissions = Permission::all();
+        return view('admin.users.edit', compact('user', 'roles', 'permissions'));
     }
 
     public function update(Request $request, User $user)
@@ -48,18 +55,12 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'password' => 'nullable|string|min:8|confirmed',
-            'is_admin' => 'boolean',
+            'password' => 'nullable|string|min:8|confirmed'
         ]);
 
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password ? bcrypt($request->password) : $user->password,
-            'is_admin' => $request->is_admin ?? 0,
-        ]);
-
-        return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
+        $user->syncRoles($request->roles);
+        $user->syncPermissions($request->permissions);
+        return redirect()->route('users.index');
     }
 
     public function destroy(User $user)

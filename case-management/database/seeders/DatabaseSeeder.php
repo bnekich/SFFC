@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use App\Models\OrganizationType;
 use App\Models\PersonType;
 use App\Models\RelationshipType;
@@ -19,11 +18,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'is_admin' => true,
-            'password' => bcrypt('password'),
+        $this->call([
+            RolePermissionSeeder::class
         ]);
 
         OrganizationType::factory()->create();
