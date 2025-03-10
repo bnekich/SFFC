@@ -16,7 +16,6 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-
 </head>
 
 <body>
@@ -38,9 +37,6 @@
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="#">Home</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Link</a>
-                            </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -49,15 +45,18 @@
                                 @can('manage users')
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <li>
-                                            <a class="dropdown-item nav-link {{ request()->routeIs('user.index') ? 'active' : '' }}"
+                                            <a class="dropdown-item nav-link {{ request()->routeIs('users') ? 'active' : '' }}"
                                                 aria-current="page" href="{{ route('users') }}">Manage Users</a>
-                                            {{-- <a class="dropdown-item" href="#">Manage Users</a> --}}
                                         </li>
-                                        <li><a class="dropdown-item" href="#">Another action</a></li>
                                         <li>
-                                            <hr class="dropdown-divider">
+                                            <a class="dropdown-item nav-link {{ request()->routeIs('roles.index') ? 'active' : '' }}"
+                                                aria-current="page" href="{{ route('roles.index') }}">Manage Roles</a>
                                         </li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li>
+                                            <a class="dropdown-item nav-link {{ request()->routeIs('permissions.index') ? 'active' : '' }}"
+                                                aria-current="page" href="{{ route('permissions.index') }}">Manage
+                                                Permissions</a>
+                                        </li>
                                     </ul>
                                 @endcan
                             </li>

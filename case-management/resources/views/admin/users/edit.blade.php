@@ -1,29 +1,77 @@
-<?php
-<form method="POST" action="{{ route('users.update', $user) }}">
-    @csrf
-    @method('PUT')
-    
-    <div>
-        <label>Roles:</label>
-        @foreach($roles as $role)
-            <input type="checkbox" 
-                   name="roles[]" 
-                   value="{{ $role->name }}"
-                   {{ $user->hasRole($role->name) ? 'checked' : '' }}>
-            {{ $role->name }}
-        @endforeach
-    </div>
+@extends('layouts.app')
 
-    <div>
-        <label>Direct Permissions:</label>
-        @foreach($permissions as $permission)
-            <input type="checkbox" 
-                   name="permissions[]" 
-                   value="{{ $permission->name }}"
-                   {{ $user->hasDirectPermission($permission->name) ? 'checked' : '' }}>
-            {{ $permission->name }}
-        @endforeach
-    </div>
+@section('content')
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+                <h1 class="mb-4">Edit User: {{ $user->name }}</h1>
 
-    <button type="submit">Update</button>
-</form>
+                <!-- Success/Error Messages -->
+                @if (session('success'))
+                    <div class="alert alert-success">{{ session('success') }}</div>
+                @endif
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <!-- Update Form -->
+                <form method="POST" action="{{ route('users.update', $user) }}" class="card p-4">
+                    @csrf
+                    @method('PUT')
+
+                    <!-- Name -->
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
+                            name="name" value="{{ old('name', $user->name) }}" required>
+                        @error('name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
+                            name="email" value="{{ old('email', $user->email) }}" required>
+                        @error('email')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Roles -->
+                    <div class="mb-3">
+                        <label class="form-label">Assign Roles</label>
+                        <div class="row">
+                            @foreach ($roles as $role)
+                                <div class="col-12 col-sm-6 col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="roles[]"
+                                            value="{{ $role->name }}" id="role-{{ $role->id }}"
+                                            {{ $user->hasRole($role->name) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="role-{{ $role->id }}">
+                                            {{ $role->name }}
+                                        </label>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        @error('roles')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary">Update User</button>
+                    <a href="{{ route('users') }}" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+@endsection

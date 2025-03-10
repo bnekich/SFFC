@@ -15,32 +15,34 @@ class UserController extends Controller
         $this->middleware('permission:manage users');
     }
 
-    public function index()
-    {
-        $users = User::with('roles')->get();
-        return view('admin.users.index', compact('users'));
-    }
-
     public function create()
     {
-        return view('admin.users.create');
+        $roles = Role::all();
+        //$permissions = Permission::all();
+        return view('admin.users.create', compact('roles'));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed'
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8',
+            'roles' => 'nullable|array',
+            'roles.*' => 'exists:roles,name',
         ]);
 
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password)
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => bcrypt($validated['password']),
         ]);
 
-        return redirect()->route('admin.users.index')->with('success', 'User created successfully.');
+        if (!empty($validated['roles'])) {
+            $user->syncRoles($validated['roles']);
+        }
+
+        return redirect()->route('users')->with('success', 'User created successfully.');
     }
 
     public function edit(User $user)
@@ -55,7 +57,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'password' => 'nullable|string|min:8|confirmed'
+            'password' => 'nullable|string|min:8'
         ]);
 
         $user->syncRoles($request->roles);
@@ -63,9 +65,17 @@ class UserController extends Controller
         return redirect()->route('users.index');
     }
 
+    public function index()
+    {
+        $users = User::with('roles')->get();
+        return view('admin.users.index', compact('users'));
+    }
+
     public function destroy(User $user)
     {
+        $user->roles()->detach();
+        $user->permissions()->detach();
         $user->delete();
-        return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
+        return redirect()->route('users')->with('success', 'User deleted successfully.');
     }
 }

@@ -3,6 +3,7 @@
 @section('content')
     <h1>Manage Users</h1>
     {{-- <a href="{{ route('admin.users.create') }}" class="btn btn-primary">Add User</a> --}}
+    <a href="{{ route('users.create') }}" class="btn btn-primary">Add User</a>
     <table class="table">
         <thead>
             <tr>
@@ -19,13 +20,13 @@
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
                     <td>
-                        {{-- <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-sm btn-warning">Edit</a>
-                        <form action="{{ route('admin.users.destroy', $user) }}" method="POST" style="display:inline;">
+                        <a href="{{ route('users.edit', $user) }}" class="btn btn-sm btn-warning">Edit</a>
+                        <form action="{{ route('users.destroy', $user) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-sm btn-danger"
                                 onclick="return confirm('Are you sure?')">Delete</button>
-                        </form> --}}
+                        </form>
                     </td>
                 </tr>
             @endforeach
