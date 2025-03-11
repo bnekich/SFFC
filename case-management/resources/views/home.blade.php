@@ -1,27 +1,23 @@
-@extends('layouts.app')
-@section('title', 'Home')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('content')
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - SFFC Case Management</title>
+    <link rel="stylesheet" href="//fonts.bunny.net/css?family=Nunito">
+    <link rel="stylesheet" href="path/to/your/css/app.css">
+</head>
+
+<body>
     <section>
-        <h1 class="custom-color">Welcome to My App</h1>
-        <p>Please <a href="{{ route('login') }}" class="custom-color btn btn-primary">log in</a> to continue.</p>
-                <!-- Bootstrap Modal Trigger -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    Launch Modal
-                </button>
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Test Modal</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                Bootstrap JS is working!
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <img src="images/sffc_logo.jpg" alt="Hero Image" class="img-fluid">
+        <h1>Welcome to the Case Management System</h1>
+        <p>This system is designed to help you manage your cases more efficiently.</p>
+        <p>Please <a href="login">log in</a> to continue.</p>
     </section>
-@endsection
+
+    <script src="path/to/your/js/app.js"></script>
+</body>
+
+</html>

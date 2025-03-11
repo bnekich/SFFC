@@ -8,20 +8,51 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'SFFC Case Management') }}</title>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <style>
+        .navbar-background {
+            position: relative;
+            height: 100px;
+        }
+
+        .navbar-background::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('{{ asset('images/sffc_logo.jpg') }}');
+            background-size: contain;
+            /* Adjust the size of the background image */
+            background-repeat: no-repeat;
+            /* Prevent the image from repeating */
+            background-position: center;
+            /* Center the image */
+            opacity: 0.1;
+            /* Adjust the opacity to make it look like a watermark */
+            z-index: 1;
+        }
+
+        .navbar {
+            position: relative;
+            z-index: 2;
+            /* Ensure the navbar content is above the background image */
+        }
+    </style>
+
 </head>
 
 <body>
     <header>
         <div id="app">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                {{-- <nav class="navbar navbar-expand-lg navbar-background"> --}}
                 <div class="container-fluid">
                     <a class="navbar-brand" href="{{ url('/') }}">
                         {{ config('app.name', 'Laravel') }}
