@@ -32,4 +32,10 @@
             @endforeach
         </tbody>
     </table>
+    @if (session('temp_password'))
+        <p>Temporary Password: {{ session('temp_password') }} (Share this securely with the user)</p>
+    @endif
+    @if (session('success'))
+        <div style="color: green;">{{ session('success') }}</div>
+    @endif <!-- Add your dashboard content here -->
 @endsection

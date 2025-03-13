@@ -23,12 +23,22 @@
                     <form method="POST" action="{{ route('users.store') }}" class="card p-4">
                         @csrf
 
-                        <!-- Name -->
+                        <!-- First Name -->
                         <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
-                                name="name" value="{{ old('name') }}" required>
-                            @error('name')
+                            <label for="firstName" class="form-label">First Name</label>
+                            <input type="text" class="form-control @error('firstName') is-invalid @enderror"
+                                id="firstName" name="firstName" value="{{ old('firstName') }}" required>
+                            @error('firstName')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- First Name -->
+                        <div class="mb-3">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <input type="text" class="form-control @error('lastName') is-invalid @enderror"
+                                id="lastName" name="lastName" value="{{ old('lastName') }}" required>
+                            @error('lastName')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -43,7 +53,7 @@
                             @enderror
                         </div>
 
-                        <!-- Password -->
+                        {{-- <!-- Password -->
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
                             <input type="password" class="form-control @error('password') is-invalid @enderror"
@@ -51,7 +61,7 @@
                             @error('password')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                        </div>
+                        </div> --}}
 
                         <!-- Roles -->
                         <div class="mb-3">

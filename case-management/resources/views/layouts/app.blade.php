@@ -14,7 +14,7 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-    <style>
+    {{-- <style>
         .navbar-background {
             position: relative;
             height: 100px;
@@ -44,7 +44,7 @@
             z-index: 2;
             /* Ensure the navbar content is above the background image */
         }
-    </style>
+    </style> --}}
 
 </head>
 
@@ -98,7 +98,7 @@
                                 <li class="nav-item dropdown">
                                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                         data-bs-toggle="dropdown" aria-expanded="false">
-                                        {{ Auth::user()->name }}
+                                        {{ Auth::user()->firstName }}
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item" href="{{ route('logout') }}"

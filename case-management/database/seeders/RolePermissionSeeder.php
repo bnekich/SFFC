@@ -12,21 +12,27 @@ class RolePermissionSeeder extends Seeder
     public function run()
     {
         $adminUser = User::create([
-            'name' => 'Administrator',
-            'email' => 'administrator@example.com',
+            'lastName' => 'Nekich',
+            'firstName' => 'Bruce',
+            'email' => 'bnekich@example.com',
             'password' => bcrypt('password'),
+            'force_password_reset' => false,
         ]);
 
         $familyCoachUser = User::create([
-            'name' => 'Family Coach',
-            'email' => 'familycoach@example.com',
+            'lastName' => 'Jones',
+            'firstName' => 'Sally',
+            'email' => 'sjones@example.com',
             'password' => bcrypt('password'),
+            'force_password_reset' => false,
         ]);
 
         $volunteerUser = User::create([
-            'name' => 'Chris Volunteer',
-            'email' => 'cvolunteer@example.com',
+            'lastName' => 'Doe',
+            'firstName' => 'John',
+            'email' => 'jdoe@example.com',
             'password' => bcrypt('password'),
+            'force_password_reset' => false,
         ]);
 
         // Create permissions

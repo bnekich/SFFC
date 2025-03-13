@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -25,24 +27,32 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'firstName' => 'required|string|max:255',
+            'lastName' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:8',
             'roles' => 'nullable|array',
             'roles.*' => 'exists:roles,name',
         ]);
 
+        $tempPassword = Str::random(12);
         $user = User::create([
-            'name' => $validated['name'],
+            'firstName' => $validated['firstName'],
+            'lastName' => $validated['lastName'],
             'email' => $validated['email'],
-            'password' => bcrypt($validated['password']),
+            'password' => Hash::make($tempPassword),
+            'force_password_reset' => true,
         ]);
 
         if (!empty($validated['roles'])) {
             $user->syncRoles($validated['roles']);
         }
 
-        return redirect()->route('users')->with('success', 'User created successfully.');
+        // TODO Log for HIPAA audit (optional)
+        //Log::info('Admin created user', ['user_id' => $user->id, 'email' => $user->email]);
+
+        return redirect()->route('users')
+            ->with('temp_password', $tempPassword)
+            ->with('success', 'User created successfully');
     }
 
     public function edit(User $user)
@@ -55,14 +65,15 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'firstName' => 'required|string|max:255',
+            'lastName' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'password' => 'nullable|string|min:8'
+            //'password' => 'nullable|string|min:8'
         ]);
 
         $user->syncRoles($request->roles);
         $user->syncPermissions($request->permissions);
-        return redirect()->route('users.index');
+        return redirect()->route('users')->with('success', 'User updated successfully.');
     }
 
     public function index()

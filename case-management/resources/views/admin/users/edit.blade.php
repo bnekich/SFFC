@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-md-8 col-lg-6">
-                <h1 class="mb-4">Edit User: {{ $user->name }}</h1>
+                <h1 class="mb-4">Edit User: {{ $user->firstName }} {{ $user->lastName }}</h1>
 
                 <!-- Success/Error Messages -->
                 @if (session('success'))
@@ -25,12 +25,22 @@
                     @csrf
                     @method('PUT')
 
-                    <!-- Name -->
+                    <!-- First Name -->
                     <div class="mb-3">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
-                            name="name" value="{{ old('name', $user->name) }}" required>
-                        @error('name')
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="text" class="form-control @error('firstName') is-invalid @enderror" id="firstName"
+                            name="firstName" value="{{ old('firstName', $user->firstName) }}" required>
+                        @error('firstName')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- First Name -->
+                    <div class="mb-3">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="text" class="form-control @error('lastName') is-invalid @enderror" id="lastName"
+                            name="lastName" value="{{ old('lastName', $user->lastName) }}" required>
+                        @error('lastName')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
