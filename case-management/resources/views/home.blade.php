@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - SFFC Case Management</title>
     <link rel="stylesheet" href="//fonts.bunny.net/css?family=Nunito">
-    <link rel="stylesheet" href="path/to/your/css/app.css">
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 
 <body>

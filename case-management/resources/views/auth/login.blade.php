@@ -9,7 +9,6 @@
 
     <title>{{ config('app.name', 'SFFC Case Management') }}</title>
     <link rel="stylesheet" href="//fonts.bunny.net/css?family=Nunito">
-    <link rel="stylesheet" href="path/to/your/css/app.css">
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
 </head>
@@ -81,8 +80,6 @@
             </div>
         </div>
     </div>
-
-    <script src="path/to/your/js/app.js"></script>
 </body>
 
 </html>

@@ -6,6 +6,7 @@ use Illuminate\Foundation\Configuration\Middleware;
 use Spatie\Permission\Middleware\PermissionMiddleware;
 use Spatie\Permission\Middleware\RoleMiddleware;
 use App\Http\Middleware\ForcePasswordReset;
+use App\Http\Middleware\LogAuditActions;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -19,6 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'permission' => PermissionMiddleware::class
         ]);
         $middleware->web(append: [ForcePasswordReset::class]);
+        $middleware->web(append: [LogAuditActions::class]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

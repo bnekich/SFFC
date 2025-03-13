@@ -2,12 +2,10 @@
 
 @section('content')
     <div class="container">
-        <h1>Dashboard
-            @auth
-                For {{ Auth::user()->firstName }} {{ Auth::user()->lastName }}
-            @endauth
-        </h1>
-        <p>Welcome To Your Dashboard</p>
+        <h3>
+            <p>{{ Auth::user()->firstName }} {{ Auth::user()->lastName }}, Welcome To Your Dashboard</p>
+        </h3>
+
         @if (session('status'))
             <div style="color: green;">{{ session('status') }}</div>
         @endif <!-- Add your dashboard content here -->

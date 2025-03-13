@@ -1,4 +1,4 @@
-<form method="POST" action="{{ route('password.reset.update') }}">
+<form method="POST" action="{{ route('password.update') }}">
     @csrf
     <div>
         <label for="password">New Password</label>

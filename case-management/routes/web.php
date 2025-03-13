@@ -2,28 +2,26 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\AuthController;
-//use App\Http\Controllers\CaseModelController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Auth\PasswordResetController;
+use App\Http\Controllers\Admin\AuditController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/login', [AuthController::class, 'showLogin'])->name('show.login');
-Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-Route::get('/admin', [UserController::class, 'index'])->name('users')->middleware(['auth', 'permission:manage users']);
 Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard')->middleware('auth');
 
-Route::resource('users', UserController::class)->except(['index'])->middleware(['auth', 'permission:manage users']);
+Route::controller(AuthController::class)->group(function () {
+    Route::get('/login', 'showLogin')->name('show.login');
+    Route::post('/login', 'login')->name('login');
+    Route::post('/logout', 'logout')->name('logout')->middleware('auth');
+});
 
-Route::post('/password/reset', [PasswordResetController::class, 'update'])->name('password.reset.update')->middleware('auth');
+Route::get('/admin', [UserController::class, 'index'])->name('users')->middleware(['auth', 'permission:manage users']);
+Route::resource('users', UserController::class)->middleware(['auth', 'permission:manage users']);
+
+Route::post('/password/reset', [PasswordResetController::class, 'update'])->name('password.update')->middleware('auth');
 Route::get('/password/reset', [PasswordResetController::class, 'show'])->name('password.reset')->middleware('auth');
-
-// Route::prefix('admin')->middleware(['auth'])->group(function () {
-//     Route::get('/password/reset', [PasswordResetController::class, 'show'])->name('password.reset');
-//     Route::post('/password/reset', [PasswordResetController::class, 'update'])->name('password.reset.update');
-// });
 
 Route::prefix('admin')->middleware(['auth', 'permission:manage roles|manage permissions'])->group(function () {
     // Roles CRUD
@@ -43,14 +41,6 @@ Route::prefix('admin')->middleware(['auth', 'permission:manage roles|manage perm
     Route::delete('permissions/{permission}', [RolePermissionController::class, 'destroyPermission'])->name('permissions.destroy');
 });
 
-//Route::get('/admin/users/edit/{id}', [UserController::class, 'edit'])->name('admin.users.edit.user')->middleware('permission:manage users');
-// Route::middleware(['auth'])->group(function () {
-//     Route::get('/cases', [CaseModelController::class, 'index'])
-//         ->middleware('permission:view cases');
-
-//     Route::post('/cases', [CaseModelController::class, 'store'])
-//         ->middleware('permission:create cases');
-
-//     Route::resource('users', UserController::class)
-//         ->middleware('permission:manage users');
-// });
+Route::prefix('admin')->middleware(['auth', 'permission:view audit logs'])->group(function () {
+    Route::get('audit-logs', [AuditController::class, 'index'])->name('audit.index');
+});

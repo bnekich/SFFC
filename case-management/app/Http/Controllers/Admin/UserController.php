@@ -48,14 +48,6 @@ class UserController extends Controller
             $user->syncRoles($validated['roles']);
         }
 
-        $action = auth()->user()->firstName . ' ' . auth()->user()->lastName . ' created user ' . $user->email;
-        Log::channel('audit')->info($action, [
-            'user_id' => auth()->user()->id,
-            'model_type' => 'user',
-            'model_id' => $user->id,
-            'details' => $validated,
-        ]);
-
         return redirect()->route('users')
             ->with('temp_password', $tempPassword)
             ->with('success', 'User created successfully');
@@ -76,6 +68,7 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             //'password' => 'nullable|string|min:8'
         ]);
+        $user->update($request->only('firstName', 'lastName', 'email'));
 
         $user->syncRoles($request->roles);
         $user->syncPermissions($request->permissions);

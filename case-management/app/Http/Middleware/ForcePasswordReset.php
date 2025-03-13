@@ -13,7 +13,7 @@ class ForcePasswordReset
 
         if (
             $request->user() && $request->user()->force_password_reset &&
-            !in_array($request->route()->getName(), ['password.reset', 'password.reset.update'])
+            !in_array($request->route()->getName(), ['password.reset', 'password.update'])
         ) {
             return redirect()->route('password.reset');
         }
