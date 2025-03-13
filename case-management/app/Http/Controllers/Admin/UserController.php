@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -47,8 +48,13 @@ class UserController extends Controller
             $user->syncRoles($validated['roles']);
         }
 
-        // TODO Log for HIPAA audit (optional)
-        //Log::info('Admin created user', ['user_id' => $user->id, 'email' => $user->email]);
+        $action = auth()->user()->firstName . ' ' . auth()->user()->lastName . ' created user ' . $user->email;
+        Log::channel('audit')->info($action, [
+            'user_id' => auth()->user()->id,
+            'model_type' => 'user',
+            'model_id' => $user->id,
+            'details' => $validated,
+        ]);
 
         return redirect()->route('users')
             ->with('temp_password', $tempPassword)
