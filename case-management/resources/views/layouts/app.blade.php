@@ -34,7 +34,9 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                                <a class="nav-link active" aria-current="page" href="#"></a>
+                                <a class="nav-link active {{ request()->routeIs('cases') ? 'active' : '' }}"
+                                    aria-current="page" href="{{ route('cases.index') }}">Cases</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"

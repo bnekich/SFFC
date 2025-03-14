@@ -1,66 +1,60 @@
 <?php
-
+// filepath: d:\source\SFFC\case-management\app\Http\Controllers\CaseModelController.php
 namespace App\Http\Controllers;
 
 use App\Models\CaseModel;
-use App\Http\Requests\StoreCaseModelRequest;
-use App\Http\Requests\UpdateCaseModelRequest;
+use Illuminate\Http\Request;
 
 class CaseModelController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $cases = CaseModel::all();
+        return view('cases.index', compact('cases'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('cases.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreCaseModelRequest $request)
+    public function store(Request $request)
     {
-        //
+        $request->validate([
+            'case_identifier' => 'required|unique:cases|max:255',
+            'case_description' => 'nullable',
+            // Add other validation rules as needed
+        ]);
+
+        CaseModel::create($request->all());
+        return redirect()->route('cases.index')->with('success', 'Case created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(CaseModel $caseModel)
+    public function show(CaseModel $case)
     {
-        //
+        return view('cases.show', compact('case'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(CaseModel $caseModel)
+    public function edit(CaseModel $case)
     {
-        //
+        return view('cases.edit', compact('case'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateCaseModelRequest $request, CaseModel $caseModel)
+    public function update(Request $request, CaseModel $case)
     {
-        //
+        $request->validate([
+            'case_identifier' => 'required|max:255|unique:cases,case_identifier,' . $case->id,
+            'case_description' => 'nullable',
+            // Add other validation rules as needed
+        ]);
+
+        $case->update($request->all());
+        return redirect()->route('cases.index')->with('success', 'Case updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(CaseModel $caseModel)
+    public function destroy(CaseModel $case)
     {
-        //
+        $case->delete();
+        return redirect()->route('cases.index')->with('success', 'Case deleted successfully.');
     }
 }

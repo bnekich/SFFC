@@ -6,7 +6,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Auth\PasswordResetController;
-use App\Http\Controllers\Admin\AuditController;
+use App\Http\Controllers\AuditController;
+use App\Http\Controllers\CaseModelController;
+
+Route::resource('cases', CaseModelController::class)->middleware('auth');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard')->middleware('auth');
