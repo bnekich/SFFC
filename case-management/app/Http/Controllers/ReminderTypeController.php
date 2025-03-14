@@ -3,64 +3,49 @@
 namespace App\Http\Controllers;
 
 use App\Models\ReminderType;
-use App\Http\Requests\StoreReminderTypeRequest;
-use App\Http\Requests\UpdateReminderTypeRequest;
+use Illuminate\Http\Request;
 
 class ReminderTypeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $types = ReminderType::all();
+        return view('admin.reminder-types.index', compact('types'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('admin.reminder-types.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreReminderTypeRequest $request)
+    public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255|unique:reminder_types,name',
+        ]);
+
+        ReminderType::create($request->only('name'));
+        return redirect()->route('reminder-types.index')->with('success', 'Reminder type created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(ReminderType $reminderType)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(ReminderType $reminderType)
     {
-        //
+        return view('admin.reminder-types.edit', compact('reminderType'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateReminderTypeRequest $request, ReminderType $reminderType)
+    public function update(Request $request, ReminderType $reminderType)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255|unique:reminder_types,name,' . $reminderType->id,
+        ]);
+
+        $reminderType->update($request->only('name'));
+        return redirect()->route('reminder-types.index')->with('success', 'Reminder type updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(ReminderType $reminderType)
     {
-        //
+        $reminderType->delete();
+        return redirect()->route('reminder-types.index')->with('success', 'Reminder type deleted successfully.');
     }
 }

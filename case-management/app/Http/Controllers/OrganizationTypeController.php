@@ -3,64 +3,49 @@
 namespace App\Http\Controllers;
 
 use App\Models\OrganizationType;
-use App\Http\Requests\StoreOrganizationTypeRequest;
-use App\Http\Requests\UpdateOrganizationTypeRequest;
+use Illuminate\Http\Request;
 
 class OrganizationTypeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $types = OrganizationType::all();
+        return view('admin.organization-types.index', compact('types'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('admin.organization-types.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreOrganizationTypeRequest $request)
+    public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255|unique:organization_types,name',
+        ]);
+
+        OrganizationType::create($request->only('name'));
+        return redirect()->route('organization-types.index')->with('success', 'Organization type created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(OrganizationType $organizationType)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(OrganizationType $organizationType)
     {
-        //
+        return view('admin.organization-types.edit', compact('organizationType'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateOrganizationTypeRequest $request, OrganizationType $organizationType)
+    public function update(Request $request, OrganizationType $organizationType)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255|unique:organization_types,name,' . $organizationType->id,
+        ]);
+
+        $organizationType->update($request->only('name'));
+        return redirect()->route('organization-types.index')->with('success', 'Organization type updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(OrganizationType $organizationType)
     {
-        //
+        $organizationType->delete();
+        return redirect()->route('organization-types.index')->with('success', 'Organization type deleted successfully.');
     }
 }

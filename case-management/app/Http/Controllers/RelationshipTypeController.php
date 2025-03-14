@@ -3,64 +3,49 @@
 namespace App\Http\Controllers;
 
 use App\Models\RelationshipType;
-use App\Http\Requests\StoreRelationshipTypeRequest;
-use App\Http\Requests\UpdateRelationshipTypeRequest;
+use Illuminate\Http\Request;
 
 class RelationshipTypeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $types = RelationshipType::all();
+        return view('admin.relationship-types.index', compact('types'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('admin.relationship-types.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreRelationshipTypeRequest $request)
+    public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255|unique:relationship_types,name',
+        ]);
+
+        RelationshipType::create($request->only('name'));
+        return redirect()->route('relationship-types.index')->with('success', 'Relationship type created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(RelationshipType $relationshipType)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(RelationshipType $relationshipType)
     {
-        //
+        return view('admin.relationship-types.edit', compact('relationshipType'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateRelationshipTypeRequest $request, RelationshipType $relationshipType)
+    public function update(Request $request, RelationshipType $relationshipType)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255|unique:relationship_types,name,' . $relationshipType->id,
+        ]);
+
+        $relationshipType->update($request->only('name'));
+        return redirect()->route('relationship-types.index')->with('success', 'Relationship type updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(RelationshipType $relationshipType)
     {
-        //
+        $relationshipType->delete();
+        return redirect()->route('relationship-types.index')->with('success', 'Relationship type deleted successfully.');
     }
 }

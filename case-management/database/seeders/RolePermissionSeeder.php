@@ -43,6 +43,8 @@ class RolePermissionSeeder extends Seeder
             'view cases',
             'manage users',
             'manage roles',
+            'manage permissions',
+            'manage types',
             'view reports',
         ];
 
@@ -66,6 +68,7 @@ class RolePermissionSeeder extends Seeder
             'create cases',
             'edit cases',
             'view cases',
+            'manage types'
         ]);
         $familyCoachUser->assignRole($familyCoach);
     }

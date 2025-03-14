@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -20,8 +19,8 @@ class UserController extends Controller
 
     public function create()
     {
-        $roles = Role::all();
-        //$permissions = Permission::all();
+        //$roles = Role::all();
+        $roles = Role::where('name', '!=', 'Administrator')->get();
         return view('admin.users.create', compact('roles'));
     }
 
@@ -45,7 +44,9 @@ class UserController extends Controller
         ]);
 
         if (!empty($validated['roles'])) {
-            $user->syncRoles($validated['roles']);
+            $roles = array_filter($validated['roles'], fn($role) => $role !== 'Administrator');
+            $user->syncRoles($roles);
+            //$user->syncRoles($validated['roles']);
         }
 
         return redirect()->route('users')
@@ -55,7 +56,8 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        $roles = Role::all();
+        $roles = Role::where('name', '!=', 'Administrator')->get();
+        //$roles = Role::all();
         $permissions = Permission::all();
         return view('admin.users.edit', compact('user', 'roles', 'permissions'));
     }

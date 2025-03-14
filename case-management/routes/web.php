@@ -8,6 +8,23 @@ use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\AuditController;
 use App\Http\Controllers\CaseModelController;
+use App\Http\Controllers\OrganizationTypeController;
+use App\Http\Controllers\PersonTypeController;
+use App\Http\Controllers\RelationshipTypeController;
+use App\Http\Controllers\ReminderTypeController;
+use App\Models\User;
+
+Route::get('/test-trait', function () {
+    $user = User::latest()->first();
+    return $user->hasPermissionTo('manage users') ? 'Permission check works' : 'No permission';
+})->middleware('auth');
+
+Route::prefix('admin')->middleware('auth')->group(function () {
+    Route::resource('organization-types', OrganizationTypeController::class);
+    Route::resource('person-types', PersonTypeController::class);
+    Route::resource('relationship-types', RelationshipTypeController::class);
+    Route::resource('reminder-types', ReminderTypeController::class);
+});
 
 Route::resource('cases', CaseModelController::class)->middleware('auth');
 

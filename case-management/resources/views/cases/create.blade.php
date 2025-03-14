@@ -1,4 +1,3 @@
-<!-- filepath: d:\source\SFFC\case-management\resources\views\cases\create.blade.php -->
 @extends('layouts.app')
 
 @section('content')
