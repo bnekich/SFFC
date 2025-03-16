@@ -2,7 +2,7 @@
 @use "variables" as *;
 
 // Bootstrap
-@use "bootstrap/scss/bootstrap" as *;
+// @use "bootstrap/scss/bootstrap" as *;
 
 // conflicts with bootstrap can be resolved by using prefixes in the tailwind config
 // @tailwind base;
@@ -10,4 +10,4 @@
 // @tailwind utilities;
 
 // Fonts
-@import url("https://fonts.bunny.net/css?family=Nunito");
+//@import url("https://fonts.bunny.net/css?family=Nunito");

@@ -1,24 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>{{ config('app.name', 'SFFC Case Management') }}</title>
-    <link rel="stylesheet" href="//fonts.bunny.net/css?family=Nunito">
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-
-</head>
-
-<body>
-    <div class="row justify-content-center">
-        <img src="{{ asset('images/sffc_logo.jpg') }}" alt="SFFC Logo" class="img-fluid"
-            style="max-width: 400px; margin-bottom: 20px;">
-    </div>
-
+@section('content')
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -80,6 +62,4 @@
             </div>
         </div>
     </div>
-</body>
-
-</html>
+@endsection

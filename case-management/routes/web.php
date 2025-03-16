@@ -1,23 +1,17 @@
 <?php
 
+use App\Http\Controllers\Admin\AuditLogController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Auth\PasswordResetController;
-use App\Http\Controllers\AuditController;
 use App\Http\Controllers\CaseModelController;
 use App\Http\Controllers\OrganizationTypeController;
 use App\Http\Controllers\PersonTypeController;
 use App\Http\Controllers\RelationshipTypeController;
 use App\Http\Controllers\ReminderTypeController;
-use App\Models\User;
-
-Route::get('/test-trait', function () {
-    $user = User::latest()->first();
-    return $user->hasPermissionTo('manage users') ? 'Permission check works' : 'No permission';
-})->middleware('auth');
 
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::resource('organization-types', OrganizationTypeController::class);
@@ -61,6 +55,4 @@ Route::prefix('admin')->middleware(['auth', 'permission:manage roles|manage perm
     Route::delete('permissions/{permission}', [RolePermissionController::class, 'destroyPermission'])->name('permissions.destroy');
 });
 
-Route::prefix('admin')->middleware(['auth', 'permission:view audit logs'])->group(function () {
-    Route::get('audit-logs', [AuditController::class, 'index'])->name('audit.index');
-});
+Route::resource('audit-logs', AuditLogController::class)->middleware('auth');

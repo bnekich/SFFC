@@ -1,5 +1,4 @@
-<!-- filepath: d:\source\SFFC\case-management\resources\views\cases\show.blade.php -->
-@extends('layouts.app')
+<@extends('layouts.app')
 
 @section('content')
     <div class="container">
