@@ -13,6 +13,7 @@ class CreateCasesVolunteersTable extends Migration
             $table->unsignedBigInteger('case_id')->nullable();
             $table->unsignedBigInteger('volunteer_id')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

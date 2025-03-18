@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Person extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = ['first_name', 'middle_name', 'last_name', 'date_of_birth', 'gender', 'email', 'phone', 'can_text_reminder', 'can_email_reminder', 'person_type', 'created_by', 'updated_by'];
 

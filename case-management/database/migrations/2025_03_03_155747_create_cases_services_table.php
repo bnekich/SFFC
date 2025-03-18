@@ -13,6 +13,7 @@ class CreateCasesServicesTable extends Migration
             $table->unsignedBigInteger('case_id')->nullable();
             $table->unsignedBigInteger('service_id')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

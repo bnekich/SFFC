@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CaseModel extends Model
 {
     // Named CaseModel to avoid clashes with case keyword in PHP
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'cases';
     protected $fillable = ['case_identifier', 'case_description', 'client_family_id', 'host_family_id', 'assigned_staff_id', 'start_date', 'end_date', 'status_id', 'created_by', 'updated_by'];

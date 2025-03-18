@@ -12,6 +12,7 @@ class CreatePersonTypesTable extends Migration
             $table->id();
             $table->string('name', 255);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

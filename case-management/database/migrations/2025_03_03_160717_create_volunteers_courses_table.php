@@ -14,6 +14,7 @@ class CreateVolunteersCoursesTable extends Migration
             $table->unsignedBigInteger('volunteer_id')->nullable();
             $table->boolean('completed')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

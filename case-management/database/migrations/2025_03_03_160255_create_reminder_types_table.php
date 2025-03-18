@@ -12,6 +12,7 @@ class CreateReminderTypesTable extends Migration
             $table->id();
             $table->string('name', 50)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
