@@ -2,22 +2,18 @@
 
 namespace App\Http\Controllers;
 
-//use Illuminate\Http\Request;
-
 class HomeController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
-
     public function index()
     {
+
+        $this->logAction("User viewed home", 'info', 'audit', "index", "Home");
         return view('home');
     }
 
-     public function dashboard()
-     {
-         return view('dashboard');
-     }
+    public function dashboard()
+    {
+        $this->logAction("User viewed dashboard", 'info', 'audit', "dashboard", "Home");
+        return view('dashboard');
+    }
 }

@@ -31,8 +31,8 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/logout', 'logout')->name('logout')->middleware('auth');
 });
 
-Route::get('/admin', [UserController::class, 'index'])->name('users')->middleware(['auth', 'permission:manage users']);
-Route::resource('users', UserController::class)->middleware(['auth', 'permission:manage users']);
+Route::get('/admin', [UserController::class, 'index'])->name('users')->middleware('auth');
+Route::resource('users', UserController::class)->middleware(['auth', 'permission:users-create|users-update|users-delete']);
 
 Route::post('/password/reset', [PasswordResetController::class, 'update'])->name('password.update')->middleware('auth');
 Route::get('/password/reset', [PasswordResetController::class, 'show'])->name('password.reset')->middleware('auth');

@@ -37,15 +37,26 @@ class RolePermissionSeeder extends Seeder
 
         // Create permissions
         $permissions = [
-            'create cases',
-            'edit cases',
-            'delete cases',
-            'view cases',
-            'manage users',
-            'manage roles',
-            'manage permissions',
-            'manage types',
-            'view reports',
+            'cases-create',
+            'cases-edit',
+            'cases-delete',
+            'cases-view',
+            'users-create',
+            'users-edit',
+            'users-delete',
+            'users-view',
+            'roles-create',
+            'roles-edit',
+            'roles-delete',
+            'roles-view',
+            'permissions-create',
+            'permissions-edit',
+            'permissions-delete',
+            'permissions-view',
+            'types-create',
+            'types-edit',
+            'types-delete',
+            'types-view',
         ];
 
         foreach ($permissions as $permission) {
@@ -59,16 +70,17 @@ class RolePermissionSeeder extends Seeder
 
         $volunteer = Role::create(['name' => 'Volunteer']);
         $volunteer->givePermissionTo([
-            'view cases'
+            'cases-view',
+            'users-view',
         ]);
         $volunteerUser->assignRole($volunteer);
 
         $familyCoach = Role::create(['name' => 'Family Coach']);
         $familyCoach->givePermissionTo([
-            'create cases',
-            'edit cases',
-            'view cases',
-            'manage types'
+            'cases-create',
+            'cases-edit',
+            'cases-view',
+            'users-view',
         ]);
         $familyCoachUser->assignRole($familyCoach);
     }

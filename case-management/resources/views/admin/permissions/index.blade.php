@@ -6,10 +6,6 @@
             <div class="col-12">
                 <h1 class="mb-4">Manage Permissions</h1>
 
-                @if (session('success'))
-                    <div class="alert alert-success">{{ session('success') }}</div>
-                @endif
-
                 <a href="{{ route('permissions.create') }}" class="btn btn-primary mb-3">Create New Permission</a>
 
                 <div class="card">

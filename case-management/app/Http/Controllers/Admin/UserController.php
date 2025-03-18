@@ -9,14 +9,10 @@ use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Str;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('permission:manage users');
-    }
-
     public function create()
     {
         //$roles = Role::all();
@@ -79,6 +75,9 @@ class UserController extends Controller
 
     public function index()
     {
+        if (!auth()->user()->can('users-view')) {
+            throw UnauthorizedException::forPermissions(['users-view']);
+        }
         $users = User::with('roles')->get();
         return view('admin.users.index', compact('users'));
     }

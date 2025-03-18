@@ -38,7 +38,7 @@
                                             Admin
                                         </a>
                                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownAdmin">
-                                            @can('manage users')
+                                            @can('users-view')
                                                 <li>
                                                     <a class="dropdown-item {{ request()->routeIs('users') ? 'active' : '' }}"
                                                         href="{{ route('users') }}">Manage Users</a>

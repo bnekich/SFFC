@@ -26,6 +26,6 @@ class DatabaseSeeder extends Seeder
         PersonType::factory()->create();
         RelationshipType::factory()->create();
         ReminderType::factory()->create();
-        CaseModel::factory()->create();
+        CaseModel::factory()->count(10)->create();
     }
 }

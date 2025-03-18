@@ -10,7 +10,7 @@ class CaseModelFactory extends Factory
     public function definition(): array
     {
         return [
-            'case_identifier' => "CASE001ABC",
+            'case_identifier' => fake()->unique()->lastName() . fake()->unique()->randomNumber(5),
             'case_description' => fake()->paragraph(),
             'client_family_id' => null,
             'host_family_id' => null,

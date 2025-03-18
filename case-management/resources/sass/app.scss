@@ -11,3 +11,16 @@
 
 // Fonts
 //@import url("https://fonts.bunny.net/css?family=Nunito");
+
+.cm-table-description {
+    max-width: 300px; /* Adjust this value as needed */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .cm-table-description {
+        max-width: 150px; /* Smaller width on mobile */
+    }
+}
