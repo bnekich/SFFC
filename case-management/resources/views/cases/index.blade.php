@@ -15,26 +15,20 @@
                     </div>
                 </form>
             </div>
-            @can('cases-create')
-                <div class="col-md-6 text-end">
-                    <a href="{{ route('cases.create') }}" class="btn btn-primary">Create New Case</a>
-                </div>
-            @endcan
+            <div class="col-md-6">
+                @can('cases-create')
+                    <div class="col-md-6 text-end">
+                        <a href="{{ route('cases.create') }}" class="btn btn-primary">Create New Case</a>
+                    </div>
+                @endcan
+            </div>
         </div>
 
         <div class="table-responsive">
             <table class="table table-hover mt-3">
                 <thead>
                     <tr>
-                        <th scope="col">
-                            <a
-                                href="{{ route('cases.index', array_merge(request()->query(), ['sort' => 'id', 'direction' => request('sort') === 'id' && request('direction') === 'asc' ? 'desc' : 'asc'])) }}">
-                                ID
-                                @if (request('sort') === 'id')
-                                    <i class="fas fa-arrow-{{ request('direction') === 'asc' ? 'up' : 'down' }}"></i>
-                                @endif
-                            </a>
-                        </th>
+                        <th scope="col">ID</th>
                         <th scope="col">
                             <a
                                 href="{{ route('cases.index', array_merge(request()->query(), ['sort' => 'case_identifier', 'direction' => request('sort') === 'case_identifier' && request('direction') === 'asc' ? 'desc' : 'asc'])) }}">

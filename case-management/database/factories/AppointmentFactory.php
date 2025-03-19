@@ -12,14 +12,14 @@ class AppointmentFactory extends Factory
     public function definition(): array
     {
         return [
-            'case_id' => CaseModel::factory(), 
+            'case_id' => CaseModel::factory(),
             'title' => fake()->title(),
             'description' => fake()->sentence(),
             'start' => now(),
-            'end' => now(), 
-            'location' => fake()->address(), 
-            'send_reminders' => false, 
-            'status_id' => Status::factory(), 
+            'end' => now(),
+            'location' => fake()->address(),
+            'send_reminders' => false,
+            'status_id' => Status::factory(),
             'created_by' => fake()->lastName(),
             'updated_by' => "",
         ];

@@ -14,6 +14,10 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasRoles, SoftDeletes;
 
+    protected $casts = [
+        'dashboard_preferences' => 'array',
+    ];
+
     /**
      * The attributes that are mass assignable.
      *

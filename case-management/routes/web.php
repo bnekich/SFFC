@@ -24,6 +24,8 @@ Route::resource('cases', CaseModelController::class)->middleware('auth');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard')->middleware('auth');
+Route::get('/dashboard/settings', [HomeController::class, 'settings'])->name('dashboard.settings');
+Route::post('/dashboard/settings', [HomeController::class, 'updateSettings']);
 
 Route::controller(AuthController::class)->group(function () {
     Route::get('/login', 'showLogin')->name('show.login');
