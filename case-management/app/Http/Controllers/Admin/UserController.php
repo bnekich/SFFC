@@ -13,11 +13,33 @@ use Spatie\Permission\Exceptions\UnauthorizedException;
 
 class UserController extends Controller
 {
+
+    public function index()
+    {
+        $this->logAction("Viewed Users", "index", "User");
+
+        if (!auth()->user()->can('users-view')) {
+            throw UnauthorizedException::forPermissions(['users-view']);
+        }
+        $users = User::with('roles')->get();
+        return view('admin.users.index', compact('users'));
+    }
+
     public function create()
     {
-        //$roles = Role::all();
+        $this->logAction("Create Users", "create", "User");
         $roles = Role::where('name', '!=', 'Administrator')->get();
         return view('admin.users.create', compact('roles'));
+    }
+
+    public function edit(User $user)
+    {
+        $this->logAction("Edit/Update Users", "edit", "User", $user->id);
+
+        $roles = Role::where('name', '!=', 'Administrator')->get();
+        //$roles = Role::all();
+        $permissions = Permission::all();
+        return view('admin.users.edit', compact('user', 'roles', 'permissions'));
     }
 
     public function store(Request $request)
@@ -45,21 +67,18 @@ class UserController extends Controller
             //$user->syncRoles($validated['roles']);
         }
 
+        $this->logAction("Create Users", "store", "User", $user->id);
+
         return redirect()->route('users')
             ->with('temp_password', $tempPassword)
             ->with('success', 'User created successfully');
     }
 
-    public function edit(User $user)
-    {
-        $roles = Role::where('name', '!=', 'Administrator')->get();
-        //$roles = Role::all();
-        $permissions = Permission::all();
-        return view('admin.users.edit', compact('user', 'roles', 'permissions'));
-    }
-
     public function update(Request $request, User $user)
     {
+        $this->logAction("Edit/Update Users", "update", "User", $user->id);
+
+        // TODO Add force password reset button so admin can assign new temp password
         $request->validate([
             'firstName' => 'required|string|max:255',
             'lastName' => 'required|string|max:255',
@@ -73,17 +92,10 @@ class UserController extends Controller
         return redirect()->route('users')->with('success', 'User updated successfully.');
     }
 
-    public function index()
-    {
-        if (!auth()->user()->can('users-view')) {
-            throw UnauthorizedException::forPermissions(['users-view']);
-        }
-        $users = User::with('roles')->get();
-        return view('admin.users.index', compact('users'));
-    }
-
     public function destroy(User $user)
     {
+        $this->logAction("Delete User", "destroy", "User", $user->id);
+
         $user->roles()->detach();
         $user->permissions()->detach();
         $user->delete();

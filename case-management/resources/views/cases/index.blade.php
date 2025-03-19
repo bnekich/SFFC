@@ -3,21 +3,53 @@
 @section('content')
     <div class="container">
         <h3>Cases</h3>
-        @can('cases-create')
-            <a href="{{ route('cases.create') }}" class="btn btn-primary">Create New Case</a>
-        @endcan
+
+        <!-- Search Form -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <form method="GET" action="{{ route('cases.index') }}">
+                    <div class="input-group">
+                        <input type="text" name="search" class="form-control" placeholder="Search cases..."
+                            value="{{ request('search') }}">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </form>
+            </div>
+            @can('cases-create')
+                <div class="col-md-6 text-end">
+                    <a href="{{ route('cases.create') }}" class="btn btn-primary">Create New Case</a>
+                </div>
+            @endcan
+        </div>
+
         <div class="table-responsive">
             <table class="table table-hover mt-3">
                 <thead>
                     <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Case Identifier</th>
+                        <th scope="col">
+                            <a
+                                href="{{ route('cases.index', array_merge(request()->query(), ['sort' => 'id', 'direction' => request('sort') === 'id' && request('direction') === 'asc' ? 'desc' : 'asc'])) }}">
+                                ID
+                                @if (request('sort') === 'id')
+                                    <i class="fas fa-arrow-{{ request('direction') === 'asc' ? 'up' : 'down' }}"></i>
+                                @endif
+                            </a>
+                        </th>
+                        <th scope="col">
+                            <a
+                                href="{{ route('cases.index', array_merge(request()->query(), ['sort' => 'case_identifier', 'direction' => request('sort') === 'case_identifier' && request('direction') === 'asc' ? 'desc' : 'asc'])) }}">
+                                Case Identifier
+                                @if (request('sort') === 'case_identifier')
+                                    <i class="fas fa-arrow-{{ request('direction') === 'asc' ? 'up' : 'down' }}"></i>
+                                @endif
+                            </a>
+                        </th>
                         <th scope="col">Case Description</th>
                         <th scope="col" class="text-nowrap">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($cases as $case)
+                    @forelse ($cases as $case)
                         <tr>
                             <td>{{ $case->id }}</td>
                             <td>{{ $case->case_identifier }}</td>
@@ -38,9 +70,19 @@
                                 @endcan
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="4">No cases found</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
+            {{ $cases->appends(request()->query())->links('') }}
         </div>
     </div>
+@endsection
+
+@section('styles')
+    <!-- Include Font Awesome for sort arrows if not already included -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 @endsection

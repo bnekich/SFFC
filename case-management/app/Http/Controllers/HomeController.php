@@ -7,13 +7,13 @@ class HomeController extends Controller
     public function index()
     {
 
-        $this->logAction("User viewed home", 'info', 'audit', "index", "Home");
+        $this->logAction("User viewed home", "index", "Home");
         return view('home');
     }
 
     public function dashboard()
     {
-        $this->logAction("User viewed dashboard", 'info', 'audit', "dashboard", "Home");
+        $this->logAction("User viewed dashboard", "dashboard", "Home");
         return view('dashboard');
     }
 }

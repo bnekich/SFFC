@@ -14,8 +14,6 @@ class Controller extends BaseController
      * Log an action with customizable level and channel
      *
      * @param string $message The log message
-     * @param string $level Log level (info, debug, warning, etc.)
-     * @param string $channel Logging channel
      * @param string|null $action The action being performed
      * @param string|null $modelType The model type involved
      * @param mixed $modelId The model ID involved
@@ -24,18 +22,27 @@ class Controller extends BaseController
      */
 
     // Example usage:
-    // $this->logAction("User viewed home", 'info', 'audit', "index", "Home");
-    // $this->logAction("Debug info", 'debug', 'daily', "index", "Home");
+    // $this->logAction("User viewed home", 'info', "index", "Home");
+    // $this->logAction("Debug info", 'debug', "index", "Home");
 
     protected function logAction(
         string $message,
-        string $level = 'info',
-        string $channel = 'audit',
         ?string $action = null,
         ?string $modelType = null,
         $modelId = null,
         array $extra = []
     ): void {
+
+        $channel = 'daily';
+        $level = 'debug';
+
+        // switch to database logging and info level for non-development environments
+        $environment = env('APP_ENV');
+        if (!$environment === 'local') {
+            $channel = 'audit';
+            $level = 'info';
+        }
+
         $context = array_merge([
             'user_id' => auth()->id() ?? null,
             'action' => $action,

@@ -34,8 +34,5 @@
             </tbody>
         </table>
         {{ $auditLogs->links('') }}
-        {{-- <p>
-            Displaying {{ $auditLogs->count() }} of {{ $auditLogs->total() }} audits(s).
-        </p> --}}
     </div>
 @endsection

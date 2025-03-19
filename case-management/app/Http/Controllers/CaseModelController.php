@@ -7,10 +7,31 @@ use Illuminate\Http\Request;
 
 class CaseModelController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $cases = CaseModel::all();
+        $query = CaseModel::query();
+
+        // Search functionality
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('case_identifier', 'like', "%$search%")
+                    ->orWhere('case_description', 'like', "%$search%");
+            });
+        }
+
+        // Sort functionality
+        $sort = $request->get('sort', 'id'); // default sort by id
+        $direction = $request->get('direction', 'asc'); // default ascending
+
+        $query->orderBy($sort, $direction);
+
+        $cases = $query->paginate(10); // Adjust pagination as needed
+
         return view('cases.index', compact('cases'));
+
+        // $cases = CaseModel::orderBy('case_identifier', 'asc')->paginate(5);
+        // return view('cases.index', compact('cases'));
     }
 
     public function create()
