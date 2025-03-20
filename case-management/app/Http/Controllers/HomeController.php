@@ -19,6 +19,7 @@ class HomeController extends Controller
     }
     public function settings()
     {
+        $this->logAction("User viewed settings", "settings", "Home");
         return view('settings');
     }
 

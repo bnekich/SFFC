@@ -37,6 +37,7 @@ class RolePermissionSeeder extends Seeder
 
         // Create permissions
         $permissions = [
+            'auditLogs-view',
             'cases-create',
             'cases-edit',
             'cases-delete',

@@ -6,10 +6,10 @@
             <div class="col-12 col-md-8 col-lg-6">
                 <h1 class="mb-4">Edit User: {{ $user->firstName }} {{ $user->lastName }}</h1>
 
-                <!-- Success/Error Messages -->
+                {{-- <!-- Success/Error Messages -->
                 @if (session('success'))
                     <div class="alert alert-success">{{ session('success') }}</div>
-                @endif
+                @endif --}}
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
@@ -79,7 +79,7 @@
 
                     <!-- Submit Button -->
                     <button type="submit" class="btn btn-primary">Update User</button>
-                    <a href="{{ route('users') }}" class="btn btn-secondary">Cancel</a>
+                    <a href="{{ route('users.index') }}" class="btn btn-secondary">Cancel</a>
                 </form>
             </div>
         </div>

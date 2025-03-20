@@ -5,13 +5,14 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\RolePermissionController;
+use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\CaseModelController;
 use App\Http\Controllers\OrganizationTypeController;
 use App\Http\Controllers\PersonTypeController;
 use App\Http\Controllers\RelationshipTypeController;
 use App\Http\Controllers\ReminderTypeController;
+use App\Http\Controllers\Admin\RoleController;
 
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::resource('organization-types', OrganizationTypeController::class);
@@ -33,28 +34,32 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/logout', 'logout')->name('logout')->middleware('auth');
 });
 
-Route::get('/admin', [UserController::class, 'index'])->name('users')->middleware('auth');
-Route::resource('users', UserController::class)->middleware(['auth', 'permission:users-create|users-update|users-delete']);
 
 Route::post('/password/reset', [PasswordResetController::class, 'update'])->name('password.update')->middleware('auth');
 Route::get('/password/reset', [PasswordResetController::class, 'show'])->name('password.reset')->middleware('auth');
 
-Route::prefix('admin')->middleware(['auth', 'permission:manage roles|manage permissions'])->group(function () {
-    // Roles CRUD
-    Route::get('roles', [RolePermissionController::class, 'indexRoles'])->name('roles.index');
-    Route::get('roles/create', [RolePermissionController::class, 'createRole'])->name('roles.create');
-    Route::post('roles', [RolePermissionController::class, 'storeRole'])->name('roles.store');
-    Route::get('roles/{role}/edit', [RolePermissionController::class, 'editRole'])->name('roles.edit');
-    Route::put('roles/{role}', [RolePermissionController::class, 'updateRole'])->name('roles.update');
-    Route::delete('roles/{role}', [RolePermissionController::class, 'destroyRole'])->name('roles.destroy');
+Route::resource('roles', RoleController::class)->middleware(['auth', 'permission:roles-create|roles-update|roles-delete']);
 
-    // Permissions CRUD
-    Route::get('permissions', [RolePermissionController::class, 'indexPermissions'])->name('permissions.index');
-    Route::get('permissions/create', [RolePermissionController::class, 'createPermission'])->name('permissions.create');
-    Route::post('permissions', [RolePermissionController::class, 'storePermission'])->name('permissions.store');
-    Route::get('permissions/{permission}/edit', [RolePermissionController::class, 'editPermission'])->name('permissions.edit');
-    Route::put('permissions/{permission}', [RolePermissionController::class, 'updatePermission'])->name('permissions.update');
-    Route::delete('permissions/{permission}', [RolePermissionController::class, 'destroyPermission'])->name('permissions.destroy');
+Route::resource('permissions', PermissionController::class)->middleware(['auth', 'permission:permissions-create|permissions-update|permissions-delete']);
+
+Route::resource('audit-logs', AuditLogController::class)->middleware(['auth', 'permission:auditLogs-view']);
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/users', [UserController::class, 'index'])
+        ->name('users.index')
+        ->middleware('can:users-view');
+
+    Route::middleware('can:users-create')->group(function () {
+        Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+        Route::post('/users', [UserController::class, 'store'])->name('users.store');
+    });
+
+    Route::middleware('can:users-edit')->group(function () {
+        Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+        Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
+    });
+
+    Route::delete('/users/{user}', [UserController::class, 'destroy'])
+        ->name('users.destroy')
+        ->middleware('can:users-delete');
 });
-
-Route::resource('audit-logs', AuditLogController::class)->middleware('auth');
