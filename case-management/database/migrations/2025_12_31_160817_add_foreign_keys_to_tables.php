@@ -98,6 +98,12 @@ class AddForeignKeysToTables extends Migration
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
             $table->foreign('volunteer_id')->references('person_id')->on('volunteers')->onDelete('cascade');
         });
+
+        //Forms_Fields
+        Schema::table('forms_fields', function (Blueprint $table) {
+            $table->foreign('form_id')->references('id')->on('forms')->onDelete('cascade');
+            $table->foreign('field_id')->references('id')->on('fields')->onDelete('cascade');
+        });
     }
 
     public function down()
@@ -159,6 +165,11 @@ class AddForeignKeysToTables extends Migration
         Schema::table('cases_services', function (Blueprint $table) {
             $table->dropForeign(['case_id']);
             $table->dropForeign(['service_id']);
+        });
+
+        Schema::table('forms_fields', function (Blueprint $table) {
+            $table->dropForeign(['form_id']);
+            $table->dropForeign(['field_id']);
         });
 
         Schema::table('relationships', function (Blueprint $table) {

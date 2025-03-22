@@ -4,8 +4,6 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-md-8 col-lg-6">
-                <h1 class="mb-4">Edit Role: {{ $role->name }}</h1>
-
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
@@ -15,20 +13,17 @@
                         </ul>
                     </div>
                 @endif
-
                 <form method="POST" action="{{ route('roles.update', $role) }}" class="card p-4">
                     @csrf
                     @method('PUT')
-
                     <div class="mb-3">
                         <label for="name" class="form-label">Role Name</label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
-                            name="name" value="{{ old('name', $role->name) }}" required>
+                        <input type="text" class="form-control form-control-sm" id="name" name="name"
+                            value="{{ $role->name }}" disabled readonly>
                         @error('name')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-
                     <div class="mb-3">
                         <label class="form-label">Assign Permissions</label>
                         <div class="row">
@@ -49,9 +44,14 @@
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
-
-                    <button type="submit" class="btn btn-primary">Update Role</button>
-                    <a href="{{ route('roles.index') }}" class="btn btn-secondary">Cancel</a>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-primary btn-sm">Update Role</button>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{ route('roles.index') }}" class="btn btn-secondary btn-sm">Cancel</a>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>

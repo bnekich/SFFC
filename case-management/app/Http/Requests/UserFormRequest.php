@@ -14,14 +14,6 @@ class UserFormRequest extends FormRequest
 
     public function rules(): array
     {
-        // $validated = $request->validate([
-        //     'firstName' => 'required|string|max:255',
-        //     'lastName' => 'required|string|max:255',
-        //     'email' => 'required|email|unique:users,email',
-        //     'roles' => 'nullable|array',
-        //     'roles.*' => 'exists:roles,name',
-        // ]);
-
         return [
             "firstName" => "required|string|max:255",
             "lastName" => "required|string|max:255",
