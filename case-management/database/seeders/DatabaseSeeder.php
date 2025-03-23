@@ -10,6 +10,7 @@ use App\Models\CaseModel;
 use App\Models\Status;
 use App\Models\FormModel;
 use App\Models\Field;
+use App\Models\Intake;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -30,8 +31,9 @@ class DatabaseSeeder extends Seeder
         PersonType::factory()->create();
         RelationshipType::factory()->create();
         ReminderType::factory()->create();
-        CaseModel::factory()->count(10)->create();
+        CaseModel::factory()->count(100)->create();
         FormModel::factory()->create();
         Field::factory()->create();
+        Intake::factory()->count(100)->create();
     }
 }

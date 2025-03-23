@@ -13,6 +13,7 @@ use App\Http\Controllers\PersonTypeController;
 use App\Http\Controllers\RelationshipTypeController;
 use App\Http\Controllers\ReminderTypeController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\IntakeController;
 
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::resource('organization-types', OrganizationTypeController::class);
@@ -22,6 +23,8 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 });
 
 Route::resource('cases', CaseModelController::class)->middleware('auth');
+
+Route::resource('intake', IntakeController::class)->middleware('auth');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard')->middleware('auth');

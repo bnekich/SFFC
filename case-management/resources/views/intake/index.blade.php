@@ -2,23 +2,23 @@
 
 @section('content')
     <div class="container">
-        <h3>Cases</h3>
+        <h3>Intake</h3>
 
         <!-- Search Form -->
         <div class="row mb-3">
             <div class="col-md-6">
-                <form method="GET" action="{{ route('cases.index') }}">
+                <form method="GET" action="{{ route('intake.index') }}">
                     <div class="input-group">
-                        <input type="text" name="search" class="form-control" placeholder="Search cases..."
+                        <input type="text" name="search" class="form-control" placeholder="Search intakes..."
                             value="{{ request('search') }}">
                         <button type="submit" class="btn btn-primary">Search</button>
                     </div>
                 </form>
             </div>
             <div class="col-md-6">
-                @can('cases-create')
+                @can('intake-create')
                     <div class="col-md-6 text-end">
-                        <a href="{{ route('cases.create') }}" class="btn btn-primary">Create New Case</a>
+                        <a href="{{ route('intake.create') }}" class="btn btn-primary">Create Intake</a>
                     </div>
                 @endcan
             </div>
@@ -31,32 +31,32 @@
                         <th scope="col">ID</th>
                         <th scope="col">
                             <a
-                                href="{{ route('cases.index', array_merge(request()->query(), ['sort' => 'case_identifier', 'direction' => request('sort') === 'case_identifier' && request('direction') === 'asc' ? 'desc' : 'asc'])) }}">
-                                Case Identifier
-                                @if (request('sort') === 'case_identifier')
+                                href="{{ route('intake.index', array_merge(request()->query(), ['sort' => 'parent_name', 'direction' => request('sort') === 'parent_name' && request('direction') === 'asc' ? 'desc' : 'asc'])) }}">
+                                Parent Name
+                                @if (request('sort') === 'parent_name')
                                     <i class="fas fa-arrow-{{ request('direction') === 'asc' ? 'up' : 'down' }}"></i>
                                 @endif
                             </a>
                         </th>
-                        <th scope="col">Case Description</th>
+                        <th scope="col">Case Summary</th>
                         <th scope="col" class="text-nowrap">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($cases as $case)
+                    @forelse ($intakes as $intake)
                         <tr>
-                            <td>{{ $case->id }}</td>
-                            <td>{{ $case->case_identifier }}</td>
-                            <td class="cm-table-description">{{ $case->case_description }}</td>
+                            <td>{{ $intake->id }}</td>
+                            <td>{{ $intake->parent_name }}</td>
+                            <td class="cm-table-description">{{ $intake->case_summary }}</td>
                             <td class="d-flex flex-wrap gap-1 align-items-center">
-                                @can('cases-view')
-                                    <a href="{{ route('cases.show', $case->id) }}" class="btn btn-info btn-sm">View</a>
+                                @can('intake-view')
+                                    <a href="{{ route('intake.show', $intake->id) }}" class="btn btn-info btn-sm">View</a>
                                 @endcan
-                                @can('cases-edit')
-                                    <a href="{{ route('cases.edit', $case->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                @can('intake-edit')
+                                    <a href="{{ route('intake.edit', $intake->id) }}" class="btn btn-warning btn-sm">Edit</a>
                                 @endcan
-                                @can('cases-delete')
-                                    <form class="d-inline" action="{{ route('cases.destroy', $case->id) }}" method="POST">
+                                @can('intake-delete')
+                                    <form class="d-inline" action="{{ route('intake.destroy', $intake->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
@@ -71,7 +71,7 @@
                     @endforelse
                 </tbody>
             </table>
-            {{ $cases->appends(request()->query())->links('') }}
+            {{ $intakes->appends(request()->query())->links('') }}
         </div>
     </div>
 @endsection

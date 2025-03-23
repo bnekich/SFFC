@@ -16,6 +16,11 @@ class AddForeignKeysToTables extends Migration
             $table->foreign('status_id')->references('id')->on('statuses')->onDelete('set null');
         });
 
+        // Intake
+        Schema::table('intakes', function (Blueprint $table) {
+            $table->foreign('completed_by_id')->references('id')->on('users')->onDelete('cascade');
+        });
+
         // Persons
         Schema::table('persons', function (Blueprint $table) {
             $table->foreign('person_type')->references('id')->on('person_types')->onDelete('set null');

@@ -25,14 +25,16 @@ class UserController extends Controller
     public function create()
     {
         $this->logAction("Create Users", "create", "User");
-        $roles = Role::where('name', '!=', 'Administrator')->get();
+        // $roles = Role::where('name', '!=', 'Administrator')->get();
+        $roles = Role::all();
         return view('admin.users.create', compact('roles'));
     }
 
     public function edit(User $user)
     {
         $this->logAction("Edit/Update Users", "edit", "User", $user->id);
-        $roles = Role::where('name', '!=', 'Administrator')->get();
+        //$roles = Role::where('name', '!=', 'Administrator')->get();
+        $roles = Role::all();
         $permissions = Permission::all();
         return view('admin.users.edit', compact('user', 'roles', 'permissions'));
     }
@@ -51,7 +53,8 @@ class UserController extends Controller
         ]);
 
         if (!empty($validatedRequest['roles'])) {
-            $roles = array_filter($validatedRequest['roles'], fn($role) => $role !== 'Administrator');
+            //$roles = array_filter($validatedRequest['roles'], fn($role) => $role !== 'Administrator');
+            $roles = $validatedRequest['roles'];
             $user->syncRoles($roles);
         }
 

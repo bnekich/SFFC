@@ -17,6 +17,10 @@
                             <a class="nav-link {{ request()->routeIs('cases.*') ? 'active' : '' }}"
                                 href="{{ route('cases.index') }}">Cases</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('intake.*') ? 'active' : '' }}"
+                                href="{{ route('intake.index') }}">Intake</a>
+                        </li>
                         <x-nav-admin />
                     </ul>
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">

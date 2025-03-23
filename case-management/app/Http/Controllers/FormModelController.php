@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\FormModel;
-use App\Http\Requests\FormModelRequest;
+use App\Http\Requests\FormModelFormRequest;
 use App\Http\Requests\UpdateFormRequest;
 
 class FormModelController extends Controller
@@ -27,7 +27,7 @@ class FormModelController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(FormModelRequest $request)
+    public function store(FormModelFormRequest $request)
     {
         //
     }
@@ -51,7 +51,7 @@ class FormModelController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(FormModelRequest $request, FormModel $form)
+    public function update(FormModelFormRequest $request, FormModel $form)
     {
         //
     }
