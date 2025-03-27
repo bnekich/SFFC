@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Notification;
-use App\Http\Requests\StoreNotificationRequest;
+use App\Http\Requests\NotificationFormRequest;
 use App\Http\Requests\UpdateNotificationRequest;
 
 class NotificationController extends Controller
@@ -27,7 +27,7 @@ class NotificationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreNotificationRequest $request)
+    public function store(NotificationFormRequest $request)
     {
         //
     }

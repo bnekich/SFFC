@@ -6,37 +6,15 @@ use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Database\Seeder;
+use App\Models\Person;
 
 class RolePermissionSeeder extends Seeder
 {
     public function run()
     {
-        $adminUser = User::create([
-            'lastName' => 'Nekich',
-            'firstName' => 'Bruce',
-            'email' => 'bnekich@example.com',
-            'password' => bcrypt('password'),
-            'force_password_reset' => false,
-        ]);
-
-        $familyCoachUser = User::create([
-            'lastName' => 'Jones',
-            'firstName' => 'Sally',
-            'email' => 'sjones@example.com',
-            'password' => bcrypt('password'),
-            'force_password_reset' => false,
-        ]);
-
-        $volunteerUser = User::create([
-            'lastName' => 'Doe',
-            'firstName' => 'John',
-            'email' => 'jdoe@example.com',
-            'password' => bcrypt('password'),
-            'force_password_reset' => false,
-        ]);
-
         // Create permissions
         $permissions = [
+            'admin-view',
             'auditLogs-view',
             'cases-create',
             'cases-edit',
@@ -58,6 +36,10 @@ class RolePermissionSeeder extends Seeder
             'permissions-edit',
             'permissions-delete',
             'permissions-view',
+            'persons-create',
+            'persons-edit',
+            'persons-delete',
+            'persons-view',
             'types-create',
             'types-edit',
             'types-delete',
@@ -68,25 +50,149 @@ class RolePermissionSeeder extends Seeder
             Permission::create(['name' => $permission]);
         }
 
-        // Create roles and assign permissions
-        $adminRole = Role::create(['name' => 'Administrator']);
+        // Create authorization roles
+        $authRoles = [
+            'Administrator',
+            'State Director',
+            'State Operations Director',
+            'State Teams Director',
+            'Lead Family Coach Supervisor',
+            'Services Director',
+            'Grants Support Specialist',
+            'State Volunteer Coordinator',
+            'State Business Operations',
+            'State Event Manager',
+            'Human Resources Manager',
+            'Director of Development',
+            'Engagement Coordinator',
+            'Family Coach Supervisor',
+            'Intake Volunteer',
+            'Intake Supervisor',
+            'Donor Administrator',
+            'Volunteer Administrator',
+            'Family Support Specialist',
+        ];
+
+        foreach ($authRoles as $role) {
+            Role::create([
+                'name' => $role,
+                'role_type' => 'Authorization'
+            ]);
+        }
+
+        $processRoles = [
+            'Volunteer',
+            'Ministry Lead'
+        ];
+
+        foreach ($processRoles as $role) {
+            Role::create([
+                'name' => $role,
+                'role_type' => 'Process'
+            ]);
+        }
+
+        $adminPerson = Person::create([
+            'first_name' => 'Bruce',
+            'middle_name' => 'James',
+            'last_name' => 'Nekich',
+            'date_of_birth' => '1954-03-11',
+            'gender' => 'M',
+            'email' => 'bnekich@example.com',
+            'phone' => '(414)303-4050',
+            'can_text_reminder' => true,
+            'can_email_reminder' => true,
+            'created_by' => 'system',
+            'updated_by' => 'system'
+        ]);
+
+        $adminUser = User::create([
+            'person_id' => $adminPerson->id,
+            'lastName' => 'Nekich',
+            'firstName' => 'Bruce',
+            'email' => 'bnekich@example.com',
+            'password' => bcrypt('password'),
+            'force_password_reset' => false,
+        ]);
+
+        $adminRole = Role::findByName('Administrator');
         $adminRole->givePermissionTo(Permission::all());
         $adminUser->assignRole($adminRole);
 
-        $volunteer = Role::create(['name' => 'Volunteer']);
-        $volunteer->givePermissionTo([
-            'cases-view',
-            'users-view',
+        $familyCoachSupervisorPerson = Person::create([
+            'first_name' => 'Emily',
+            'middle_name' => 'Ann',
+            'last_name' => 'Jones',
+            'date_of_birth' => '1986-04-11',
+            'gender' => 'F',
+            'email' => 'ejones@example.com',
+            'phone' => '(414)999-9999',
+            'can_text_reminder' => true,
+            'can_email_reminder' => true,
+            'created_by' => 'system',
+            'updated_by' => 'system'
         ]);
-        $volunteerUser->assignRole($volunteer);
-
-        $familyCoach = Role::create(['name' => 'Family Coach']);
-        $familyCoach->givePermissionTo([
+        $familyCoachSupervisorUser = User::create([
+            'person_id' => $familyCoachSupervisorPerson->id,
+            'lastName' => 'Jones',
+            'firstName' => 'Emily',
+            'email' => 'ejones@example.com',
+            'password' => bcrypt('password'),
+            'force_password_reset' => false,
+        ]);
+        $familyCoachSupervisorRole = Role::findByName('Family Coach Supervisor');
+        $familyCoachSupervisorRole->givePermissionTo([
+            'cases-view',
             'cases-create',
             'cases-edit',
-            'cases-view',
-            'users-view',
+            'cases-delete',
+            'persons-view',
+            'persons-create',
+            'persons-edit',
+            'intake-view',
+            'intake-create',
+            'intake-edit',
+            'intake-delete',
         ]);
-        $familyCoachUser->assignRole($familyCoach);
+        $familyCoachSupervisorUser->assignRole($familyCoachSupervisorRole);
+
+        $volunteerPerson = Person::create([
+            'first_name' => 'Kristen',
+            'middle_name' => 'Elizabeth',
+            'last_name' => 'Smith',
+            'date_of_birth' => '1983-06-12',
+            'gender' => 'F',
+            'email' => 'ksmith@example.com',
+            'phone' => '(414)999-9998',
+            'can_text_reminder' => true,
+            'can_email_reminder' => true,
+            'created_by' => 'system',
+            'updated_by' => 'system'
+        ]);
+
+        // $volunteerUser = User::create([
+        //     'person_id' => $volunteerPerson->id,
+        //     'lastName' => 'Smith',
+        //     'firstName' => 'Kristen',
+        //     'email' => 'ksmith@example.com',
+        //     'password' => bcrypt('password'),
+        //     'force_password_reset' => false,
+        // ]);
+
+        //$volunteerRole = Role::findByName('Volunteer');
+        //$volunteerUser->assignRole($volunteerRole);
+
+        // $intakeClerk = Role::create(['name' => 'Intake Clerk']);
+        // $intakeClerk->givePermissionTo([
+        //     'cases-view',
+        //     'users-view',
+        //     'intake-view',
+        //     'intake-create',
+        //     'intake-edit',
+        //     'persons-view',
+        //     'persons-create',
+        //     'persons-edit'
+        // ]);
+        // $volunteerUser->assignRole($intakeClerk);
     }
 }

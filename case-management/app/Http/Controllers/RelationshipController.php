@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Relationship;
-use App\Http\Requests\StoreRelationshipRequest;
+use App\Http\Requests\RelationshipFormRequest;
 use App\Http\Requests\UpdateRelationshipRequest;
 
 class RelationshipController extends Controller
@@ -27,7 +27,7 @@ class RelationshipController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRelationshipRequest $request)
+    public function store(RelationshipFormRequest $request)
     {
         //
     }

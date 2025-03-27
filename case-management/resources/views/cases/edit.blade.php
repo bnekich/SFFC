@@ -1,21 +1,30 @@
 <!-- filepath: d:\source\SFFC\case-management\resources\views\cases\edit.blade.php -->
 @extends('layouts.app')
 
+@section('title')
+    - Case Edit
+@endsection
+
 @section('content')
     <div class="container">
-        <h1>Edit Case</h1>
+        <h3>Edit Case</h3>
         <form action="{{ route('cases.update', $case->id) }}" method="POST">
             @csrf
             @method('PUT')
-            <div class="form-group">
-                <label for="case_identifier">Case Identifier</label>
-                <input type="text" name="case_identifier" class="form-control" value="{{ $case->case_identifier }}" required>
+            <div class="mb-3">
+                <label for="case_identifier" class="form-label">Case Identifier</label>
+                <input type="text" name="case_identifier" class="form-control" value="{{ $case->case_identifier }}"
+                    aria-describedby="caseIdentifier" readonly>
+                <div id="caseIdentifier" class="form-text">Case Identifier is a unique value assigned by the initiating
+                    person and cannot be changed.</div>
             </div>
-            <div class="form-group">
-                <label for="case_description">Case Description</label>
+            <div class="mb-3">
+                <label for="case_description" class="form-label">Case Description</label>
                 <textarea name="case_description" class="form-control">{{ $case->case_description }}</textarea>
             </div>
-            <!-- Add other fields as needed -->
+            <?php
+            //TODO Finish this view
+            ?>
             <button type="submit" class="btn btn-primary">Update</button>
         </form>
     </div>

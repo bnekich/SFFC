@@ -1,4 +1,0 @@
-<?php
-
-use App\Models\CaseModel;
-use Illuminate\Support\Facades\Log;

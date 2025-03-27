@@ -1,31 +1,33 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PermissionFormRequest;
 use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
 {
     public function index()
     {
+        $this->logAction("Viewed Permissions", "index", "Permission");
         $permissions = Permission::all();
         return view('admin.permissions.index', compact('permissions'));
     }
 
     public function create()
     {
+        $this->logAction("Create Permission", "create", "Permission");
         return view('admin.permissions.create');
     }
 
-    public function store(Request $request)
+    public function store(PermissionFormRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:permissions,name',
-        ]);
+        $validatedData = $request->validated();
 
-        Permission::create(['name' => $validated['name']]);
+        Permission::create(['name' => $validatedData['name']]);
         return redirect()->route('permissions.index')->with('success', 'Permission created successfully.');
     }
 
@@ -34,13 +36,11 @@ class PermissionController extends Controller
         return view('admin.permissions.edit', compact('permission'));
     }
 
-    public function update(Request $request, Permission $permission)
+    public function update(PermissionFormRequest $request, Permission $permission)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:permissions,name,' . $permission->id,
-        ]);
+        $validatedData = $request->validated();
 
-        $permission->update(['name' => $validated['name']]);
+        $permission->update(['name' => $validatedData['name']]);
         return redirect()->route('permissions.index')->with('success', 'Permission updated successfully.');
     }
 

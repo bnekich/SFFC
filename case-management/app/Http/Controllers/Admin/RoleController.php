@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\RoleFormRequest;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -24,20 +26,20 @@ class RoleController extends Controller
   }
 
   // Roles: Store
-  public function store(Request $request)
+  public function store(RoleFormRequest $request)
   {
-    $validated = $request->validate([
-      'name' => 'required|string|max:255|unique:roles,name',
-      'permissions' => 'nullable|array',
-      'permissions.*' => 'exists:permissions,name',
+    $validatedRequest = $request->validated();
+
+    $role = Role::create([
+      'name' => $validatedRequest['name'],
+      'role_type' => $validatedRequest['role_type']
     ]);
 
-    $role = Role::create(['name' => $validated['name']]);
-    if (!empty($validated['permissions'])) {
-      $role->syncPermissions($validated['permissions']);
+    if (!empty($validatedRequest['permissions'])) {
+      $role->syncPermissions($validatedRequest['permissions']);
     }
 
-    $this->logAction('Role Added', 'store', 'Role', $role->id);
+    $this->logAction($role->role_type . ' Role Added', 'store', 'Role', $role->id);
 
     return redirect()->route('roles.index')->with('success', 'Role created successfully.');
   }
@@ -51,16 +53,16 @@ class RoleController extends Controller
   }
 
   // Roles: Update
-  public function update(Request $request, Role $role)
+  public function update(RoleFormRequest $request, Role $role)
   {
-    $validated = $request->validate([
-      'name' => 'required|string|max:255|unique:roles,name,' . $role->id,
-      'permissions' => 'nullable|array',
-      'permissions.*' => 'exists:permissions,name',
+    $validatedRequest = $request->validated();
+
+    // Role name is not updatable
+    $role->update([
+      'role_type' => $validatedRequest['role_type']
     ]);
 
-    $role->update(['name' => $validated['name']]);
-    $role->syncPermissions($validated['permissions'] ?? []);
+    $role->syncPermissions($validatedRequest['permissions'] ?? []);
 
     $this->logAction('Role updated', 'update', 'Role', $role->id);
 

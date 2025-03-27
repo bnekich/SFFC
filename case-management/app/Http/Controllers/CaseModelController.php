@@ -1,14 +1,17 @@
 <?php
-// filepath: d:\source\SFFC\case-management\app\Http\Controllers\CaseModelController.php
+
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\CaseModel;
-use Illuminate\Http\Request;
-
+use App\Http\Requests\CaseModelFormRequest;
 class CaseModelController extends Controller
 {
-    public function index(Request $request)
+    public function index(CaseModelFormRequest $request)
     {
+        $this->logAction("Viewed Cases", "index", "CaseModel");
+
         $query = CaseModel::query();
 
         // Search functionality
@@ -29,17 +32,15 @@ class CaseModelController extends Controller
         $cases = $query->paginate(10); // Adjust pagination as needed
 
         return view('cases.index', compact('cases'));
-
-        // $cases = CaseModel::orderBy('case_identifier', 'asc')->paginate(5);
-        // return view('cases.index', compact('cases'));
     }
 
     public function create()
     {
+        $this->logAction("Create Case", "create", "CaseModel");
         return view('cases.create');
     }
 
-    public function store(Request $request)
+    public function store(CaseModelFormRequest $request)
     {
         $request->validate([
             'case_identifier' => 'required|unique:cases|max:255',
@@ -61,7 +62,7 @@ class CaseModelController extends Controller
         return view('cases.edit', compact('case'));
     }
 
-    public function update(Request $request, CaseModel $case)
+    public function update(CaseModelFormRequest $request, CaseModel $case)
     {
         $request->validate([
             'case_identifier' => 'required|max:255|unique:cases,case_identifier,' . $case->id,

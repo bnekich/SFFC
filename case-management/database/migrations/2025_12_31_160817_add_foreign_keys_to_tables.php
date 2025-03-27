@@ -23,7 +23,12 @@ class AddForeignKeysToTables extends Migration
 
         // Persons
         Schema::table('persons', function (Blueprint $table) {
-            $table->foreign('person_type')->references('id')->on('person_types')->onDelete('set null');
+            $table->foreign('address_id')->references('id')->on('addresses')->onDelete('set null');
+        });
+
+        // Users
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreign('person_id')->references('id')->on('persons')->onDelete('cascade');
         });
 
         // Families
@@ -160,11 +165,6 @@ class AddForeignKeysToTables extends Migration
             $table->dropForeign(['host_family_id']);
             $table->dropForeign(['assigned_staff_id']);
             $table->dropForeign(['status_id']);
-        });
-
-        Schema::table('cases_volunteers', function (Blueprint $table) {
-            $table->dropForeign(['case_id']);
-            $table->dropForeign(['volunteer_id']);
         });
 
         Schema::table('cases_services', function (Blueprint $table) {

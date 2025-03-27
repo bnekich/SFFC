@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -25,16 +27,14 @@ class UserController extends Controller
     public function create()
     {
         $this->logAction("Create Users", "create", "User");
-        // $roles = Role::where('name', '!=', 'Administrator')->get();
-        $roles = Role::all();
+        $roles = Role::where('name', '!=', 'Administrator')->get();
         return view('admin.users.create', compact('roles'));
     }
 
     public function edit(User $user)
     {
-        $this->logAction("Edit/Update Users", "edit", "User", $user->id);
-        //$roles = Role::where('name', '!=', 'Administrator')->get();
-        $roles = Role::all();
+        $this->logAction("Edit Users", "edit", "User", $user->id);
+        $roles = Role::where('name', '!=', 'Administrator')->get();
         $permissions = Permission::all();
         return view('admin.users.edit', compact('user', 'roles', 'permissions'));
     }
@@ -53,8 +53,7 @@ class UserController extends Controller
         ]);
 
         if (!empty($validatedRequest['roles'])) {
-            //$roles = array_filter($validatedRequest['roles'], fn($role) => $role !== 'Administrator');
-            $roles = $validatedRequest['roles'];
+            $roles = array_filter($validatedRequest['roles'], fn($role) => $role !== 'Administrator');
             $user->syncRoles($roles);
         }
 
@@ -77,7 +76,7 @@ class UserController extends Controller
             $user->syncRoles($validatedData["roles"]);
         }
 
-        return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
+        return redirect()->route('users.index')->with('success', 'User updated successfully.');
     }
 
     public function destroy(User $user)
@@ -87,6 +86,6 @@ class UserController extends Controller
         $user->roles()->detach();
         $user->permissions()->detach();
         $user->delete();
-        return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
+        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
     }
 }

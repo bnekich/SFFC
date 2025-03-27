@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -10,16 +12,36 @@ class Person extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['first_name', 'middle_name', 'last_name', 'date_of_birth', 'gender', 'email', 'phone', 'can_text_reminder', 'can_email_reminder', 'person_type', 'created_by', 'updated_by'];
+    protected $table = 'persons';
 
-    public function personType()
+    protected $fillable = [
+        'first_name',
+        'middle_name',
+        'last_name',
+        'date_of_birth',
+        'gender',
+        'email',
+        'phone',
+        'address_id',
+        'can_text_reminder',
+        'can_email_reminder',
+        'created_by',
+        'updated_by',
+        // 'address_line_1',
+        // 'address_line_2',
+        // 'city',
+        // 'state',
+        // 'zip',
+    ];
+
+    public function address()
     {
-        return $this->belongsTo(PersonType::class, 'person_type');
+        return $this->belongsTo(Address::class);
     }
 
-    public function roles()
+    public function processRoles()
     {
-        return $this->belongsToMany(Role::class, 'persons_roles');
+        return $this->belongsToMany(Role::class, 'roles_persons', 'person_id', 'role_id');
     }
 
     public function families()

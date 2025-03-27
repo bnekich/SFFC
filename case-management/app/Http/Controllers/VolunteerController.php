@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Volunteer;
-use App\Http\Requests\StoreVolunteerRequest;
+use App\Http\Requests\VolunteerFormRequest;
 use App\Http\Requests\UpdateVolunteerRequest;
 
 class VolunteerController extends Controller
@@ -27,7 +27,7 @@ class VolunteerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreVolunteerRequest $request)
+    public function store(VolunteerFormRequest $request)
     {
         //
     }

@@ -5,11 +5,6 @@
         <div class="row justify-content-center">
             <div class="col-12 col-md-8 col-lg-6">
                 <h1 class="mb-4">Edit User: {{ $user->firstName }} {{ $user->lastName }}</h1>
-
-                {{-- <!-- Success/Error Messages -->
-                @if (session('success'))
-                    <div class="alert alert-success">{{ session('success') }}</div>
-                @endif --}}
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
@@ -19,7 +14,6 @@
                         </ul>
                     </div>
                 @endif
-
                 <!-- Update Form -->
                 <form method="POST" action="{{ route('users.update', $user) }}" class="card p-4">
                     @csrf

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\IntakeFormRequest;
@@ -9,6 +11,8 @@ class IntakeController extends Controller
 {
     public function index(IntakeFormRequest $request)
     {
+        $this->logAction("Viewed Intakes", "index", "Intake");
+
         $query = Intake::query();
 
         // Search functionality
@@ -33,7 +37,8 @@ class IntakeController extends Controller
 
     public function create()
     {
-        //return view('cases.create');
+        $this->logAction("Create Intake", "create", "Intake");
+        return view('intake.create');
     }
 
     public function store(IntakeFormRequest $request)

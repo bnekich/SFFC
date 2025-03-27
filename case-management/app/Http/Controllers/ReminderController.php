@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reminder;
-use App\Http\Requests\StoreReminderRequest;
+use App\Http\Requests\ReminderFormRequest;
 use App\Http\Requests\UpdateReminderRequest;
 
 class ReminderController extends Controller
@@ -27,7 +27,7 @@ class ReminderController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreReminderRequest $request)
+    public function store(ReminderFormRequest $request)
     {
         //
     }

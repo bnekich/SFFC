@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddressFormRequest;
 use App\Models\Address;
 use Illuminate\Http\Request;
 
@@ -12,19 +13,10 @@ class AddressController extends Controller
         return Address::all();
     }
 
-    public function store(Request $request)
+    public function store(AddressFormRequest $request)
     {
-        $request->validate([
-            'address_line_1' => 'string|nullable',
-            'address_line_2' => 'string|nullable',
-            'city' => 'string|nullable',
-            'state' => 'string|size:2|nullable',
-            'zip' => 'string|max:10|nullable',
-            'created_by' => 'required|string|max:255',
-            'updated_by' => 'required|string|max:255',
-        ]);
-
-        return Address::create($request->all());
+        $validatedData = $request->validated();
+        return Address::create($validatedData->all());
     }
 
     public function show(Address $address)

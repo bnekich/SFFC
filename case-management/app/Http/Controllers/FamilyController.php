@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Family;
-use App\Http\Requests\StoreFamilyRequest;
+use App\Http\Requests\FamilyFormRequest;
 use App\Http\Requests\UpdateFamilyRequest;
 
 class FamilyController extends Controller
@@ -27,7 +27,7 @@ class FamilyController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreFamilyRequest $request)
+    public function store(FamilyFormRequest $request)
     {
         //
     }

@@ -27,7 +27,17 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-
+                    <div class="form-group">
+                        <label>Role Type</label>
+                        <select name="role_type" class="form-control @error('roleType') is-invalid @enderror">
+                            <option value="Authorization" {{ old('roleType') == 'Authorization' ? 'selected' : '' }}>
+                                Authorization</option>
+                            <option value="Process" {{ old('roleType') == 'Processd' ? 'selected' : '' }}>Process</option>
+                        </select>
+                        @error('roleType')
+                            <span class="invalid-feedback">{{ $message }}</span>
+                        @enderror
+                    </div>
                     <div class="mb-3">
                         <label class="form-label">Assign Permissions</label>
                         <div class="row">

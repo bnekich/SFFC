@@ -4,41 +4,37 @@
         Admin
     </a>
     <ul class="dropdown-menu" aria-labelledby="navbarDropdownAdmin">
-        @can('users-view')
+        @canany('users-view', 'users-create', 'users-edit', 'users-delete')
             <li>
                 <a class="dropdown-item {{ request()->routeIs('users.index') ? 'active' : '' }}"
                     href="{{ route('users.index') }}">Manage Users</a>
             </li>
-        @endcan
-        @can('roles-view')
+        @endcanany
+        @canany('roles-view', 'roles-create', 'roles-edit', 'roles-delete')
             <li>
                 <a class="dropdown-item {{ request()->routeIs('roles.index') ? 'active' : '' }}"
                     href="{{ route('roles.index') }}">Manage Roles</a>
             </li>
-        @endcan
-        @can('permissions-view')
+        @endcanany
+        @canany('permissions-view', 'permissions-create', 'permissions-edit', 'permissions-delete')
             <li>
                 <a class="dropdown-item {{ request()->routeIs('permissions.index') ? 'active' : '' }}"
                     href="{{ route('permissions.index') }}">Manage Permissions</a>
             </li>
-        @endcan
-        <li>
-            <hr class="dropdown-divider">
-        </li>
+        @endcanany
         @can('auditLogs-view')
+            <li>
+                <hr class="dropdown-divider">
+            </li>
             <li>
                 <a class="dropdown-item {{ request()->routeIs('audit-logs.index') ? 'active' : '' }}"
                     href="{{ route('audit-logs.index') }}">Audit Logs</a>
             </li>
         @endcan
-        @can('types-create')
+        @can('types-view')
             <li>
                 <a class="dropdown-item {{ request()->routeIs('organization-types.*') ? 'active' : '' }}"
                     href="{{ route('organization-types.index') }}">Organization Types</a>
-            </li>
-            <li>
-                <a class="dropdown-item {{ request()->routeIs('person-types.*') ? 'active' : '' }}"
-                    href="{{ route('person-types.index') }}">Person Types</a>
             </li>
             <li>
                 <a class="dropdown-item {{ request()->routeIs('relationship-types.*') ? 'active' : '' }}"

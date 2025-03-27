@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    - Cases
+@endsection
+
 @section('content')
     <div class="container">
         <h3>Cases</h3>

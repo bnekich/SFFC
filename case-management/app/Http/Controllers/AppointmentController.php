@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointment;
-use App\Http\Requests\StoreAppointmentRequest;
+use App\Http\Requests\AppointmentFormRequest;
 use App\Http\Requests\UpdateAppointmentRequest;
 
 class AppointmentController extends Controller
@@ -27,7 +27,7 @@ class AppointmentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreAppointmentRequest $request)
+    public function store(AppointmentFormRequest $request)
     {
         //
     }

@@ -9,15 +9,14 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\CaseModelController;
 use App\Http\Controllers\OrganizationTypeController;
-use App\Http\Controllers\PersonTypeController;
 use App\Http\Controllers\RelationshipTypeController;
 use App\Http\Controllers\ReminderTypeController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\IntakeController;
+use App\Http\Controllers\PersonController;
 
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::resource('organization-types', OrganizationTypeController::class);
-    Route::resource('person-types', PersonTypeController::class);
     Route::resource('relationship-types', RelationshipTypeController::class);
     Route::resource('reminder-types', ReminderTypeController::class);
 });
@@ -25,6 +24,8 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 Route::resource('cases', CaseModelController::class)->middleware('auth');
 
 Route::resource('intake', IntakeController::class)->middleware('auth');
+
+Route::resource('person', PersonController::class)->middleware('auth');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard')->middleware('auth');

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -36,7 +38,7 @@ class CaseModel extends Model
 
     public function services()
     {
-        return $this->belongsToMany(Service::class, 'cases_services');
+        return $this->belongsToMany(ServiceModel::class, 'cases_services');
     }
 
     public function volunteers()

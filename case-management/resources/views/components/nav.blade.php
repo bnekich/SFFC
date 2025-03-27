@@ -10,18 +10,29 @@
                     aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('cases.*') ? 'active' : '' }}"
-                                href="{{ route('cases.index') }}">Cases</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('intake.*') ? 'active' : '' }}"
-                                href="{{ route('intake.index') }}">Intake</a>
-                        </li>
-                        <x-nav-admin />
+                        @canany(['cases-view', 'cases-create', 'cases-edit', 'cases-delete'])
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('cases.*') ? 'active' : '' }}"
+                                    href="{{ route('cases.index') }}">Cases</a>
+                            </li>
+                        @endcanany
+                        @canany('intake-view', 'intake-create', 'intake-edit', 'intake-delete')
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('intake.*') ? 'active' : '' }}"
+                                    href="{{ route('intake.index') }}">Intake</a>
+                            </li>
+                        @endcanany
+                        @canany('persons-view', 'persons-create', 'persons-edit', 'persons-delete')
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('person.*') ? 'active' : '' }}"
+                                    href="{{ route('person.index') }}">Person</a>
+                            </li>
+                        @endcanany
+                        @canany('admin-view', 'admin-create', 'admin-edit', 'admin-delete')
+                            <x-nav-admin />
+                        @endcanany
                     </ul>
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item dropdown">

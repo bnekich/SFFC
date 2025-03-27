@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\OrganizationType;
-use App\Models\PersonType;
 use App\Models\RelationshipType;
 use App\Models\ReminderType;
 use App\Models\CaseModel;
@@ -28,7 +27,6 @@ class DatabaseSeeder extends Seeder
 
         Status::factory()->create();
         OrganizationType::factory()->create();
-        PersonType::factory()->create();
         RelationshipType::factory()->create();
         ReminderType::factory()->create();
         CaseModel::factory()->count(100)->create();
