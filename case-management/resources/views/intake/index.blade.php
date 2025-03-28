@@ -28,7 +28,6 @@
             <table class="table table-hover mt-3">
                 <thead>
                     <tr>
-                        <th scope="col">ID</th>
                         <th scope="col">
                             <a
                                 href="{{ route('intake.index', array_merge(request()->query(), ['sort' => 'parent_name', 'direction' => request('sort') === 'parent_name' && request('direction') === 'asc' ? 'desc' : 'asc'])) }}">
@@ -45,7 +44,6 @@
                 <tbody>
                     @forelse ($intakes as $intake)
                         <tr>
-                            <td>{{ $intake->id }}</td>
                             <td>{{ $intake->parent_name }}</td>
                             <td class="cm-table-description">{{ $intake->case_summary }}</td>
                             <td class="d-flex flex-wrap gap-1 align-items-center">

@@ -87,7 +87,7 @@
                 <label class="form-check-label">Can Email Reminder</label>
             </div>
             <h3>Address</h3>
-            <x-address-form :address="$person->address" />
+            <x-address-form :address="$person->address" :states="$states" />
             <!-- Process Roles (Always Visible) -->
             <div class="mb-3">
                 <label class="form-label">Process Roles</label>

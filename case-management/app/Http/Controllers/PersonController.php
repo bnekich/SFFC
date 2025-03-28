@@ -11,6 +11,8 @@ use App\Http\Requests\PersonFormRequest;
 use App\Models\Person;
 use App\Models\User;
 use App\Models\Address;
+use App\Enums\Gender;
+use App\Enums\USState;
 use Spatie\Permission\Models\Role;
 
 class PersonController extends Controller
@@ -43,7 +45,9 @@ class PersonController extends Controller
         $this->logAction("Create Person", "create", "Person");
         $processRoles = Role::where('role_type', 'process')->get();
         $authRoles = Role::where('role_type', 'authorization')->get();
-        return view('person.create', compact('processRoles', 'authRoles'));
+        $genders = Gender::cases();
+        $states = USState::cases();
+        return view('person.create', compact('processRoles', 'authRoles', 'genders', 'states'));
     }
 
     public function store(PersonFormRequest $request)
@@ -128,51 +132,56 @@ class PersonController extends Controller
 
     public function edit(Person $person)
     {
-        return view('person.edit', compact('person'));
+        $states = USState::cases();
+        $processRoles = Role::where('role_type', 'process')->get();
+        $authRoles = Role::where('role_type', 'authorization')->get();
+        $genders = Gender::cases();
+
+        return view('person.edit', compact('person', 'states', 'processRoles', 'authRoles', 'genders'));
     }
 
     public function update(PersonFormRequest $request, Person $person)
     {
-        $data = $request->validated();
+        $validatedData = $request->validated();
         $updater = auth()->user()->firstName . ' ' . auth()->user()->lastName;
 
         $person->update([
-            'first_name' => $data['first_name'],
-            'middle_name' => $data['middle_name'] ?? null,
-            'last_name' => $data['last_name'],
-            'date_of_birth' => $data['date_of_birth'] ?? null,
-            'gender' => $data['gender'],
-            'email' => $data['email'] ?? null,
-            'phone' => $data['phone'] ?? null,
-            'can_text_reminder' => $data['can_text_reminder'] ?? false,
-            'can_email_reminder' => $data['can_email_reminder'] ?? false,
+            'first_name' => $validatedData['first_name'],
+            'middle_name' => $validatedData['middle_name'] ?? null,
+            'last_name' => $validatedData['last_name'],
+            'date_of_birth' => $validatedData['date_of_birth'] ?? null,
+            'gender' => $validatedData['gender'],
+            'email' => $validatedData['email'] ?? null,
+            'phone' => $validatedData['phone'] ?? null,
+            'can_text_reminder' => $validatedData['can_text_reminder'] ?? false,
+            'can_email_reminder' => $validatedData['can_email_reminder'] ?? false,
             'updated_by' => $updater,
         ]);
 
         // Update or create address
         if (!empty(array_filter([
-            $data['address_line_1'] ?? null,
-            $data['address_line_2'] ?? null,
-            $data['city'] ?? null,
-            $data['state'] ?? null,
-            $data['zip'] ?? null,
+            $validatedData['address_line_1'] ?? null,
+            $validatedData['address_line_2'] ?? null,
+            $validatedData['city'] ?? null,
+            $validatedData['state'] ?? null,
+            $validatedData['zip'] ?? null,
         ]))) {
             if ($person->address) {
                 $person->address->update([
-                    'address_line_1' => $data['address_line_1'] ?? null,
-                    'address_line_2' => $data['address_line_2'] ?? null,
-                    'city' => $data['city'] ?? null,
-                    'state' => $data['state'] ?? null,
-                    'zip' => $data['zip'] ?? null,
+                    'address_line_1' => $validatedData['address_line_1'] ?? null,
+                    'address_line_2' => $validatedData['address_line_2'] ?? null,
+                    'city' => $validatedData['city'] ?? null,
+                    'state' => $validatedData['state'] ?? null,
+                    'zip' => $validatedData['zip'] ?? null,
                     'updated_by' => $updater,
                 ]);
             } else {
                 $address = Address::create([
-                    'address_line_1' => $data['address_line_1'] ?? null,
-                    'address_line_2' => $data['address_line_2'] ?? null,
-                    'city' => $data['city'] ?? null,
-                    'state' => $data['state'] ?? null,
-                    'zip' => $data['zip'] ?? null,
+                    'address_line_1' => $validatedData['address_line_1'] ?? null,
+                    'address_line_2' => $validatedData['address_line_2'] ?? null,
+                    'city' => $validatedData['city'] ?? null,
+                    'state' => $validatedData['state'] ?? null,
+                    'zip' => $validatedData['zip'] ?? null,
                     'created_by' => $updater,
                     'updated_by' => $updater,
                 ]);
@@ -185,7 +194,18 @@ class PersonController extends Controller
             //$person->address_id = null;
             //$person->save();
         }
-        //$person->update($data);
+
+        // Attach Process Roles (always applicable)
+        if (isset($validatedData['process_roles'])) {
+            $person->processRoles()->sync($validatedData['process_roles']);
+            $this->logAction('Updated Process Roles', 'update', 'Person', $person->id);
+        }
+        if (isset($validatedData["auth_roles"])) {
+            $person->syncRoles($validatedData["auth_roles"]);
+            $this->logAction('Updated Authorization Roles', 'update', 'Person', $person->id);
+        }
+
+        $this->logAction('Updated Person', 'update', 'Person', $person->id);
 
         return redirect()->route('person.index')->with('success', 'Person updated successfully.');
     }

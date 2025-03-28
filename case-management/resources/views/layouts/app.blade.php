@@ -13,6 +13,7 @@
     <div class="container">
         <header>
             <x-nav />
+            @yield('header')
         </header>
     </div>
     <div class="container">

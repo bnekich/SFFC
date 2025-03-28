@@ -27,7 +27,7 @@ class PersonFormRequest extends FormRequest
             'middle_name' => 'nullable|string|max:255',
             'last_name' => 'required|string|max:255',
             'date_of_birth' => 'required|date|before:today',
-            'gender' => 'required|in:M,F', // M = Male, F = Female
+            'gender' => 'required|string|max:2',
             'email' => 'nullable|email|max:255|unique:persons,email',
             'phone' => 'nullable|string|max:255',
             'can_text_reminder' => 'boolean',

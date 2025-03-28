@@ -27,11 +27,6 @@ class Person extends Model
         'can_email_reminder',
         'created_by',
         'updated_by',
-        // 'address_line_1',
-        // 'address_line_2',
-        // 'city',
-        // 'state',
-        // 'zip',
     ];
 
     public function address()

@@ -9,10 +9,13 @@ use Illuminate\View\Component;
 class AddressForm extends Component
 {
     public $address;
+    public $states;
 
-    public function __construct($address = null)
+    //public function __construct($address = null, $states)
+    public function __construct($address, $states)
     {
-        $this->address = $address; // Pass an existing address for editing, or null for creating
+        $this->address = $address;
+        $this->states = $states;
     }
 
     public function render()

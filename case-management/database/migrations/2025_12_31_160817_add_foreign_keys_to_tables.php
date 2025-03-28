@@ -18,7 +18,7 @@ class AddForeignKeysToTables extends Migration
 
         // Intake
         Schema::table('intakes', function (Blueprint $table) {
-            $table->foreign('completed_by_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('completed_by_id')->references('id')->on('persons')->onDelete('cascade');
         });
 
         // Persons
