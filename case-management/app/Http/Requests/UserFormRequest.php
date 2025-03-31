@@ -24,7 +24,7 @@ class UserFormRequest extends FormRequest
                     ->rfcCompliant(strict: true)
             ],
             "roles" => "required|array",
-            "rolse.*" => "exists:roles,name",
+            "roles.*" => "exists:roles,name",
         ];
     }
 

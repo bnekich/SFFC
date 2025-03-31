@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CaseModel;
 use App\Http\Requests\CaseModelFormRequest;
+
 class CaseModelController extends Controller
 {
     public function index(CaseModelFormRequest $request)
@@ -24,7 +25,7 @@ class CaseModelController extends Controller
         }
 
         // Sort functionality
-        $sort = $request->get('sort', 'id'); // default sort by id
+        $sort = $request->get('sort', 'case_identifier'); // default sort by id
         $direction = $request->get('direction', 'asc'); // default ascending
 
         $query->orderBy($sort, $direction);

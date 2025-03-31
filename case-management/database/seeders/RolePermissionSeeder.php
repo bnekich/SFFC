@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Address;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -12,7 +13,6 @@ class RolePermissionSeeder extends Seeder
 {
     public function run()
     {
-        // Create permissions
         $permissions = [
             'admin-view',
             'auditLogs-view',
@@ -50,8 +50,7 @@ class RolePermissionSeeder extends Seeder
             Permission::create(['name' => $permission]);
         }
 
-        // Create authorization roles
-        $authRoles = [
+        $roles = [
             'Administrator',
             'State Director',
             'State Operations Director',
@@ -71,26 +70,24 @@ class RolePermissionSeeder extends Seeder
             'Donor Administrator',
             'Volunteer Administrator',
             'Family Support Specialist',
+            'Client',
         ];
 
-        foreach ($authRoles as $role) {
+        foreach ($roles as $role) {
             Role::create([
-                'name' => $role,
-                'role_type' => 'Authorization'
+                'name' => $role
             ]);
         }
 
-        $processRoles = [
-            'Volunteer',
-            'Ministry Lead'
-        ];
-
-        foreach ($processRoles as $role) {
-            Role::create([
-                'name' => $role,
-                'role_type' => 'Process'
-            ]);
-        }
+        $address = Address::create([
+            'address_line_1' => '123 Main St',
+            'address_line_2' => 'Apt 4B',
+            'city' => 'New York',
+            'state' => 'NY',
+            'zip' => '10001',
+            'created_by' => 'system',
+            'updated_by' => 'system'
+        ]);
 
         $adminPerson = Person::create([
             'first_name' => 'Bruce',
@@ -102,9 +99,12 @@ class RolePermissionSeeder extends Seeder
             'phone' => '(414)303-4050',
             'can_text_reminder' => true,
             'can_email_reminder' => true,
+            'address_id' => $address->id,
             'created_by' => 'system',
             'updated_by' => 'system'
         ]);
+
+
 
         $adminUser = User::create([
             'person_id' => $adminPerson->id,
@@ -129,6 +129,7 @@ class RolePermissionSeeder extends Seeder
             'phone' => '(414)999-9999',
             'can_text_reminder' => true,
             'can_email_reminder' => true,
+            'address_id' => $address->id,
             'created_by' => 'system',
             'updated_by' => 'system'
         ]);
@@ -140,6 +141,7 @@ class RolePermissionSeeder extends Seeder
             'password' => bcrypt('password'),
             'force_password_reset' => false,
         ]);
+
         $familyCoachSupervisorRole = Role::findByName('Family Coach Supervisor');
         $familyCoachSupervisorRole->givePermissionTo([
             'cases-view',
@@ -156,6 +158,19 @@ class RolePermissionSeeder extends Seeder
         ]);
         $familyCoachSupervisorUser->assignRole($familyCoachSupervisorRole);
 
+        $intakeVolunteerRole = Role::findByName('Intake Volunteer');
+        $intakeVolunteerRole->givePermissionTo([
+            'cases-view',
+            'cases-create',
+            'cases-edit',
+            'persons-view',
+            'persons-create',
+            'persons-edit',
+            'intake-view',
+            'intake-create',
+            'intake-edit',
+        ]);
+
         $volunteerPerson = Person::create([
             'first_name' => 'Kristen',
             'middle_name' => 'Elizabeth',
@@ -166,33 +181,20 @@ class RolePermissionSeeder extends Seeder
             'phone' => '(414)999-9998',
             'can_text_reminder' => true,
             'can_email_reminder' => true,
+            'address_id' => $address->id,
             'created_by' => 'system',
             'updated_by' => 'system'
         ]);
 
-        // $volunteerUser = User::create([
-        //     'person_id' => $volunteerPerson->id,
-        //     'lastName' => 'Smith',
-        //     'firstName' => 'Kristen',
-        //     'email' => 'ksmith@example.com',
-        //     'password' => bcrypt('password'),
-        //     'force_password_reset' => false,
-        // ]);
+        $volunteerUser = User::create([
+            'person_id' => $volunteerPerson->id,
+            'lastName' => 'Smith',
+            'firstName' => 'Kristen',
+            'email' => 'ksmith@example.com',
+            'password' => bcrypt('password'),
+            'force_password_reset' => false,
+        ]);
 
-        //$volunteerRole = Role::findByName('Volunteer');
-        //$volunteerUser->assignRole($volunteerRole);
-
-        // $intakeClerk = Role::create(['name' => 'Intake Clerk']);
-        // $intakeClerk->givePermissionTo([
-        //     'cases-view',
-        //     'users-view',
-        //     'intake-view',
-        //     'intake-create',
-        //     'intake-edit',
-        //     'persons-view',
-        //     'persons-create',
-        //     'persons-edit'
-        // ]);
-        // $volunteerUser->assignRole($intakeClerk);
+        $volunteerUser->assignRole($intakeVolunteerRole);
     }
 }

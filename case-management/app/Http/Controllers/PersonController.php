@@ -43,48 +43,48 @@ class PersonController extends Controller
     public function create()
     {
         $this->logAction("Create Person", "create", "Person");
-        $processRoles = Role::where('role_type', 'process')->get();
-        $authRoles = Role::where('role_type', 'authorization')->get();
+        $allRoles = Role::all();
         $genders = Gender::cases();
         $states = USState::cases();
-        return view('person.create', compact('processRoles', 'authRoles', 'genders', 'states'));
+        $address = new Address();
+        return view('person.create', compact('allRoles', 'genders', 'states', 'address'));
     }
 
     public function store(PersonFormRequest $request)
     {
-        $data = $request->validated();
+        $validatedData = $request->validated();
         $createdBy = auth()->user()->firstName . ' ' . auth()->user()->lastName;
 
         // Create the address if any address fields are provided
         $address = null;
         if (!empty(array_filter([
-            $data['address_line_1'] ?? null,
-            $data['address_line_2'] ?? null,
-            $data['city'] ?? null,
-            $data['state'] ?? null,
-            $data['zip'] ?? null,
+            $validatedData['address_line_1'] ?? null,
+            $validatedData['address_line_2'] ?? null,
+            $validatedData['city'] ?? null,
+            $validatedData['state'] ?? null,
+            $validatedData['zip'] ?? null,
         ]))) {
             $address = Address::create([
-                'address_line_1' => $data['address_line_1'] ?? null,
-                'address_line_2' => $data['address_line_2'] ?? null,
-                'city' => $data['city'] ?? null,
-                'state' => $data['state'] ?? null,
-                'zip' => $data['zip'] ?? null,
+                'address_line_1' => $validatedData['address_line_1'] ?? null,
+                'address_line_2' => $validatedData['address_line_2'] ?? null,
+                'city' => $validatedData['city'] ?? null,
+                'state' => $validatedData['state'] ?? null,
+                'zip' => $validatedData['zip'] ?? null,
                 'created_by' => $createdBy,
                 'updated_by' => $createdBy,
             ]);
         }
 
         $person = Person::create([
-            'first_name' => $data['first_name'],
-            'middle_name' => $data['middle_name'] ?? null,
-            'last_name' => $data['last_name'],
-            'date_of_birth' => $data['date_of_birth'] ?? null,
-            'gender' => $data['gender'],
-            'email' => $data['email'] ?? null,
-            'phone' => $data['phone'] ?? null,
-            'can_text_reminder' => $data['can_text_reminder'] ?? false,
-            'can_email_reminder' => $data['can_email_reminder'] ?? false,
+            'first_name' => $validatedData['first_name'],
+            'middle_name' => $validatedData['middle_name'] ?? null,
+            'last_name' => $validatedData['last_name'],
+            'date_of_birth' => $validatedData['date_of_birth'] ?? null,
+            'gender' => $validatedData['gender'],
+            'email' => $validatedData['email'] ?? null,
+            'phone' => $validatedData['phone'] ?? null,
+            'can_text_reminder' => $validatedData['can_text_reminder'] ?? false,
+            'can_email_reminder' => $validatedData['can_email_reminder'] ?? false,
             'address_id' => $address ? $address->id : null,
             'created_by' => $createdBy,
             'updated_by' => $createdBy,
@@ -92,26 +92,17 @@ class PersonController extends Controller
 
         $successMessage = "Person created successfully.";
 
-        // Attach Process Roles (always applicable)
-        if (!empty($request->process_roles)) {
-            $person->processRoles()->attach($request->process_roles);
-            $this->logAction('Assigned Process Roles', 'store', 'Person', $person->id);
-        }
+        $tempPassword = Str::random(12);
+        $user = User::create([
+            'person_id' => $person->id,
+            'firstName' => $validatedData['first_name'],
+            'lastName' => $validatedData['last_name'],
+            'email' => $validatedData['email'],
+            'password' => Hash::make($tempPassword),
+            'force_password_reset' => true,
+        ]);
 
-        // Handle System User and Authorization Roles
         if ($request->input('isSystemUser', 0)) {
-            $tempPassword = Str::random(12);
-
-            $user = User::create([
-                'person_id' => $person->id,
-                'firstName' => $data['first_name'],
-                'lastName' => $data['last_name'],
-                'email' => $data['email'],
-                'password' => Hash::make($tempPassword),
-                'force_password_reset' => true,
-            ]);
-
-            // Assign Authorization Roles (if provided)
             if (!empty($request->auth_roles)) {
                 $user->assignRole(array_map('intval', $request->auth_roles));
                 $this->logAction('Assigned Authorization Roles', 'store', 'Person', $person->id);
@@ -119,6 +110,8 @@ class PersonController extends Controller
 
             $successMessage .= " Temporary password is " . $tempPassword;
             $this->logAction('Added as System User', 'store', 'Person', $person->id);
+        } else {
+            $user->assignRole('Client');
         }
 
         $this->logAction('Added Person', 'store', 'Person', $person->id);
@@ -133,11 +126,10 @@ class PersonController extends Controller
     public function edit(Person $person)
     {
         $states = USState::cases();
-        $processRoles = Role::where('role_type', 'process')->get();
-        $authRoles = Role::where('role_type', 'authorization')->get();
+        $allRoles = Role::all();
         $genders = Gender::cases();
 
-        return view('person.edit', compact('person', 'states', 'processRoles', 'authRoles', 'genders'));
+        return view('person.edit', compact('person', 'states', 'allRoles', 'genders'));
     }
 
     public function update(PersonFormRequest $request, Person $person)
@@ -194,14 +186,14 @@ class PersonController extends Controller
             //$person->address_id = null;
             //$person->save();
         }
-
         // Attach Process Roles (always applicable)
         if (isset($validatedData['process_roles'])) {
             $person->processRoles()->sync($validatedData['process_roles']);
             $this->logAction('Updated Process Roles', 'update', 'Person', $person->id);
         }
-        if (isset($validatedData["auth_roles"])) {
-            $person->syncRoles($validatedData["auth_roles"]);
+
+        if (isset($request['auth_roles'])) {
+            $person->user->roles()->sync($request['auth_roles']);
             $this->logAction('Updated Authorization Roles', 'update', 'Person', $person->id);
         }
 

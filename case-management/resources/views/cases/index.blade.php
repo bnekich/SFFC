@@ -7,8 +7,6 @@
 @section('content')
     <div class="container">
         <h3>Cases</h3>
-
-        <!-- Search Form -->
         <div class="row mb-3">
             <div class="col-md-6">
                 <form method="GET" action="{{ route('cases.index') }}">
@@ -27,7 +25,6 @@
                 @endcan
             </div>
         </div>
-
         <div class="table-responsive">
             <table class="table table-hover mt-3">
                 <thead>

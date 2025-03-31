@@ -18,19 +18,19 @@
                                     href="{{ route('cases.index') }}">Cases</a>
                             </li>
                         @endcanany
-                        @canany('intake-view', 'intake-create', 'intake-edit', 'intake-delete')
+                        @canany(['intake-view', 'intake-create', 'intake-edit', 'intake-delete'])
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('intake.*') ? 'active' : '' }}"
                                     href="{{ route('intake.index') }}">Intake</a>
                             </li>
                         @endcanany
-                        @canany('persons-view', 'persons-create', 'persons-edit', 'persons-delete')
+                        @canany(['persons-view', 'persons-create', 'persons-edit', 'persons-delete'])
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('person.*') ? 'active' : '' }}"
-                                    href="{{ route('person.index') }}">Person</a>
+                                    href="{{ route('person.index') }}">People</a>
                             </li>
                         @endcanany
-                        @canany('admin-view', 'admin-create', 'admin-edit', 'admin-delete')
+                        @canany(['admin-view', 'admin-create', 'admin-edit', 'admin-delete'])
                             <x-nav-admin />
                         @endcanany
                     </ul>

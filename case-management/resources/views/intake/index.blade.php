@@ -1,10 +1,12 @@
 @extends('layouts.app')
 
+@section('title')
+    - Intake
+@endsection
+
 @section('content')
     <div class="container">
         <h3>Intake</h3>
-
-        <!-- Search Form -->
         <div class="row mb-3">
             <div class="col-md-6">
                 <form method="GET" action="{{ route('intake.index') }}">

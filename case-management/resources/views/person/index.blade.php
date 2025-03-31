@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('title')
+    - People
+@endsection
 
 @section('content')
     <div class="container">
@@ -13,7 +16,9 @@
             </form>
         </div>
 
-        <a href="{{ route('person.create') }}" class="btn btn-primary mb-3">Add Person</a>
+        @can('person-create')
+            <a href="{{ route('person.create') }}" class="btn btn-primary mb-3">Add Person</a>
+        @endcan
         <table class="table">
             <thead>
                 <tr>
@@ -36,12 +41,14 @@
                         <td>
                             <a href="{{ route('person.show', $person) }}" class="btn btn-info btn-sm">View</a>
                             <a href="{{ route('person.edit', $person) }}" class="btn btn-warning btn-sm">Edit</a>
-                            <form action="{{ route('person.destroy', $person) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm"
-                                    onclick="return confirm('Are you sure?')">Delete</button>
-                            </form>
+                            @can('person-delete')
+                                <form action="{{ route('person.destroy', $person) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Are you sure?')">Delete</button>
+                                </form>
+                            @endcan
                         </td>
                     </tr>
                 @endforeach

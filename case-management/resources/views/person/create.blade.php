@@ -9,8 +9,6 @@
     @endsection
     <form class="row g-3 align-items-center" action="{{ route('person.store') }}" method="POST">
         @csrf
-
-        <!-- Basic Person Fields -->
         <div class="col-auto">
             <input type="text" name="first_name" placeholder="First Name"
                 class="form-control-sm @error('first_name') is-invalid @enderror" value="{{ old('first_name') }}">
@@ -81,7 +79,7 @@
                 {{ old('can_email_reminder') ? 'checked' : '' }}>
             <label class="form-check-label">Can Receive Email Reminders</label>
         </div>
-        <x-address-form :address="null" :states="$states" />
+        <x-address-form :address="$address" :states="$states" />
         @can('users-create')
             <div class="row g-3">
                 <div class="col-auto">
@@ -93,44 +91,20 @@
                 </div>
             </div>
         @endcan
-        <!-- Process Roles (Always Visible) -->
-        <div class="col-auto">
-            <div class="dropdown">
-                <button class="btn btn-success dropdown-toggle" type="button" id="processRoleDropDown"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    Select Process Roles
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="processRoleDropDown">
-                    @foreach (\Spatie\Permission\Models\Role::where('role_type', 'process')->get() as $role)
-                        <div class="form-check form-switch">
-                            <li>
-                                <input class="form-check-input" type="checkbox" name="process_roles[]"
-                                    value="{{ $role->id }}" id="role_{{ $role->id }}"
-                                    data-role="{{ $role->name }}" data-roletype="process">
-                                <label for="role_{{ $role->id }}">{{ $role->name }}</label>
-                            </li>
-                        </div>
-                    @endforeach
-                </ul>
-            </div>
-            @error('process_roles')
-                <span class="text-danger">{{ $message }}</span>
-            @enderror
-        </div>
         <!-- Authorization Roles (Conditional) -->
         <div class="col-auto" id="authRolesSection" style="display: none;">
             <div class="dropdown">
                 <button class="btn btn-success dropdown-toggle" type="button" id="authorizationRoleDropDown"
                     data-bs-toggle="dropdown" aria-expanded="false">
-                    Select Authorization Roles
+                    Select Roles
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="authorizationRoleDropDown">
-                    @foreach (\Spatie\Permission\Models\Role::where('role_type', 'authorization')->get() as $role)
+                    @foreach ($allRoles as $role)
                         <div class="form-check form-switch">
                             <li>
                                 <input class="form-check-input" type="checkbox" name="auth_roles[]"
                                     value="{{ $role->id }}" id="role_{{ $role->id }}"
-                                    data-role="{{ $role->name }}" data-roletype="authorization">
+                                    data-role="{{ $role->name }}">
                                 <label for="role_{{ $role->id }}">{{ $role->name }}</label>
                             </li>
                         </div>
@@ -144,6 +118,7 @@
         <div class="row g-3">
             <div class="col-auto">
                 <button type="submit" class="btn btn-primary mt-3">Save</button>
+                <a href="{{ route('person.index') }}" class="btn btn-secondary mt-3">Cancel</a>
             </div>
         </div>
     </form>
