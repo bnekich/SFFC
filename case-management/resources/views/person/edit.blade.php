@@ -126,5 +126,4 @@
             </div>
         </form>
     </div>
-    @vite('resources/js/person-form.js')
 @endsection
