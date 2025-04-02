@@ -17,11 +17,11 @@ class FamilyFactory extends Factory
     public function definition(): array
     {
         return [
-            'family_name' => fake()->lastName(), 
-            'address_id' => Address::factory(), 
-            'status_id' => Status::factory(), 
-            'created_by' => fake()->lastname(), 
+            'family_name' => fake()->lastName(),
+            'address_id' => 1,
+            'status_id' => 1,
+            'created_by' => fake()->lastname(),
             'updated_by' => ""
         ];
-       }
+    }
 }

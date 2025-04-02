@@ -41,11 +41,10 @@ class Person extends Model
         return $this->belongsTo(Address::class);
     }
 
-
-    // public function families()
-    // {
-    //     return $this->belongsToMany(Family::class, 'persons_families');
-    // }
+    public function families()
+    {
+        return $this->belongsToMany(Family::class, 'persons_families');
+    }
 
     // public function relationships1()
     // {

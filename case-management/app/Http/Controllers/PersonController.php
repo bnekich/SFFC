@@ -52,6 +52,7 @@ class PersonController extends Controller
 
     public function store(PersonFormRequest $request)
     {
+        $successMessage = "";
         $validatedData = $request->validated();
         $createdBy = auth()->user()->firstName . ' ' . auth()->user()->lastName;
 
@@ -90,7 +91,9 @@ class PersonController extends Controller
             'updated_by' => $createdBy,
         ]);
 
-        $successMessage = "Person created successfully.";
+        if ($request->has('family_ids')) {
+            $person->families()->sync($request->input('family_ids'));
+        }
 
         $tempPassword = Str::random(12);
         $user = User::create([
@@ -114,6 +117,7 @@ class PersonController extends Controller
             $user->assignRole('Client');
         }
 
+        $successMessage .= " Person created successfully.";
         $this->logAction('Added Person', 'store', 'Person', $person->id);
         return redirect()->route('person.index')->with('success', $successMessage);
     }
@@ -186,10 +190,9 @@ class PersonController extends Controller
             //$person->address_id = null;
             //$person->save();
         }
-        // Attach Process Roles (always applicable)
-        if (isset($validatedData['process_roles'])) {
-            $person->processRoles()->sync($validatedData['process_roles']);
-            $this->logAction('Updated Process Roles', 'update', 'Person', $person->id);
+
+        if ($request->has('family_ids')) {
+            $person->families()->sync($request->input('family_ids'));
         }
 
         if (isset($request['auth_roles'])) {

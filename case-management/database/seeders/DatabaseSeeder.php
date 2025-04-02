@@ -6,6 +6,7 @@ use App\Models\OrganizationType;
 use App\Models\RelationshipType;
 use App\Models\ReminderType;
 use App\Models\CaseModel;
+use App\Models\Family;
 use App\Models\Status;
 use App\Models\FormModel;
 use App\Models\Field;
@@ -33,5 +34,6 @@ class DatabaseSeeder extends Seeder
         FormModel::factory()->create();
         Field::factory()->create();
         Intake::factory()->count(100)->create();
+        Family::factory()->count(100)->create();
     }
 }

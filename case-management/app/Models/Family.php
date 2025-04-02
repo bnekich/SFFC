@@ -12,6 +12,11 @@ class Family extends Model
 
     protected $fillable = ['family_name', 'address_id', 'status_id', 'created_by', 'updated_by'];
 
+    public function persons()
+    {
+        return $this->belongsToMany(Person::class, 'persons_families');
+    }
+
     public function address()
     {
         return $this->belongsTo(Address::class);
@@ -22,10 +27,6 @@ class Family extends Model
         return $this->belongsTo(Status::class);
     }
 
-    public function persons()
-    {
-        return $this->belongsToMany(Person::class, 'persons_families');
-    }
 
     public function clientCases()
     {

@@ -87,6 +87,12 @@
                 </div>
             </div>
             <x-address-form :address="$person->address" :states="$states" />
+            <label class="form-label">Family Connections</label>
+            <select class="family-select" name="family_ids[]" multiple>
+                @foreach ($person->families as $family)
+                    <option value="{{ $family->id }}" selected>{{ $family->family_name }}</option>
+                @endforeach
+            </select>
             @canany(['users-create', 'users-edit'])
                 <div class="col-auto" id="authRolesSection" style="display: {{ $person->user ? 'block' : 'none' }};">
                     <div class="dropdown">

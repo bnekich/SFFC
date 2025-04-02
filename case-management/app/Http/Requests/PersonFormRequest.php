@@ -39,6 +39,7 @@ class PersonFormRequest extends FormRequest
             'city' => 'nullable|string|max:255',
             'state' => 'nullable|string|max:2',
             'zip' => 'nullable|string|max:10',
+            'family_ids' => 'nullable|array',
         ];
     }
 }
