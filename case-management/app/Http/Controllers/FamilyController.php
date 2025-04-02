@@ -5,9 +5,25 @@ namespace App\Http\Controllers;
 use App\Models\Family;
 use App\Http\Requests\FamilyFormRequest;
 use App\Http\Requests\UpdateFamilyRequest;
+use Illuminate\Http\Request;
 
 class FamilyController extends Controller
 {
+    public function search(Request $request)
+    {
+        $query = $request->input('q');
+        $page = $request->input('page', 1);
+        $perPage = 10;
+
+        $families = Family::where('family_name', 'like', "%{$query}%")
+            ->paginate($perPage);
+
+        return response()->json([
+            'items' => $families->items(),
+            'current_page' => $families->currentPage(),
+            'last_page' => $families->lastPage()
+        ]);
+    }
     /**
      * Display a listing of the resource.
      */

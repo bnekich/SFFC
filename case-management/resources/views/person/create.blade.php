@@ -80,6 +80,7 @@
             <label class="form-check-label">Can Receive Email Reminders</label>
         </div>
         <x-address-form :address="$address" :states="$states" />
+        <select class="family-select" name="family_ids[]" multiple></select>
         @can('users-create')
             <div class="row g-3">
                 <div class="col-auto">

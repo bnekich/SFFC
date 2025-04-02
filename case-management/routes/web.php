@@ -14,6 +14,9 @@ use App\Http\Controllers\ReminderTypeController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\IntakeController;
 use App\Http\Controllers\PersonController;
+use App\Http\Controllers\FamilyController;
+
+Route::get('/search', [FamilyController::class, 'search'])->middleware('auth');
 
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::resource('organization-types', OrganizationTypeController::class);
