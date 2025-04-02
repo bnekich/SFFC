@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class FamilyController extends Controller
 {
+    //for family search
     public function search(Request $request)
     {
         $query = $request->input('q');
@@ -24,57 +25,54 @@ class FamilyController extends Controller
             'last_page' => $families->lastPage()
         ]);
     }
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+
+    public function index(Request $request)
     {
-        //
+        $this->logAction("Viewed Families", "index", "Family");
+
+        $query = Family::query();
+
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('family_name', 'like', "%$search%");
+            });
+        }
+
+        $sort = $request->get('sort', 'family_name');
+        $direction = $request->get('direction', 'asc');
+        $query->orderBy($sort, $direction);
+
+        $families = $query->paginate(10);
+
+        return view('family.index', compact('families'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(FamilyFormRequest $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Family $family)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Family $family)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateFamilyRequest $request, Family $family)
+    public function update(FamilyFormRequest $request, Family $family)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Family $family)
     {
         //

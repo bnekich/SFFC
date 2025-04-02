@@ -8,7 +8,7 @@
 @section('content')
     <div class="container">
         <h3>Edit Case</h3>
-        <form action="{{ route('cases.update', $case->id) }}" method="POST">
+        <form action="{{ route('case.update', $case->id) }}" method="POST">
             @csrf
             @method('PUT')
             <div class="mb-3">

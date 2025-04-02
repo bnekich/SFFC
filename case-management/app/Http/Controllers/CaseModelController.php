@@ -32,13 +32,13 @@ class CaseModelController extends Controller
 
         $cases = $query->paginate(10); // Adjust pagination as needed
 
-        return view('cases.index', compact('cases'));
+        return view('case.index', compact('cases'));
     }
 
     public function create()
     {
         $this->logAction("Create Case", "create", "CaseModel");
-        return view('cases.create');
+        return view('case.create');
     }
 
     public function store(CaseModelFormRequest $request)
@@ -50,17 +50,17 @@ class CaseModelController extends Controller
         ]);
 
         CaseModel::create($request->all());
-        return redirect()->route('cases.index')->with('success', 'Case created successfully.');
+        return redirect()->route('case.index')->with('success', 'Case created successfully.');
     }
 
     public function show(CaseModel $case)
     {
-        return view('cases.show', compact('case'));
+        return view('case.show', compact('case'));
     }
 
     public function edit(CaseModel $case)
     {
-        return view('cases.edit', compact('case'));
+        return view('case.edit', compact('case'));
     }
 
     public function update(CaseModelFormRequest $request, CaseModel $case)
@@ -72,12 +72,12 @@ class CaseModelController extends Controller
         ]);
 
         $case->update($request->all());
-        return redirect()->route('cases.index')->with('success', 'Case updated successfully.');
+        return redirect()->route('case.index')->with('success', 'Case updated successfully.');
     }
 
     public function destroy(CaseModel $case)
     {
         $case->delete();
-        return redirect()->route('cases.index')->with('success', 'Case deleted successfully.');
+        return redirect()->route('case.index')->with('success', 'Case deleted successfully.');
     }
 }

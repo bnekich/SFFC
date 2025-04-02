@@ -24,11 +24,10 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::resource('reminder-types', ReminderTypeController::class);
 });
 
-Route::resource('cases', CaseModelController::class)->middleware('auth');
-
+Route::resource('case', CaseModelController::class)->middleware('auth');
 Route::resource('intake', IntakeController::class)->middleware('auth');
-
 Route::resource('person', PersonController::class)->middleware('auth');
+Route::resource('family', FamilyController::class)->middleware('auth');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard')->middleware('auth');

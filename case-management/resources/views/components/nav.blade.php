@@ -14,14 +14,20 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         @canany(['cases-view', 'cases-create', 'cases-edit', 'cases-delete'])
                             <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('cases.*') ? 'active' : '' }}"
-                                    href="{{ route('cases.index') }}">Cases</a>
+                                <a class="nav-link {{ request()->routeIs('case.*') ? 'active' : '' }}"
+                                    href="{{ route('case.index') }}">Cases</a>
                             </li>
                         @endcanany
                         @canany(['intake-view', 'intake-create', 'intake-edit', 'intake-delete'])
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('intake.*') ? 'active' : '' }}"
                                     href="{{ route('intake.index') }}">Intake</a>
+                            </li>
+                        @endcanany
+                        @canany(['families-view', 'families-create', 'families-edit', 'families-delete'])
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('family.*') ? 'active' : '' }}"
+                                    href="{{ route('family.index') }}">Families</a>
                             </li>
                         @endcanany
                         @canany(['persons-view', 'persons-create', 'persons-edit', 'persons-delete'])

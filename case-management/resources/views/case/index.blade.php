@@ -9,7 +9,7 @@
         <h3>Cases</h3>
         <div class="row mb-3">
             <div class="col-md-6">
-                <form method="GET" action="{{ route('cases.index') }}">
+                <form method="GET" action="{{ route('case.index') }}">
                     <div class="input-group">
                         <input type="text" name="search" class="form-control" placeholder="Search cases..."
                             value="{{ request('search') }}">
@@ -20,7 +20,7 @@
             <div class="col-md-6">
                 @can('cases-create')
                     <div class="col-md-6 text-end">
-                        <a href="{{ route('cases.create') }}" class="btn btn-primary">Create New Case</a>
+                        <a href="{{ route('case.create') }}" class="btn btn-primary">Create New Case</a>
                     </div>
                 @endcan
             </div>
@@ -32,7 +32,7 @@
                         <th scope="col">ID</th>
                         <th scope="col">
                             <a
-                                href="{{ route('cases.index', array_merge(request()->query(), ['sort' => 'case_identifier', 'direction' => request('sort') === 'case_identifier' && request('direction') === 'asc' ? 'desc' : 'asc'])) }}">
+                                href="{{ route('case.index', array_merge(request()->query(), ['sort' => 'case_identifier', 'direction' => request('sort') === 'case_identifier' && request('direction') === 'asc' ? 'desc' : 'asc'])) }}">
                                 Case Identifier
                                 @if (request('sort') === 'case_identifier')
                                     <i class="fas fa-arrow-{{ request('direction') === 'asc' ? 'up' : 'down' }}"></i>
@@ -51,13 +51,13 @@
                             <td class="cm-table-description">{{ $case->case_description }}</td>
                             <td class="d-flex flex-wrap gap-1 align-items-center">
                                 @can('cases-view')
-                                    <a href="{{ route('cases.show', $case->id) }}" class="btn btn-info btn-sm">View</a>
+                                    <a href="{{ route('case.show', $case->id) }}" class="btn btn-info btn-sm">View</a>
                                 @endcan
                                 @can('cases-edit')
-                                    <a href="{{ route('cases.edit', $case->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="{{ route('case.edit', $case->id) }}" class="btn btn-warning btn-sm">Edit</a>
                                 @endcan
                                 @can('cases-delete')
-                                    <form class="d-inline" action="{{ route('cases.destroy', $case->id) }}" method="POST">
+                                    <form class="d-inline" action="{{ route('case.destroy', $case->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>

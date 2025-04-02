@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <h1>Create New Case</h1>
-        <form action="{{ route('cases.store') }}" method="POST">
+        <form action="{{ route('case.store') }}" method="POST">
             @csrf
             <div class="form-group">
                 <label for="case_identifier">Case Identifier</label>

@@ -5,6 +5,6 @@
     <?php
     // TODO Finish this view
     ?>
-    <a href="{{ route('cases.index') }}" class="btn btn-secondary">Back to Cases</a>
+    <a href="{{ route('case.index') }}" class="btn btn-secondary">Back to Cases</a>
     </div>
 @endsection
