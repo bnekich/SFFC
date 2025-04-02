@@ -12,7 +12,7 @@
                     <th>Name</th>
                     <th>Role Type</th>
                     <th>Permissions</th>
-                    @canany('roles-create', 'roles-edit', 'roles-delete')
+                    @canany(['roles-create', 'roles-edit', 'roles-delete'])
                         <th>Actions</th>
                     @endcanany
                 </tr>
@@ -27,7 +27,7 @@
                                 <span class="badge bg-primary">{{ $permission->name }}</span>
                             @endforeach
                         </td>
-                        @canany('roles-create', 'roles-edit', 'roles-delete')
+                        @canany(['roles-create', 'roles-edit', 'roles-delete'])
                             <td>
                                 <a href="{{ route('roles.edit', $role) }}" class="btn btn-sm btn-warning">Edit</a>
                                 <form action="{{ route('roles.destroy', $role) }}" method="POST" class="d-inline">

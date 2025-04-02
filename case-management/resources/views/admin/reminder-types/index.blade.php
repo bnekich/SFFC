@@ -13,7 +13,7 @@
             <tr>
                 <th>ID</th>
                 <th>Name</th>
-                @canany('types-create', 'types-edit', 'types-delete')
+                @canany(['types-create', 'types-edit', 'types-delete'])
                     <th>Actions</th>
                 @endcanany
             </tr>
@@ -23,7 +23,7 @@
                 <tr>
                     <td>{{ $type->id }}</td>
                     <td>{{ $type->name }}</td>
-                    @canany('types-create', 'types-edit', 'types-delete')
+                    @canany(['types-create', 'types-edit', 'types-delete'])
                         <td>
                             <a href="{{ route('reminder-types.edit', $type) }}" class="btn btn-sm btn-warning">Edit</a>
                             <form action="{{ route('reminder-types.destroy', $type) }}" method="POST" style="display:inline;">

@@ -12,7 +12,7 @@
                     <th scope="col">ID</th>
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
-                    @canany('users-create', 'users-edit', 'users-delete')
+                    @canany(['users-create', 'users-edit', 'users-delete'])
                         <th scope="col" class="text-nowrap">Actions</th>
                     @endcanany
                 </tr>
@@ -24,10 +24,10 @@
                         <td>{{ $user->firstName . ' ' . $user->lastName }}</td>
                         <td>{{ $user->email }}</td>
                         <td>
-                            @canany('users-create', 'users-edit', 'users-delete')
+                            @canany(['users-create', 'users-edit', 'users-delete'])
                                 <a href="{{ route('users.edit', $user) }}" class="btn btn-sm btn-warning">Edit</a>
                             @endcanany
-                            @canany('users-create', 'users-edit', 'users-delete')
+                            @canany(['users-create', 'users-edit', 'users-delete'])
                                 <form action="{{ route('users.destroy', $user) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
