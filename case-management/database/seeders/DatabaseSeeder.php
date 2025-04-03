@@ -11,6 +11,7 @@ use App\Models\Status;
 use App\Models\FormModel;
 use App\Models\Field;
 use App\Models\Intake;
+use App\Models\Organization;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -35,5 +36,6 @@ class DatabaseSeeder extends Seeder
         Field::factory()->create();
         Intake::factory()->count(100)->create();
         Family::factory()->count(100)->create();
+        Organization::factory()->count(100)->create();
     }
 }

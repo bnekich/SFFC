@@ -36,6 +36,13 @@
                                     href="{{ route('person.index') }}">People</a>
                             </li>
                         @endcanany
+                        @canany(['organizations-view', 'organizations-create', 'organizations-edit',
+                            'organizations-delete'])
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('organization.*') ? 'active' : '' }}"
+                                    href="{{ route('organization.index') }}">Organizations</a>
+                            </li>
+                        @endcanany
                         @canany(['admin-view', 'admin-create', 'admin-edit', 'admin-delete'])
                             <x-nav-admin />
                         @endcanany

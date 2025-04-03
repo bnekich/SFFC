@@ -10,11 +10,11 @@ class PersonFactory extends Factory
     public function definition(): array
     {
         return [
-            'first_name' => fake()->firstNameMale(),
+            'first_name' => fake()->firstNameFemale(),
             'middle_name' => fake()->randomLetter(),
             'last_name' => fake()->lastName(),
             'date_of_birth' => fake()->date(),
-            'gender' => fake()->gender('male'),
+            'gender' => 'F',
             'email' => fake()->unique()->safeEmail(),
             'phone' => fake()->phoneNumber(),
             'can_text_reminder' => fake()->boolean(),

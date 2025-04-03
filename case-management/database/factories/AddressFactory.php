@@ -23,7 +23,9 @@ class AddressFactory extends Factory
             'address_line_2' => fake()->streetAddress(),
             'city' => fake()->city(),
             'state' => fake()->stateAbbr(),
-            'zip' => fake()->postcode(),            
+            'zip' => fake()->postcode(),
+            'created_by' => fake()->lastName(),
+            'updated_by' => '',
         ];
     }
 }

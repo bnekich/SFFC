@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\IntakeController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\FamilyController;
+use App\Http\Controllers\OrganizationController;
 
 Route::get('/search', [FamilyController::class, 'search'])->middleware('auth');
 
@@ -28,6 +29,7 @@ Route::resource('case', CaseModelController::class)->middleware('auth');
 Route::resource('intake', IntakeController::class)->middleware('auth');
 Route::resource('person', PersonController::class)->middleware('auth');
 Route::resource('family', FamilyController::class)->middleware('auth');
+Route::resource('organization', OrganizationController::class)->middleware('auth');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard')->middleware('auth');
