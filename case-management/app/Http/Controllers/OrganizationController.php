@@ -9,6 +9,7 @@ use App\Models\Organization;
 
 class OrganizationController extends Controller
 {
+  //for organization search
   public function search(OrganizationFormRequest $request)
   {
     $query = $request->input('q');
@@ -16,8 +17,7 @@ class OrganizationController extends Controller
     $perPage = 10;
 
     $organizations = Organization::where('name', 'like', "%{$query}%")
-      ->orWhere('contactPerson->last_name', 'like', "%$query%")
-      ->orWhere('contactPerson->first_name', 'like', "%$query%")
+      ->join('persons', 'organizations.contact_person_id', '=', 'persons.id')
       ->paginate($perPage);
 
     return response()->json([

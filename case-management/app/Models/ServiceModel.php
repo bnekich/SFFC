@@ -8,11 +8,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ServiceModel extends Model
 {
-    // Named CaseModel to avoid clashes with case keyword in PHP
+    // Named ServiceModel to avoid clashes with system Service class
     use HasFactory, SoftDeletes;
 
     protected $table = 'services';
-    protected $fillable = ['name', 'description', 'provider', 'created_by', 'updated_by'];
+
+    protected $fillable = [
+        'name',
+        'description',
+        'provider',
+        'created_by',
+        'updated_by'
+    ];
 
     public function cases()
     {

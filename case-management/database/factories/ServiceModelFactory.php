@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\ServiceModel;
 
-class ServiceFactory extends Factory
+class ServiceModelFactory extends Factory
 {
     public function definition(): array
     {

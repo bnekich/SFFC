@@ -46,6 +46,11 @@ class Person extends Model
         return $this->belongsToMany(Family::class, 'persons_families');
     }
 
+    public function organizations()
+    {
+        return $this->hasMany(Organization::class, 'contact_person_id');
+    }
+
     // public function relationships1()
     // {
     //     return $this->hasMany(Relationship::class, 'person_id_1');
@@ -81,8 +86,4 @@ class Person extends Model
     //     return $this->hasMany(Course::class, 'instructor_id');
     // }
 
-    // public function organizations()
-    // {
-    //     return $this->hasMany(Organization::class, 'contact_person_id');
-    // }
 }

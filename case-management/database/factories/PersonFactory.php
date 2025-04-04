@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Person;
+use App\Models\Address;
 
 class PersonFactory extends Factory
 {
@@ -17,6 +17,7 @@ class PersonFactory extends Factory
             'gender' => 'F',
             'email' => fake()->unique()->safeEmail(),
             'phone' => fake()->phoneNumber(),
+            'address_id' => Address::factory(),
             'can_text_reminder' => fake()->boolean(),
             'can_email_reminder' => fake()->boolean(),
             'created_by' => fake()->lastName(),

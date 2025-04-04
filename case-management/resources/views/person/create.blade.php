@@ -80,9 +80,23 @@
             <label class="form-check-label">Can Receive Email Reminders</label>
         </div>
         <x-address-form :address="$address" :states="$states" />
-        <select class="family-select" name="family_ids[]" multiple></select>
+        <div class="row g3 align-items-center">
+            <div class="col-6">
+                <label class="form-label">Family Connections</label>
+                <select class="family-select form-select" name="family_ids[]" multiple></select>
+                <button type="button" id="addFamily" class="btn btn-secondary mt-3">Add Family</button>
+            </div>
+            <div class="col-6">
+                <label class="form-label">Organizations</label>
+                <select class="org-select form-select" name="org_ids[]" multiple></select>
+                <button type="button" class="btn btn-secondary mt-2" data-bs-toggle="modal"
+                    data-bs-target="#createOrganizationModal" data-select="#organization_id">Add
+                    Organization</button>
+            </div>
+            <x-organization-form />
+        </div>
         @can('users-create')
-            <div class="row g-3">
+            <div class="row g-3 align-items-center">
                 <div class="col-auto">
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" name="isSystemUser" id="isSystemUser"
@@ -122,6 +136,32 @@
                 <a href="{{ route('person.index') }}" class="btn btn-secondary mt-3">Cancel</a>
             </div>
         </div>
+        {{-- <div class="modal fade" id="createOrganizationModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Create New Organization</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="error-messages" class="alert alert-danger" style="display:none;"></div>
+                        <form id="create-organization-form" action="{{ route('organization.store') }}"
+                            method="POST">
+                            @csrf
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" name="name" id="name" class="form-control">
+                            </div>
+                            <!-- Add other organization fields as needed -->
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div> --}}
+
     </form>
 </div>
 @endsection

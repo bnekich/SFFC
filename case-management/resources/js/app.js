@@ -39,6 +39,41 @@ chBoxes.forEach((checkbox) => {
 });
 
 $(document).ready(function () {
+    if ($(".org-select").length) {
+        // Only run if element exists
+        $(".org-select").select2({
+            placeholder: "Search for organizations...",
+            allowClear: true,
+            minimumInputLength: 1,
+            ajax: {
+                url: "/orgSearch",
+                dataType: "json",
+                delay: 250,
+                data: function (params) {
+                    return {
+                        q: params.term,
+                        page: params.page || 1,
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.items.map(function (item) {
+                            return {
+                                id: item.id,
+                                text: item.name,
+                            };
+                        }),
+                        pagination: {
+                            more: data.current_page < data.last_page,
+                        },
+                    };
+                },
+            },
+        });
+    }
+});
+
+$(document).ready(function () {
     if ($(".family-select").length) {
         // Only run if element exists
         $(".family-select").select2({
@@ -46,7 +81,7 @@ $(document).ready(function () {
             allowClear: true,
             minimumInputLength: 1,
             ajax: {
-                url: "/search",
+                url: "/familySearch",
                 dataType: "json",
                 delay: 250,
                 data: function (params) {
@@ -71,4 +106,46 @@ $(document).ready(function () {
             },
         });
     }
+});
+$(document).ready(function () {
+    // When a button opens a modal, store the target select ID
+    $('[data-bs-toggle="modal"]').on("click", function () {
+        var selectId = $(this).data("select");
+        var modalId = $(this).data("target");
+        $(modalId).data("select", selectId);
+    });
+
+    // Handle form submission in any modal
+    $(".modal form").on("submit", function (e) {
+        e.preventDefault(); // Prevent traditional form submission
+        var form = $(this);
+        var modal = form.closest(".modal");
+        var selectId = modal.data("select");
+
+        $.ajax({
+            type: "POST",
+            url: form.attr("action"),
+            data: form.serialize(),
+            success: function (data) {
+                // Add new option to the dropdown and select it
+                var select = $(selectId);
+                select.append(new Option(data.name, data.id, true, true));
+                // Hide modal, reset form, clear errors
+                modal.modal("hide");
+                form[0].reset();
+                $("#error-messages").hide().empty();
+            },
+            error: function (xhr) {
+                if (xhr.status === 422) {
+                    // Validation errors
+                    var errors = xhr.responseJSON.errors;
+                    var errorHtml = "";
+                    for (var field in errors) {
+                        errorHtml += "<p>" + errors[field][0] + "</p>";
+                    }
+                    $("#error-messages").html(errorHtml).show();
+                }
+            },
+        });
+    });
 });

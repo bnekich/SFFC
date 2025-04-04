@@ -16,8 +16,10 @@ use App\Http\Controllers\IntakeController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\FamilyController;
 use App\Http\Controllers\OrganizationController;
+use App\Models\Organization;
 
-Route::get('/search', [FamilyController::class, 'search'])->middleware('auth');
+Route::get('/familySearch', [FamilyController::class, 'search'])->middleware('auth');
+Route::get('/orgSearch', [OrganizationController::class, 'search'])->middleware('auth');
 
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::resource('organization-types', OrganizationTypeController::class);
