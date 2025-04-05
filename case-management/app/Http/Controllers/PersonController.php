@@ -124,11 +124,13 @@ class PersonController extends Controller
 
     public function show(Person $person)
     {
+        $this->logAction("Viewed Person", "show", "Person", $person->id);
         return view('person.show', compact('person'));
     }
 
     public function edit(Person $person)
     {
+        $this->logAction("Edit Person", "edit", "Person", $person->id);
         $states = USState::cases();
         $allRoles = Role::all();
         $genders = Gender::cases();
@@ -208,6 +210,7 @@ class PersonController extends Controller
     public function destroy(Person $person)
     {
         $person->delete();
+        $this->logAction('Deleted Person', 'destroy', 'Person', $person->id);
         return redirect()->route('person.index')->with('success', 'Person deleted successfully.');
     }
 }

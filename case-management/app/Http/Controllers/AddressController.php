@@ -10,11 +10,13 @@ class AddressController extends Controller
 {
     public function index()
     {
+        $this->logAction("Viewed all addresses", "index", "Address");
         return Address::all();
     }
 
     public function store(AddressFormRequest $request)
     {
+        $this->logAction("Created a new address", "store", "Address");
         $validatedData = $request->validated();
         return Address::create($validatedData->all());
     }

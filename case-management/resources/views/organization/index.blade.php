@@ -16,7 +16,7 @@
             </form>
         </div>
 
-        @can('organization-create')
+        @can('organizations-create')
             <a href="{{ route('organization.create') }}" class="btn btn-primary mb-3">Add organization</a>
         @endcan
         <table class="table">
@@ -43,7 +43,7 @@
                             <a href="{{ route('organization.show', $organization) }}" class="btn btn-info btn-sm">View</a>
                             <a href="{{ route('organization.edit', $organization) }}"
                                 class="btn btn-warning btn-sm">Edit</a>
-                            @can('organization-delete')
+                            @can('organizations-delete')
                                 <form action="{{ route('organization.destroy', $organization) }}" method="POST"
                                     class="d-inline">
                                     @csrf

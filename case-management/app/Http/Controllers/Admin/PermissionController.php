@@ -25,6 +25,7 @@ class PermissionController extends Controller
 
     public function store(PermissionFormRequest $request)
     {
+        $this->logAction("Store Permission", "store", "Permission");
         $validatedData = $request->validated();
 
         Permission::create(['name' => $validatedData['name']]);
@@ -33,6 +34,7 @@ class PermissionController extends Controller
 
     public function edit(Permission $permission)
     {
+        $this->logAction("Edit Permission", "edit", "Permission");
         return view('admin.permissions.edit', compact('permission'));
     }
 

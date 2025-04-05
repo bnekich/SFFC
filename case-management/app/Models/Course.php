@@ -10,7 +10,10 @@ class Course extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['title', 'instructor_id'];
+    protected $fillable = [
+        'title',
+        'instructor_id'
+    ];
 
     public function instructor()
     {

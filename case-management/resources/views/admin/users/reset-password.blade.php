@@ -1,19 +1,30 @@
-<form method="POST" action="{{ route('password.update') }}">
-    @csrf
-    <div>
-        <label for="password">New Password</label>
-        <input type="password" id="password" name="password" required>
+@extends('layouts.app')
+@section('header')
+    <div class="row g3">
+        <h3>Reset Password</h3>
     </div>
-    <div>
-        <label for="password_confirmation">Confirm Password</label>
-        <input type="password" id="password_confirmation" name="password_confirmation" required>
+@endsection
+@section('content')
+    <div class="container">
+        <form method="POST" action="{{ route('password.update') }}">
+            @csrf
+            <div class="mb-3">
+                <label class="form-label" for="password">New Password</label>
+                <input class="form-control" type="password" id="password" name="password" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="password_confirmation">Confirm Password</label>
+                <input class="form-control" type="password" id="password_confirmation" name="password_confirmation"
+                    required>
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+        </form>
     </div>
-    <button type="submit">Update</button>
-</form>
-@if ($errors->any())
-    <div>
-        @foreach ($errors->all() as $error)
-            <p>{{ $error }}</p>
-        @endforeach
-    </div>
-@endif
+    @if ($errors->any())
+        <div>
+            @foreach ($errors->all() as $error)
+                <p>{{ $error }}</p>
+            @endforeach
+        </div>
+    @endif
+@endsection

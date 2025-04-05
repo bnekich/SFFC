@@ -12,6 +12,7 @@ class OrganizationController extends Controller
   //for organization search
   public function search(OrganizationFormRequest $request)
   {
+    $this->logAction("Searched Organizations", "search", "Organization");
     $query = $request->input('q');
     $page = $request->input('page', 1);
     $perPage = 10;
@@ -29,7 +30,7 @@ class OrganizationController extends Controller
 
   public function index(OrganizationFormRequest $request)
   {
-    $this->logAction("Viewed Organizations", "index", "Family");
+    $this->logAction("Viewed Organizations", "index", "Organization");
 
     $query = Organization::query();
 

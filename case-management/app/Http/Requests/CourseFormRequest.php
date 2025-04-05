@@ -15,8 +15,16 @@ class CourseFormRequest extends FormRequest
 
     public function rules(): array
     {
+        if ($this->method() === 'GET') {
+            return [
+                'title' => 'string',
+                'person_name' => 'string',
+            ];
+        }
+
         return [
-            //
+            'title' => 'required|string|max:255',
+            'instructor_id' => 'required|exists:persons,id',
         ];
     }
 }

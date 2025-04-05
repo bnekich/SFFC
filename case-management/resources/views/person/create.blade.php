@@ -93,7 +93,7 @@
                     data-bs-target="#createOrganizationModal" data-select="#organization_id">Add
                     Organization</button>
             </div>
-            <x-organization-form />
+            {{-- <x-organization-form /> --}}
         </div>
         @can('users-create')
             <div class="row g-3 align-items-center">
@@ -136,12 +136,12 @@
                 <a href="{{ route('person.index') }}" class="btn btn-secondary mt-3">Cancel</a>
             </div>
         </div>
-        {{-- <div class="modal fade" id="createOrganizationModal" tabindex="-1" role="dialog">
+        <div class="modal fade" id="createOrganizationModal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Create New Organization</h5>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -160,8 +160,7 @@
                     </div>
                 </div>
             </div>
-        </div> --}}
-
+        </div>
     </form>
 </div>
 @endsection
