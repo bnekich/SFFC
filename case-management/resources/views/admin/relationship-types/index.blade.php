@@ -7,10 +7,9 @@
     @can('types-create')
         <a href="{{ route('relationship-types.create') }}" class="btn btn-primary mb-3">Add New Type</a>
     @endcan
-    <table class="table table-striped">
+    <table class="table table-sm table-striped">
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Name</th>
                 @canany(['types-create', 'types-edit', 'types-delete'])
                     <th>Actions</th>
@@ -20,7 +19,6 @@
         <tbody>
             @forelse($types as $type)
                 <tr>
-                    <td>{{ $type->id }}</td>
                     <td>{{ $type->name }}</td>
                     @canany(['types-create', 'types-edit', 'types-delete'])
                         <td>

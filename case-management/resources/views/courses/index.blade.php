@@ -19,7 +19,7 @@
         @can('courses-create')
             <a href="{{ route('course.create') }}" class="btn btn-primary mb-3">Add organization</a>
         @endcan
-        <table class="table">
+        <table class="table table-sm table-hover ">
             <thead>
                 <tr>
                     <th>Title</th>
@@ -48,6 +48,6 @@
                 @endforeach
             </tbody>
         </table>
-        {{ $courses->links() }}
+        {{ $courses->withQueryString()->links() }}
     </div>
 @endsection

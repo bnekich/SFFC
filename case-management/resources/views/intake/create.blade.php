@@ -11,7 +11,7 @@
             </div>
             <div class="form-group">
                 <label for="parent_phone">Parent's Phone Number</label>
-                <input type="text" name="parent_phone" class="form-control" required>
+                <input type="text" name="parent_phone" class="phone-input form-control" required>
             </div>
             <div class="form-group">
                 <label for="referral_date">Referral Date</label>

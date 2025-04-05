@@ -26,10 +26,9 @@
             </div>
         </div>
         <div class="table-responsive">
-            <table class="table table-hover mt-3">
+            <table class="table table-sm table-hover mt-3">
                 <thead>
                     <tr>
-                        <th scope="col">ID</th>
                         <th scope="col">
                             <a
                                 href="{{ route('case.index', array_merge(request()->query(), ['sort' => 'case_identifier', 'direction' => request('sort') === 'case_identifier' && request('direction') === 'asc' ? 'desc' : 'asc'])) }}">
@@ -46,7 +45,6 @@
                 <tbody>
                     @forelse ($cases as $case)
                         <tr>
-                            <td>{{ $case->id }}</td>
                             <td>{{ $case->case_identifier }}</td>
                             <td class="cm-table-description">{{ $case->case_description }}</td>
                             <td class="d-flex flex-wrap gap-1 align-items-center">
@@ -72,7 +70,7 @@
                     @endforelse
                 </tbody>
             </table>
-            {{ $cases->appends(request()->query())->links('') }}
+            {{ $cases->withQueryString()->links() }}
         </div>
     </div>
 @endsection

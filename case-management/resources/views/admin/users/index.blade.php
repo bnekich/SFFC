@@ -6,10 +6,9 @@
         <a href="{{ route('users.create') }}" class="btn btn-primary">Add User</a>
     @endcan
     <div class="table-responsive">
-        <table class="table table-hover mt-3">
+        <table class="table table-sm table-hover mt-3">
             <thead>
                 <tr>
-                    <th scope="col">ID</th>
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
                     @canany(['users-create', 'users-edit', 'users-delete'])
@@ -20,7 +19,6 @@
             <tbody>
                 @foreach ($users as $user)
                     <tr>
-                        <td>{{ $user->id }}</td>
                         <td>{{ $user->firstName . ' ' . $user->lastName }}</td>
                         <td>{{ $user->email }}</td>
                         <td>

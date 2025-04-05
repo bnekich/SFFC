@@ -91,6 +91,11 @@ class RolePermissionSeeder extends Seeder
             ]);
         }
 
+        $users = User::all();
+        foreach ($users as $user) {
+            $user->assignRole('Client');
+        }
+
         $address = Address::create([
             'address_line_1' => '123 Main St',
             'address_line_2' => 'Apt 4B',

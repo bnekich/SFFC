@@ -45,7 +45,7 @@
             </div>
             <div class="col-auto">
                 <input type="text" name="phone" placeholder="Phone"
-                    class="form-control-sm @error('phone') is-invalid @enderror"
+                    class="phone-input form-control-sm @error('phone') is-invalid @enderror"
                     value="{{ old('phone', $person->phone) }}">
                 @error('phone')
                     <span class="invalid-feedback">{{ $message }}</span>

@@ -6,6 +6,7 @@ import "bootstrap";
 import Select2 from "select2";
 Select2($);
 import "select2/dist/css/select2.min.css";
+import Inputmask from "inputmask";
 
 console.log("jQuery version:", $.fn.jquery); // Should log "3.7.1" or similar
 console.log("Select2 available:", typeof $.fn.select2); // Should log "function"
@@ -148,4 +149,18 @@ $(document).ready(function () {
             },
         });
     });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Select the input element(s) you want to mask
+    const phoneInput = document.querySelector(".phone-input");
+
+    // Apply the phone number mask
+    if (phoneInput) {
+        Inputmask({
+            mask: "(999) 999-9999", // Example: US phone number format
+            placeholder: "_", // Optional: Placeholder for empty spots
+            showMaskOnHover: false, // Optional: Customize behavior
+        }).mask(phoneInput);
+    }
 });
