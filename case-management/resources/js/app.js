@@ -164,3 +164,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }).mask(phoneInput);
     }
 });
+
+var clearButton = document.getElementById("clearButton");
+if (clearButton) {
+    clearButton.addEventListener("click", function () {
+        document.getElementById("searchBox").value = "";
+        document.getElementById("searchForm").submit();
+    });
+}

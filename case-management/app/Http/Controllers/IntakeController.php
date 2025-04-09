@@ -43,14 +43,13 @@ class IntakeController extends Controller
 
     public function store(IntakeFormRequest $request)
     {
-        $request->validate([
-            'parent_name' => 'required|unique:cases|max:50',
-            'case_summary' => 'required',
-            // Add other validation rules as needed
-        ]);
+        $successMessage = "";
+        $validatedData = $request->validated();
 
-        Intake::create($request->all());
-        return redirect()->route('intake.index')->with('success', 'Intake created successfully.');
+        Intake::create($validatedData->all());
+        $successMessage = "Intake created successfully.";
+        $this->logAction($successMessage, "store", "Intake");
+        return redirect()->route('intake.index')->with('success', $successMessage);
     }
 
     public function show(Intake $intake)

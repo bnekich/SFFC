@@ -10,7 +10,24 @@ class Organization extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'address_id', 'contact_person_id', 'created_by', 'updated_by'];
+    protected $fillable = [
+        'name',
+        'address_id',
+        'contact_person_name',
+        'contact_person_title',
+        'contact_person_email',
+        'contact_person_phone',
+        'contact_person_mobile',
+        'notes',
+        'created_by',
+        'updated_by'
+    ];
+
+    public function persons()
+    {
+        return $this->belongsToMany(Person::class, 'persons_organizations', 'organization_id', 'person_id')
+            ->withTimestamps();
+    }
 
     public function address()
     {

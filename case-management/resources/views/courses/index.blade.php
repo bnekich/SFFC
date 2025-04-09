@@ -5,20 +5,22 @@
 
 @section('content')
     <div class="container">
-        <h3>Training</h3>
-        <div class="col-md-6">
-            <form method="GET" action="{{ route('course.index') }}">
-                <div class="input-group">
-                    <input type="text" name="search" class="form-control" placeholder="Search for Courses..."
-                        value="{{ request('search') }}">
-                    <button type="submit" class="btn btn-primary">Search</button>
-                </div>
-            </form>
+        <h3>Training Courses</h3>
+        <div class="row mb-3">"
+            <div class="col-8">
+                <form id="searchForm" method="GET" action="{{ route('course.index') }}">
+                    <input id="searchBox" type="text" name="search" class="form-control-sm"
+                        placeholder="Search for Courses..." value="{{ request('search') }}">
+                    <button type="submit" class="btn btn-sm btn-primary">Search</button>
+                    <button type="button" class="btn btn-sm btn-secondary" id="clearButton">Clear Search</button>
+                </form>
+            </div>
+            <div class="col-auto align-items-end d-flex justify-content-end">
+                @can('courses-create')
+                    <a href="{{ route('course.create') }}" class="btn btn-sm btn-primary mb-3">Add Course</a>
+                @endcan
+            </div>
         </div>
-
-        @can('courses-create')
-            <a href="{{ route('course.create') }}" class="btn btn-primary mb-3">Add organization</a>
-        @endcan
         <table class="table table-sm table-hover ">
             <thead>
                 <tr>

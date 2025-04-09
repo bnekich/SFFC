@@ -1,4 +1,5 @@
 @extends('layouts.app')
+
 @section('title')
     - People
 @endsection
@@ -7,20 +8,21 @@
     <div class="container">
         <h3>People</h3>
         <div class="row mb-3">
-            <div class="col-md-6">
-                <form method="GET" action="{{ route('person.index') }}">
-                    <div class="input-group">
-                        <input type="text" name="search" class="form-control" placeholder="Search for People..."
-                            value="{{ request('search') }}">
-                        <button type="submit" class="btn btn-primary">Search</button>
-                    </div>
+            <div class="col-8">
+                <form id="searchForm" method="GET" action="{{ route('person.index') }}">
+                    <input id="searchBox" type="text" name="search" class="form-control-sm"
+                        placeholder="Search for People..." value="{{ request('search') }}">
+                    <button type="submit" class="btn btn-sm btn-primary">Search</button>
+                    <button type="button" class="btn btn-sm btn-secondary" id="clearButton">Clear Search</button>
                 </form>
             </div>
-            <div class="col-md-6">
+            <div class="col-auto align-items-end d-flex justify-content-end">
                 @can('person-create')
-                    <a href="{{ route('person.create') }}" class="btn btn-primary mb-3">Add Person</a>
+                    <a href="{{ route('person.create') }}" class="btn btn-sm btn-primary">Add Person</a>
                 @endcan
             </div>
+        </div>
+        <div class="row mb-3">
             <div class="table-responsive">
                 <table class="table table-sm table-hover mt-3">
                     <thead>

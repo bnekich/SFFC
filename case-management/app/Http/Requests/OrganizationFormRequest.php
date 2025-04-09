@@ -18,16 +18,20 @@ class OrganizationFormRequest extends FormRequest
         if ($this->method() === 'GET') {
             return [
                 'name' => 'string',
-                'person_name' => 'string',
             ];
         }
 
         return [
             'name' => 'required|string|max:255',
-            'address_id' => 'required|exists:addresses,id',
-            'contact_person_id' => 'required|exists:people,id',
-            'created_by' => 'required|string|max:255',
-            'updated_by' => 'nullable|string|max:255',
+            'address_id' => 'nullable|exists:addresses,id',
+            'contact_person_name' => 'nullable|exists:people,id',
+            'contact_person_title' => 'nullable|string|max:255',
+            'contact_person_email' => 'nullable|email|max:255',
+            'contact_person_phone' => 'nullable|string|max:255',
+            'contact_person_mobile' => 'nullable|string|max:255',
+            'notes' => 'nullable|string',
+            'person_ids' => 'nullable|array', // Array of person IDs to associate
+            'person_ids.*' => 'exists:persons,id' // Validate each ID exists
         ];
     }
 }

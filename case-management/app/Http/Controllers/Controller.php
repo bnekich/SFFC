@@ -33,15 +33,17 @@ class Controller extends BaseController
         array $extra = []
     ): void {
 
-        $channel = 'daily';
+        // $channel = 'daily';
+        $channel = 'audit';
         $level = 'debug';
 
+        // TODO set this back to daily for development
         // switch to database logging and info level for non-development environments
-        $environment = env('APP_ENV');
-        if (!$environment === 'local') {
-            $channel = 'audit';
-            $level = 'info';
-        }
+        // $environment = env('APP_ENV');
+        // if (!$environment === 'local') {
+        //     $channel = 'audit';
+        //     $level = 'info';
+        // }
 
         $context = array_merge([
             'user_id' => auth()->id() ?? null,

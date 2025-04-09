@@ -7,20 +7,19 @@
     <div class="container">
         <h3>Organizations</h3>
         <div class="row mb-3">
-            <div class="col-md-6">
-                <form method="GET" action="{{ route('organization.index') }}">
-                    <div class="input-group">
-                        <input type="text" name="search" class="form-control" placeholder="Search for Organizations..."
-                            value="{{ request('search') }}">
-                        <button type="submit" class="btn btn-primary">Search</button>
-                    </div>
+            <div class="col-8">
+                <form id="searchForm" method="GET" action="{{ route('organization.index') }}">
+                    <input id="searchBox" type="text" name="search" class="form-control-sm"
+                        placeholder="Search for Organizations..." value="{{ request('search') }}">
+                    <button type="submit" class="btn btn-sm btn-primary">Search</button>
+                    <button type="button" class="btn btn-sm btn-secondary" id="clearButton">Clear Search</button>
                 </form>
             </div>
-            @can('organizations-create')
-                <div class="col-md-6">
-                    <a href="{{ route('organization.create') }}" class="btn btn-primary mb-3">Add organization</a>
-                </div>
-            @endcan
+            <div class="col-auto align-items-end d-flex justify-content-end">
+                @can('organizations-create')
+                    <a href="{{ route('organization.create') }}" class="btn btn-sm btn-primary mb-3">Add Organization</a>
+                @endcan
+            </div>
         </div>
         <div class="table-responsive">
             <table class="table table-sm table-hover mt-3">
@@ -28,7 +27,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Contact</th>
-                        <th>Email</th>
+                        <th>Title</th>
                         <th>Phone</th>
                         <th>Actions</th>
                     </tr>
@@ -37,10 +36,9 @@
                     @foreach ($organizations as $organization)
                         <tr>
                             <td>{{ $organization->name }} </td>
-                            <td>{{ $organization->contactPerson->first_name . ' ' . $organization->contactPerson->last_name }}
-                            </td>
-                            <td>{{ $organization->contactPerson->email }}</td>
-                            <td>{{ $organization->contactPerson->phone }}</td>
+                            <td>{{ $organization->contact_person_name }}</td>
+                            <td class="cm-table-description">{{ $organization->contact_person_title }}</td>
+                            <td>{{ $organization->contact_person_phone }}</td>
                             <td>
                                 <a href="{{ route('organization.show', $organization) }}"
                                     class="btn btn-info btn-sm">View</a>

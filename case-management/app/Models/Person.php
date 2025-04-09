@@ -48,8 +48,14 @@ class Person extends Model
 
     public function organizations()
     {
-        return $this->hasMany(Organization::class, 'contact_person_id');
+        return $this->belongsToMany(Organization::class, 'persons_organizations', 'person_id', 'organization_id')
+            ->withTimestamps();
     }
+
+    // public function appointments()
+    // {
+    //     return $this->belongsToMany(Appointment::class, 'appointments_persons')->withTimestamps()->withPivot('created_by', 'updated_by');
+    // }
 
     public function courses()
     {

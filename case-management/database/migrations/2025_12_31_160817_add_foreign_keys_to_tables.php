@@ -76,7 +76,6 @@ class AddForeignKeysToTables extends Migration
         // Organizations
         Schema::table('organizations', function (Blueprint $table) {
             $table->foreign('address_id')->references('id')->on('addresses')->onDelete('set null');
-            $table->foreign('contact_person_id')->references('id')->on('persons')->onDelete('set null');
         });
 
         // Appointments
@@ -114,10 +113,22 @@ class AddForeignKeysToTables extends Migration
             $table->foreign('form_id')->references('id')->on('forms')->onDelete('cascade');
             $table->foreign('field_id')->references('id')->on('fields')->onDelete('cascade');
         });
+
+        // Persons_Organizations
+        Schema::table('persons_organizations', function (Blueprint $table) {
+            $table->foreign('person_id')->references('id')->on('persons')->onDelete('cascade');
+            $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
+        });
     }
 
     public function down()
     {
+        // Persons_Organizations
+        Schema::table('persons_organizations', function (Blueprint $table) {
+            $table->dropForeign(['person_id']);
+            $table->dropForeign(['organization_id']);
+        });
+
         // Drop foreign keys in reverse order
         Schema::table('volunteers_courses', function (Blueprint $table) {
             $table->dropForeign(['course_id']);
@@ -146,7 +157,6 @@ class AddForeignKeysToTables extends Migration
 
         Schema::table('organizations', function (Blueprint $table) {
             $table->dropForeign(['address_id']);
-            $table->dropForeign(['contact_person_id']);
         });
 
         Schema::table('cases_volunteers', function (Blueprint $table) {

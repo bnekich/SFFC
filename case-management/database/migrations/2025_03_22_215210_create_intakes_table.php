@@ -14,7 +14,7 @@ return new class extends Migration
             $table->string('parent_name', 50)->nullable();
             $table->string('parent_phone', 20)->nullable();
             $table->date('referral_date')->nullable();
-            $table->string('referral_contact', 59)->nullable();
+            $table->text('referral_contact')->nullable();
             $table->text('case_summary')->nullable();
             $table->boolean('hasSFFCHistory')->nullable();
             $table->text('do_not_share_list')->nullable();

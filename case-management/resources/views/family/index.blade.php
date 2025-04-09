@@ -7,20 +7,17 @@
     <div class="container">
         <h3>Families</h3>
         <div class="row mb-3">
-            <div class="col-md-6">
-                <form method="GET" action="{{ route('family.index') }}">
-                    <div class="input-group">
-                        <input type="text" name="search" class="form-control" placeholder="Search families..."
-                            value="{{ request('search') }}">
-                        <button type="submit" class="btn btn-primary">Search</button>
-                    </div>
+            <div class="col-8">
+                <form id="searchForm" method="GET" action="{{ route('family.index') }}">
+                    <input id="searchBox" type="text" name="search" class="form-control-sm" placeholder="Search families..."
+                        value="{{ request('search') }}">
+                    <button type="submit" class="btn btn-sm btn-primary">Search</button>
+                    <button type="button" class="btn btn-sm btn-secondary" id="clearButton">Clear Search</button>
                 </form>
             </div>
-            <div class="col-md-6">
+            <div class="col-auto align-items-end d-flex justify-content-end">
                 @can('families-create')
-                    <div class="col-md-6 text-end">
-                        <a href="{{ route('family.create') }}" class="btn btn-primary">Create Family</a>
-                    </div>
+                    <a href="{{ route('family.create') }}" class="btn btn-sm btn-primary">Add Family</a>
                 @endcan
             </div>
         </div>

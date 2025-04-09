@@ -12,7 +12,12 @@ class CreateOrganizationsTable extends Migration
             $table->id();
             $table->string('name', 255)->nullable();
             $table->unsignedBigInteger('address_id')->nullable();
-            $table->unsignedBigInteger('contact_person_id')->nullable();
+            $table->string('contact_person_name', 255)->nullable();
+            $table->string('contact_person_title', 255)->nullable();
+            $table->string('contact_person_email', 255)->nullable();
+            $table->string('contact_person_phone', 255)->nullable();
+            $table->string('contact_person_mobile', 255)->nullable();
+            $table->text('notes')->nullable();
             $table->timestamps();
             $table->string('created_by', 255);
             $table->string('updated_by', 255);
