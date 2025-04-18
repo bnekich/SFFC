@@ -17,6 +17,7 @@ use App\Http\Controllers\PersonController;
 use App\Http\Controllers\FamilyController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\CaseNoteController;
 
 Route::get('/familySearch', [FamilyController::class, 'search'])->middleware('auth');
 Route::get('/orgSearch', [OrganizationController::class, 'search'])->middleware('auth');
@@ -33,6 +34,7 @@ Route::resource('person', PersonController::class)->middleware('auth');
 Route::resource('family', FamilyController::class)->middleware('auth');
 Route::resource('organization', OrganizationController::class)->middleware('auth');
 Route::resource('course', CourseController::class)->middleware('auth');
+Route::resource('casenote', CaseNoteController::class)->middleware('auth');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard')->middleware('auth');

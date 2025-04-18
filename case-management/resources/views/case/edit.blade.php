@@ -8,6 +8,9 @@
 @section('content')
     <div class="container">
         <h3>Edit Case</h3>
+        <a href="{{ route('casenote.index', ['case_id' => $case->id]) }}" class="btn btn-sm btn-secondary mb-3">Case
+            Notes</a>
+
         <form action="{{ route('case.update', $case->id) }}" method="POST">
             @csrf
             @method('PUT')

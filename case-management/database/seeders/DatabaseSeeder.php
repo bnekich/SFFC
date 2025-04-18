@@ -13,6 +13,7 @@ use App\Models\Field;
 use App\Models\Intake;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\CaseNote;
 
 class DatabaseSeeder extends Seeder
 {
@@ -37,5 +38,6 @@ class DatabaseSeeder extends Seeder
         // FormModel::factory()->create();
         // Field::factory()->create();
         Course::factory()->count(20)->create();
+        CaseNote::factory()->count(100)->create();
     }
 }
