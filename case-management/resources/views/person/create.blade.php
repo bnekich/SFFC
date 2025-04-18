@@ -59,14 +59,26 @@
                 <select name="gender" class="form-select-sm @error('gender') is-invalid @enderror">
                     <option value=""> (Select)</option>
                     @foreach ($genders as $gender)
-                        <option value="{{ $gender->value }}">{{ $gender->name }}</option>
-                        {{-- {{ old('gender') == '{{ $gender->value ?> ?>' }}'
-                            ? 'selected' : '' }} --}}
+                        <option value="{{ $gender->value }}" {{ old('gender') == $gender->value ? 'selected' : '' }}>
+                            {{ $gender->value }}
+                        </option>
                     @endforeach
                 </select>
                 @error('gender')
                     <span class="invalid-feedback">{{ $message }}</span>
                 @enderror
+            </div>
+            <div class="col-auto">
+                <label class="form-label">Ethnicity</label>
+                <select name="ethnicity" class="form-select-sm @error('ethnicity') is-invalid @enderror">
+                    <option value=""> (Select)</option>
+                    @foreach ($ethnicities as $ethnicity)
+                        <option value="{{ $ethnicity->value }}"
+                            {{ old('ethnicity') == $ethnicity->value ? 'selected' : '' }}>
+                            {{ $ethnicity->label() }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
         </div>
         <div class="form-check form-switch">

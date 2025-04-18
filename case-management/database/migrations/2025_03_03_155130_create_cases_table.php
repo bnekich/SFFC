@@ -17,7 +17,7 @@ class CreateCasesTable extends Migration
             $table->unsignedBigInteger('assigned_staff_id')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
-            $table->unsignedBigInteger('status_id')->nullable();
+            $table->string('status', 2)->default('O');
             $table->timestamps();
             $table->string('created_by', 255);
             $table->string('updated_by', 255);

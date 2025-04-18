@@ -10,7 +10,8 @@ class OrganizationTypeFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => 'Test Organization Type'
+            'name' => 'Test Organization Type',
+            'description' => 'This is a test organization type.'
         ];
     }
 }

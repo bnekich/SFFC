@@ -29,6 +29,7 @@ return new class extends Migration
             $table->text('emotional_behavioral_medical_concerns')->nullable();
             $table->boolean('is_a_sffc_fit')->nullable();
             $table->text('resources_provided')->nullable();
+            $table->string('intake_status', 2)->nullable();
             $table->string('created_by', 255);
             $table->string('updated_by', 255);
             $table->softDeletes();

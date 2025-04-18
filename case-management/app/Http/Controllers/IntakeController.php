@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\IntakeFormRequest;
+use App\Enums\Statuses\IntakeStatus;
+//use App\Enums\Ethnicity;
 use App\Models\Intake;
 
 class IntakeController extends Controller
@@ -24,6 +26,11 @@ class IntakeController extends Controller
             });
         }
 
+        // Apply status filter
+        if ($request->filled('status')) {
+            $query->where('intake_status', $request->status);
+        }
+
         // Sort functionality
         $sort = $request->get('sort', 'id'); // default sort by id
         $direction = $request->get('direction', 'asc'); // default ascending
@@ -31,14 +38,17 @@ class IntakeController extends Controller
         $query->orderBy($sort, $direction);
 
         $intakes = $query->paginate(10); // Adjust pagination as needed
+        $statuses = IntakeStatus::cases();
 
-        return view('intake.index', compact('intakes'));
+
+        return view('intake.index', compact('intakes', 'statuses'));
     }
 
     public function create()
     {
         $this->logAction("Create Intake", "create", "Intake");
-        return view('intake.create');
+        $intakeStatuses = IntakeStatus::cases();
+        return view('intake.create', compact('intakeStatuses'));
     }
 
     public function store(IntakeFormRequest $request)

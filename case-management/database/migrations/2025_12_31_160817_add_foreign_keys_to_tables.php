@@ -13,7 +13,6 @@ class AddForeignKeysToTables extends Migration
             $table->foreign('client_family_id')->references('id')->on('families')->onDelete('set null');
             $table->foreign('host_family_id')->references('id')->on('families')->onDelete('set null');
             $table->foreign('assigned_staff_id')->references('id')->on('persons')->onDelete('set null');
-            $table->foreign('status_id')->references('id')->on('statuses')->onDelete('set null');
         });
 
         // Intake
@@ -76,6 +75,7 @@ class AddForeignKeysToTables extends Migration
         // Organizations
         Schema::table('organizations', function (Blueprint $table) {
             $table->foreign('address_id')->references('id')->on('addresses')->onDelete('set null');
+            $table->foreign('organization_type_id')->references('id')->on('organization_types')->onDelete('cascade');
         });
 
         // Appointments

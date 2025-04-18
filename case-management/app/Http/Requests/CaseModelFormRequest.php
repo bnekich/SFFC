@@ -30,7 +30,7 @@ class CaseModelFormRequest extends FormRequest
             'assigned_staff_id' => 'nullable|exists:persons,id',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date',
-            'status_id' => 'required|exists:statuses,id',
+            'status' => 'required|string',
             'created_by' => 'required|string',
             'updated_by' => 'required|string'
         ];

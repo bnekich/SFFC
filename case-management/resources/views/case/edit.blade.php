@@ -22,9 +22,8 @@
                 <label for="case_description" class="form-label">Case Description</label>
                 <textarea name="case_description" class="form-control">{{ $case->case_description }}</textarea>
             </div>
-            <?php
-            //TODO Finish this view
-            ?>
+
+
             <button type="submit" class="btn btn-primary">Update</button>
         </form>
     </div>

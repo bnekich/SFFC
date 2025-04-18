@@ -20,6 +20,7 @@ class CreatePersonsTable extends Migration
             $table->unsignedBigInteger('address_id')->nullable();
             $table->boolean('can_text_reminder')->default(true);
             $table->boolean('can_email_reminder')->default(true);
+            $table->string('ethnicity', 2)->nullable();
             $table->timestamps();
             $table->string('created_by', 255);
             $table->string('updated_by', 255);

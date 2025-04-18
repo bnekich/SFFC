@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Enums\Statuses\CaseStatus;
 use App\Models\CaseModel;
 use App\Http\Requests\CaseModelFormRequest;
 
@@ -23,6 +24,10 @@ class CaseModelController extends Controller
                     ->orWhere('case_description', 'like', "%$search%");
             });
         }
+        // Apply status filter
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
 
         // Sort functionality
         $sort = $request->get('sort', 'case_identifier'); // default sort by id
@@ -31,14 +36,17 @@ class CaseModelController extends Controller
         $query->orderBy($sort, $direction);
 
         $cases = $query->paginate(10); // Adjust pagination as needed
+        $statuses = CaseStatus::cases();
 
-        return view('case.index', compact('cases'));
+        return view('case.index', compact('cases', 'statuses'));
     }
 
     public function create()
     {
         $this->logAction("Create Case", "create", "CaseModel");
-        return view('case.create');
+        $statuses = CaseStatus::cases();
+
+        return view('case.create', compact('statuses'));
     }
 
     public function store(CaseModelFormRequest $request)

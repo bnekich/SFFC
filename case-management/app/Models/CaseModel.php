@@ -14,7 +14,7 @@ class CaseModel extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'cases';
-    protected $fillable = ['case_identifier', 'case_description', 'client_family_id', 'host_family_id', 'assigned_staff_id', 'start_date', 'end_date', 'status_id', 'created_by', 'updated_by'];
+    protected $fillable = ['case_identifier', 'case_description', 'client_family_id', 'host_family_id', 'assigned_staff_id', 'start_date', 'end_date', 'status', 'created_by', 'updated_by'];
 
     public function clientFamily()
     {
@@ -31,11 +31,6 @@ class CaseModel extends Model
         return $this->belongsTo(Person::class, 'assigned_staff_id');
     }
 
-    public function status()
-    {
-        return $this->belongsTo(Status::class);
-    }
-
     public function services()
     {
         return $this->belongsToMany(ServiceModel::class, 'cases_services');
@@ -49,5 +44,9 @@ class CaseModel extends Model
     public function appointments()
     {
         return $this->hasMany(Appointment::class, 'case_id');
+    }
+    public function caseNotes()
+    {
+        return $this->hasMany(CaseNote::class, 'case_id');
     }
 }

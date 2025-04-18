@@ -12,6 +12,7 @@ class OrganizationFactory extends Factory
         return [
             'name' => fake()->company(),
             'address_id' => Address::factory(),
+            'organization_type_id' => fake()->numberBetween(1, 5), // Assuming you have 5 organization types
             'contact_person_name' => fake()->name(),
             'contact_person_title' => fake()->jobTitle(),
             'contact_person_email' => fake()->unique()->safeEmail(),

@@ -22,6 +22,7 @@ class Person extends Model
         'last_name',
         'date_of_birth',
         'gender',
+        'ethnicity',
         'email',
         'phone',
         'address_id',

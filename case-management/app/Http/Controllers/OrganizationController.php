@@ -14,23 +14,22 @@ use Illuminate\Http\Request;
 class OrganizationController extends Controller
 {
   //for organization search
-  // public function search(Request $request)
-  // {
-  //   $this->logAction("Searched Organizations", "search", "Organization");
-  //   $query = $request->input('q');
-  //   $page = $request->input('page', 1);
-  //   $perPage = 10;
+  public function search(Request $request)
+  {
+    $this->logAction("Searched Organizations", "search", "Organization");
+    $query = $request->input('q');
+    $page = $request->input('page', 1);
+    $perPage = 10;
 
-  //   $organizations = Organization::where('name', 'like', "%{$query}%")
-  //     //->join('persons', 'organizations.contact_person_id', '=', 'persons.id')
-  //     ->paginate($perPage);
+    $organizations = Organization::where('name', 'like', "%{$query}%")
+      ->paginate($perPage);
 
-  //   return response()->json([
-  //     'items' => $organizations->items(),
-  //     'current_page' => $organizations->currentPage(),
-  //     'last_page' => $organizations->lastPage()
-  //   ]);
-  // }
+    return response()->json([
+      'items' => $organizations->items(),
+      'current_page' => $organizations->currentPage(),
+      'last_page' => $organizations->lastPage()
+    ]);
+  }
 
   public function index(OrganizationFormRequest $request)
   {

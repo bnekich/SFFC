@@ -33,6 +33,8 @@ class IntakeFactory extends Factory
             'resources_provided' => '',
             'created_by' => "system",
             'updated_by' => "system",
+            'intake_status' => fake()->randomElement(['F', 'S', 'T', 'I', 'C', 'X', 'O']),
+
         ];
     }
 }

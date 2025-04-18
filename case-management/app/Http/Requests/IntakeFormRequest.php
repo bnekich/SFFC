@@ -42,6 +42,7 @@ class IntakeFormRequest extends FormRequest
             'emotional_behavioral_medical_concerns' => 'string',
             'is_a_sffc_fit' => 'boolean',
             'resources_provided' => 'string',
+            'intake_status' => 'string|max:2',
             'created_by' => 'string|max:255',
             'updated_by' => 'string|max:255',
         ];

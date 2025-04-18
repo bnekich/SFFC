@@ -87,12 +87,33 @@
                 </div>
             </div>
             <x-address-form :address="$person->address" :states="$states" />
-            <label class="form-label">Family Connections</label>
+            <div class="col-6">
+                <label class="form-label">Family Connections</label>
+                <select class="family-select form-select" name="family_ids[]" multiple>
+                    @foreach ($person->families as $family)
+                        <option value="{{ $family->id }}" selected>{{ $family->family_name }}</option>
+                    @endforeach
+                </select>
+                <button type="button" id="addFamily" class="btn btn-secondary mt-3">Add Family</button>
+            </div>
+            {{-- <label class="form-label">Family Connections</label>
             <select class="family-select" name="family_ids[]" multiple>
                 @foreach ($person->families as $family)
                     <option value="{{ $family->id }}" selected>{{ $family->family_name }}</option>
                 @endforeach
-            </select>
+            </select> --}}
+            <div class="col-6">
+                <label class="form-label">Organizations</label>
+                <select class="org-select form-select" name="org_ids[]" multiple>
+                    @foreach ($person->organizations as $organization)
+                        <option value="{{ $organization->id }}" selected>{{ $organization->name }}</option>
+                    @endforeach
+                </select>
+                <button type="button" class="btn btn-secondary mt-2" data-bs-toggle="modal"
+                    data-bs-target="#createOrganizationModal" data-select="#organization_id">Add
+                    Organization</button>
+            </div>
+
             @canany(['users-create', 'users-edit'])
                 <div class="col-auto" id="authRolesSection" style="display: {{ $person->user ? 'block' : 'none' }};">
                     <div class="dropdown">

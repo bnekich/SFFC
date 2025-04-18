@@ -19,8 +19,8 @@ class AddressFactory extends Factory
     public function definition(): array
     {
         return [
-            'address_line_1' => fake()->streetAddress(),
-            'address_line_2' => fake()->streetAddress(),
+            'address_line_1' => fake()->buildingNumber() . ' ' . fake()->streetName() . ' ' . fake()->streetSuffix(),
+            'address_line_2' => fake()->secondaryAddress(),
             'city' => fake()->city(),
             'state' => fake()->stateAbbr(),
             'zip' => fake()->postcode(),

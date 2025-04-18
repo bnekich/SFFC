@@ -32,6 +32,7 @@ class Intake extends Model
         'emotional_behavioral_medical_concerns',
         'is_a_sffc_fit',
         'resources_provided',
+        'intake_status',
         'created_by',
         'updated_by',
     ];

@@ -20,6 +20,7 @@ class PersonFactory extends Factory
             'address_id' => Address::factory(),
             'can_text_reminder' => fake()->boolean(),
             'can_email_reminder' => fake()->boolean(),
+            'ethnicity' => fake()->randomElement(['I', 'A', 'B', 'H', 'M', 'P', 'W', 'T', 'O', 'N', 'U']),
             'created_by' => fake()->lastName(),
             'updated_by' => ""
         ];

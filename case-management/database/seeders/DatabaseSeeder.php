@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\OrganizationType;
 use App\Models\RelationshipType;
 use App\Models\ReminderType;
 use App\Models\CaseModel;
@@ -12,8 +11,6 @@ use App\Models\Status;
 use App\Models\FormModel;
 use App\Models\Field;
 use App\Models\Intake;
-use App\Models\Organization;
-use App\Models\Person;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -25,20 +22,20 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         Status::factory()->create();
-        OrganizationType::factory()->create();
         RelationshipType::factory()->create();
         ReminderType::factory()->create();
         $this->call([
             PersonSeeder::class,
             UserSeeder::class,
-            RolePermissionSeeder::class
+            RolePermissionSeeder::class,
+            OrganizationTypeSeeder::class,
+            OrganizationSeeder::class,
         ]);
         Intake::factory()->count(100)->create();
         Family::factory()->count(100)->create();
         CaseModel::factory()->count(100)->create();
         // FormModel::factory()->create();
         // Field::factory()->create();
-        Organization::factory()->count(100)->create();
         Course::factory()->count(20)->create();
     }
 }

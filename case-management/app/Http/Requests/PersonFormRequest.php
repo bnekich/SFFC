@@ -40,6 +40,8 @@ class PersonFormRequest extends FormRequest
             'state' => 'nullable|string|max:2',
             'zip' => 'nullable|string|max:10',
             'family_ids' => 'nullable|array',
+            'org_ids' => 'nullable|array',
+            'ethnicity' => 'string|max:2',
         ];
     }
 }

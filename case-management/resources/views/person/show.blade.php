@@ -8,6 +8,12 @@
         <p><strong>Date of Birth:</strong> {{ $person->date_of_birth }}</p>
         <p><strong>Gender:</strong> {{ $person->gender == 'M' ? 'Male' : ($person->gender == 'F' ? 'Female' : 'Other') }}
         </p>
+        <p><strong>Ethinicity:</strong> {{ $person->ethnicity ?? 'N/A' }}</p>
+        <p><strong>Address:</strong> {{ $person->address->address_line_1 ?? 'N/A' }}</p>
+        <p><strong>City:</strong> {{ $person->address->city ?? 'N/A' }}</p>
+        <p><strong>State:</strong> {{ $person->address->state ?? 'N/A' }}</p>
+        <p><strong>Zip Code:</strong> {{ $person->address->zip_code ?? 'N/A' }}</p>
+        <p><strong>Country:</strong> {{ $person->address->country ?? 'N/A' }}</p>
         <p><strong>Email:</strong> {{ $person->email ?? 'N/A' }}</p>
         <p><strong>Phone:</strong> {{ $person->phone ?? 'N/A' }}</p>
         <p><strong>Text Reminders:</strong> {{ $person->can_text_reminder ? 'Yes' : 'No' }}</p>

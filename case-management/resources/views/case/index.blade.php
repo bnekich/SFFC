@@ -1,3 +1,7 @@
+@php
+    use App\Enums\Statuses\CaseStatus as Status;
+@endphp
+
 @extends('layouts.app')
 
 @section('title')
@@ -22,6 +26,22 @@
                 @endcan
             </div>
         </div>
+        <div class="row mb-3">
+            <div class="col-4">
+                <form id="filterForm" method="GET" action="{{ route('case.index') }}">
+                    <select name="status" class="form-control-sm"
+                        onchange="document.getElementById('filterForm').submit()">
+                        <option value="">-- Filter by Status --</option>
+                        @foreach ($statuses as $status)
+                            <option value="{{ $status->value }}"
+                                {{ request('status') == $status->value ? 'selected' : '' }}>
+                                {{ $status->label() }}
+                            </option>
+                        @endforeach
+                    </select>
+                </form>
+            </div>
+        </div>
         <div class="table-responsive">
             <table class="table table-sm table-hover mt-3">
                 <thead>
@@ -35,6 +55,7 @@
                                 @endif
                             </a>
                         </th>
+                        <th scope="col">Status</th>
                         <th scope="col">Case Description</th>
                         <th scope="col" class="text-nowrap">Actions</th>
                     </tr>
@@ -43,6 +64,28 @@
                     @forelse ($cases as $case)
                         <tr>
                             <td>{{ $case->case_identifier }}</td>
+                            <td>
+                                @switch ($case->status)
+                                    @case(Status::Open->value)
+                                        <span class="badge bg-success">{{ Status::Open->label() }}</span>
+                                    @break
+
+                                    @case(Status::OnHold->value)
+                                        <span class="badge bg-warning">{{ Status::OnHold->label() }}</span>
+                                    @break
+
+                                    @case(Status::Closed->value)
+                                        <span class="badge bg-danger">{{ Status::Closed->label() }}</span>
+                                    @break
+
+                                    @case(Status::Cancelled->value)
+                                        <span class="badge bg-danger">{{ Status::Cancelled->label() }}</span>
+                                    @break
+
+                                    @default
+                                        <span class="badge bg-danger">{{ $case->status }}</span>
+                                @endswitch
+                            </td>
                             <td class="cm-table-description">{{ $case->case_description }}</td>
                             <td class="d-flex flex-wrap gap-1 align-items-center">
                                 @can('cases-view')
@@ -60,19 +103,19 @@
                                 @endcan
                             </td>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="4">No cases found</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-            {{ $cases->withQueryString()->links() }}
+                        @empty
+                            <tr>
+                                <td colspan="4">No cases found</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+                {{ $cases->withQueryString()->links() }}
+            </div>
         </div>
-    </div>
-@endsection
+    @endsection
 
-@section('styles')
-    <!-- Include Font Awesome for sort arrows if not already included -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-@endsection
+    @section('styles')
+        <!-- Include Font Awesome for sort arrows if not already included -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    @endsection

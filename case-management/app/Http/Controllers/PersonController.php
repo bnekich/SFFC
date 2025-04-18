@@ -13,7 +13,9 @@ use App\Models\User;
 use App\Models\Address;
 use App\Enums\Gender;
 use App\Enums\USState;
+use App\Models\Organization;
 use Spatie\Permission\Models\Role;
+use App\Enums\Ethnicity;
 
 class PersonController extends Controller
 {
@@ -31,13 +33,20 @@ class PersonController extends Controller
             });
         }
 
+        // Apply organization filter
+        if ($request->filled('organization')) {
+            $query->whereHas('organizations', function ($q) use ($request) {
+                $q->where('organizations.id', $request->organization);
+            });
+        }
+
         $sort = $request->get('sort', 'last_name');
         $direction = $request->get('direction', 'asc');
         $query->orderBy($sort, $direction);
 
         $persons = $query->paginate(10);
-
-        return view('person.index', compact('persons'));
+        $organizations = Organization::all()->sortBy('name');
+        return view('person.index', compact('persons', 'organizations'));
     }
 
     public function create()
@@ -47,7 +56,9 @@ class PersonController extends Controller
         $genders = Gender::cases();
         $states = USState::cases();
         $address = new Address();
-        return view('person.create', compact('allRoles', 'genders', 'states', 'address'));
+        $ethnicities = Ethnicity::cases();
+
+        return view('person.create', compact('allRoles', 'genders', 'states', 'address', 'ethnicities'));
     }
 
     public function store(PersonFormRequest $request)
@@ -93,6 +104,10 @@ class PersonController extends Controller
 
         if ($request->has('family_ids')) {
             $person->families()->sync($request->input('family_ids'));
+        }
+
+        if ($request->has('org_ids')) {
+            $person->organizations()->sync($request->input('org_ids'));
         }
 
         $tempPassword = Str::random(12);
@@ -195,6 +210,10 @@ class PersonController extends Controller
 
         if ($request->has('family_ids')) {
             $person->families()->sync($request->input('family_ids'));
+        }
+
+        if ($request->has('org_ids')) {
+            $person->organizations()->sync($request->input('org_ids'));
         }
 
         if (isset($request['auth_roles'])) {

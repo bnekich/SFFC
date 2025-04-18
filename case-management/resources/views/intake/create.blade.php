@@ -56,6 +56,18 @@
                 <label class="form-check-label">Requesting Resource Friend</label>
             </div>
         </div>
+        <div class="col-auto">
+            <label class="form-label">Intake Status</label>
+            <select name="intake_status" class="form-select-sm @error('intake_status') is-invalid @enderror">
+                <option value=""> (Select)</option>
+                @foreach ($intakeStatuses as $status)
+                    <option value="{{ $status->value }}"
+                        {{ old('intake_status') == $status->value ? 'selected' : '' }}>
+                        {{ $status->label() }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
         <div class="form-group">
             <textarea name="referral_contact" class="form-control  @error('referral_contact') is-invalid @enderror"
                 placeholder="Referral Contact Information (Name, phone, email, etc.)"></textarea>
