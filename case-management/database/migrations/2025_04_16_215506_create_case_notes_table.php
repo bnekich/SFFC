@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('privacy_level');
             $table->string('status');
             $table->boolean('is_approved')->default(false);
-            $table->text('tags')->nullable();
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->constrained('users')->onDelete('cascade');
             $table->timestamps();

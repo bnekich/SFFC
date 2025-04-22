@@ -23,7 +23,6 @@ class CaseNoteFactory extends Factory
             'privacy_level' => $this->faker->randomElement(['public', 'private']),
             'status' => $this->faker->randomElement(['open', 'closed']),
             'is_approved' => $this->faker->boolean,
-            'tags' => json_encode($this->faker->words(3)),
             'created_by' => $this->faker->numberBetween(1, 10),
             'updated_by' => $this->faker->numberBetween(1, 10),
             'created_at' => now(),

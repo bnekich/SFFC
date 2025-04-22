@@ -18,12 +18,10 @@ class CaseNote extends Model
         'privacy_level',
         'status',
         'is_approved',
-        'tags',
         'created_by',
         'updated_by',
     ];
     protected $casts = [
-        'tags' => 'array',
         'is_approved' => 'boolean',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
@@ -34,26 +32,25 @@ class CaseNote extends Model
         'updated_by',
         'deleted_at',
     ];
-    protected $appends = [
-        'created_by_user',
-        'updated_by_user',
-    ];
-    public function getCreatedByUserAttribute()
+
+    // protected $appends = [
+    //     'created_by_user',
+    //     'updated_by_user',
+    // ];
+
+    public function tags()
     {
-        return $this->createdBy()->first();
+        return $this->belongsToMany(Tag::class, 'case_note_tag', 'case_note_id', 'tag_id');
     }
-    public function getUpdatedByUserAttribute()
-    {
-        return $this->updatedBy()->first();
-    }
-    public function createdBy()
-    {
-        return $this->belongsTo(User::class, 'created_by');
-    }
-    public function updatedBy()
-    {
-        return $this->belongsTo(User::class, 'updated_by');
-    }
+
+    // public function createdBy()
+    // {
+    //     return $this->belongsTo(User::class, 'created_by');
+    // }
+    // public function updatedBy()
+    // {
+    //     return $this->belongsTo(User::class, 'updated_by');
+    // }
     public function case()
     {
         return $this->belongsTo(CaseModel::class, 'case_id');
