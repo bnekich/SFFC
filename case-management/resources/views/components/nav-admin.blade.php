@@ -45,5 +45,11 @@
                     href="{{ route('reminder-types.index') }}">Reminder Types</a>
             </li>
         @endcan
+        @can('tags-view')
+            <li>
+                <a class="dropdown-item {{ request()->routeIs('tag.*') ? 'active' : '' }}"
+                    href="{{ route('tag.index') }}">Tags</a>
+            </li>
+        @endcan
     </ul>
 </li>

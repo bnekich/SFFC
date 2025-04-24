@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             RolePermissionSeeder::class,
             OrganizationTypeSeeder::class,
             OrganizationSeeder::class,
+            TagSeeder::class,
         ]);
         Intake::factory()->count(100)->create();
         Family::factory()->count(100)->create();
