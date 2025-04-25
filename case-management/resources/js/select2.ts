@@ -101,3 +101,46 @@ export function initializeFamilySelect2(): void {
 $(document).ready(() => {
     initializeFamilySelect2();
 });
+
+$(document).ready(() => {
+    initializeOrgSelect2();
+});
+
+export function initializePersonSelect2(): void {
+    if ($(".person-select").length) {
+        // Only run if element exists
+        $(".person-select").select2({
+            placeholder: "Search for people...",
+            allowClear: true,
+            minimumInputLength: 1,
+            ajax: {
+                url: "/peopleSearch",
+                dataType: "json",
+                delay: 250,
+                data: function (params) {
+                    return {
+                        q: params.term,
+                        page: params.page || 1,
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.items.map(function (item) {
+                            return {
+                                id: item.id,
+                                text: item.last_name + ", " + item.first_name,
+                            };
+                        }),
+                        pagination: {
+                            more: data.current_page < data.last_page,
+                        },
+                    };
+                },
+            },
+        });
+    }
+}
+
+$(document).ready(() => {
+    initializePersonSelect2();
+});

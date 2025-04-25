@@ -30,7 +30,8 @@
         <select name="state" class="form-select-sm @error('state') is-invalid @enderror">
             <option value="">(Select One)</option>
             @foreach ($states as $state)
-                <option value="{{ $state->name }}" {{ $state->name == $address->state ?? 'WI' ? 'selected' : '' }}>
+                <option value="{{ $state->name }}"
+                    {{ old('state', $address->state ?? '') == $state->name ? 'selected' : '' }}>
                     {{ $state->value }}
                 </option>
             @endforeach

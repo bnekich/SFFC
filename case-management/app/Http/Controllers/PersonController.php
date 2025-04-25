@@ -19,6 +19,23 @@ use App\Enums\Ethnicity;
 
 class PersonController extends Controller
 {
+    public function search(Request $request)
+    {
+        $this->logAction("Searched Persons", "search", "Person");
+        $query = $request->input('q');
+        $page = $request->input('page', 1);
+        $perPage = 10;
+
+        $persons = Person::where('last_name', 'like', "%{$query}%")
+            ->paginate($perPage);
+
+        return response()->json([
+            'items' => $persons->items(),
+            'current_page' => $persons->currentPage(),
+            'last_page' => $persons->lastPage()
+        ]);
+    }
+
     public function index(Request $request)
     {
         $this->logAction("Viewed Persons", "index", "Person");

@@ -26,15 +26,25 @@ if (isSystemUser) {
 
 document.addEventListener("DOMContentLoaded", () => {
     // Select the input element(s) you want to mask
-    const phoneInput = document.querySelector(".phone-input");
+    const phoneInputs = document.querySelectorAll(".phone-input");
+    if (phoneInputs) {
+        phoneInputs.forEach((input) => {
+            Inputmask({
+                mask: "(999) 999-9999",
+                placeholder: "_",
+            }).mask(phoneInputs);
+        });
+    }
+});
 
-    // Apply the phone number mask
-    if (phoneInput) {
+document.addEventListener("DOMContentLoaded", () => {
+    const emailInput = document.querySelector(".email-input");
+    if (emailInput) {
         Inputmask({
-            mask: "(999) 999-9999", // Example: US phone number format
+            alias: "email",
             placeholder: "_", // Optional: Placeholder for empty spots
             showMaskOnHover: false, // Optional: Customize behavior
-        }).mask(phoneInput);
+        }).mask(emailInput);
     }
 });
 

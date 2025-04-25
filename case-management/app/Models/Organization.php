@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,6 +14,7 @@ class Organization extends Model
 
     protected $fillable = [
         'name',
+        'organization_type_id',
         'address_id',
         'contact_person_name',
         'contact_person_title',
@@ -33,9 +36,8 @@ class Organization extends Model
     {
         return $this->belongsTo(Address::class);
     }
-
-    public function contactPerson()
+    public function organizationType()
     {
-        return $this->belongsTo(Person::class, 'contact_person_id');
+        return $this->belongsTo(OrganizationType::class);
     }
 }

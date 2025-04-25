@@ -94,14 +94,7 @@
                         <option value="{{ $family->id }}" selected>{{ $family->family_name }}</option>
                     @endforeach
                 </select>
-                <button type="button" id="addFamily" class="btn btn-secondary mt-3">Add Family</button>
             </div>
-            {{-- <label class="form-label">Family Connections</label>
-            <select class="family-select" name="family_ids[]" multiple>
-                @foreach ($person->families as $family)
-                    <option value="{{ $family->id }}" selected>{{ $family->family_name }}</option>
-                @endforeach
-            </select> --}}
             <div class="col-6">
                 <label class="form-label">Organizations</label>
                 <select class="org-select form-select" name="org_ids[]" multiple>
@@ -109,9 +102,6 @@
                         <option value="{{ $organization->id }}" selected>{{ $organization->name }}</option>
                     @endforeach
                 </select>
-                <button type="button" class="btn btn-secondary mt-2" data-bs-toggle="modal"
-                    data-bs-target="#createOrganizationModal" data-select="#organization_id">Add
-                    Organization</button>
             </div>
 
             @canany(['users-create', 'users-edit'])

@@ -22,6 +22,7 @@ use App\Http\Controllers\TagController;
 
 Route::get('/familySearch', [FamilyController::class, 'search'])->middleware('auth');
 Route::get('/orgSearch', [OrganizationController::class, 'search'])->middleware('auth');
+Route::get('/peopleSearch', [PersonController::class, 'search'])->middleware('auth');
 
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::resource('organization-types', OrganizationTypeController::class);

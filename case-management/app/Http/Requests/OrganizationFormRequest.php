@@ -23,8 +23,13 @@ class OrganizationFormRequest extends FormRequest
 
         return [
             'name' => 'required|string|max:255',
-            'address_id' => 'nullable|exists:addresses,id',
-            'contact_person_name' => 'nullable|exists:people,id',
+            'organization_type_id' => 'required|exists:organization_types,id',
+            'address_line_1' => 'nullable|string|max:255',
+            'address_line_2' => 'nullable|string|max:255',
+            'city' => 'nullable|string|max:255',
+            'state' => 'nullable|string|max:2',
+            'zip' => 'nullable|string|max:10',
+            'contact_person_name' => 'nullable|string|max:255',
             'contact_person_title' => 'nullable|string|max:255',
             'contact_person_email' => 'nullable|email|max:255',
             'contact_person_phone' => 'nullable|string|max:255',

@@ -92,20 +92,15 @@
             <label class="form-check-label">Can Receive Email Reminders</label>
         </div>
         <x-address-form :address="$address" :states="$states" />
-        <div class="row g3 align-items-center">
+        <div class="row g-3 align-items-center">
             <div class="col-6">
                 <label class="form-label">Family Connections</label>
                 <select class="family-select form-select" name="family_ids[]" multiple></select>
-                <button type="button" id="addFamily" class="btn btn-secondary mt-3">Add Family</button>
             </div>
             <div class="col-6">
                 <label class="form-label">Organizations</label>
                 <select class="org-select form-select" name="org_ids[]" multiple></select>
-                <button type="button" class="btn btn-secondary mt-2" data-bs-toggle="modal"
-                    data-bs-target="#createOrganizationModal" data-select="#organization_id">Add
-                    Organization</button>
             </div>
-            {{-- <x-organization-form /> --}}
         </div>
         @can('users-create')
             <div class="row g-3 align-items-center">

@@ -10,6 +10,7 @@ use App\Models\Person;
 use App\Models\Address;
 use App\Enums\USState;
 use Illuminate\Http\Request;
+use App\Models\OrganizationType;
 
 class OrganizationController extends Controller
 {
@@ -59,8 +60,9 @@ class OrganizationController extends Controller
     $states = USState::cases();
     $address = new Address();
     $persons = [];
+    $orgTypes = OrganizationType::all();
 
-    return view('organization.create', compact('states', 'address', 'persons'));
+    return view('organization.create', compact('states', 'address', 'persons', 'orgTypes'));
   }
 
   public function store(OrganizationFormRequest $request)
@@ -68,13 +70,39 @@ class OrganizationController extends Controller
     $validatedData = $request->validated();
     $createdBy = auth()->user()->firstName . ' ' . auth()->user()->lastName;
 
-    $organization = new Organization();
-    $organization->name = $validatedData['name'];
-    $organization->address_id = $validatedData['address_id'] ?? null;
-    // 
-    $organization->created_by = $createdBy;
-    $organization->updated_by = $createdBy;
-    $organization->save();
+    // Create the address if any address fields are provided
+    $address = null;
+    if (!empty(array_filter([
+      $validatedData['address_line_1'] ?? null,
+      $validatedData['address_line_2'] ?? null,
+      $validatedData['city'] ?? null,
+      $validatedData['state'] ?? null,
+      $validatedData['zip'] ?? null,
+    ]))) {
+      $address = Address::create([
+        'address_line_1' => $validatedData['address_line_1'] ?? null,
+        'address_line_2' => $validatedData['address_line_2'] ?? null,
+        'city' => $validatedData['city'] ?? null,
+        'state' => $validatedData['state'] ?? null,
+        'zip' => $validatedData['zip'] ?? null,
+        'created_by' => $createdBy,
+        'updated_by' => $createdBy,
+      ]);
+    }
+
+    $organization = Organization::create([
+      'name' => $validatedData['name'],
+      'organization_type_id' => $validatedData['organization_type_id'],
+      'address_id' => $address ? $address->id : null,
+      'contact_person_name' => $validatedData['contact_person_name'] ?? null,
+      'contact_person_title' => $validatedData['contact_person_title'] ?? null,
+      'contact_person_email' => $validatedData['contact_person_email'] ?? null,
+      'contact_person_phone' => $validatedData['contact_person_phone'] ?? null,
+      'contact_person_mobile' => $validatedData['contact_person_mobile'] ?? null,
+      'notes' => $validatedData['notes'] ?? null,
+      'created_by' => $createdBy,
+      'updated_by' => $createdBy,
+    ]);
 
     // Attach persons to the organization
     if (array_key_exists('person_ids', $validatedData)) {
@@ -88,25 +116,68 @@ class OrganizationController extends Controller
   // Display form to edit an existing organization
   public function edit(Organization $organization)
   {
-    $persons = Person::all();
-    $selectedPersons = $organization->persons->pluck('id')->toArray();
-    return view('organization.edit', compact('organization', 'persons', 'selectedPersons'));
+    //$persons = Person::all();
+    //$selectedPersons = $organization->persons->pluck('id')->toArray();
+    $orgTypes = OrganizationType::all();
+    $states = USState::cases();
+
+    return view('organization.edit', compact('organization', 'orgTypes', 'states'));
   }
 
   // Update an existing organization
   public function update(OrganizationFormRequest $request, Organization $organization)
   {
-    $createdBy = auth()->user()->firstName . ' ' . auth()->user()->lastName;
+    $updatedBy = auth()->user()->firstName . ' ' . auth()->user()->lastName;
 
-    $request->validate([
-      'name' => 'required|string|max:255',
-      'person_ids' => 'array',
-      'person_ids.*' => 'exists:persons,id'
+    $validatedData = $request->validated();
+    $organization->update([
+      'name' => $validatedData['name'],
+      'organization_type_id' => $validatedData['organization_type_id'],
+      'address_id' => $validatedData['address_id'] ?? null,
+      'contact_person_name' => $validatedData['contact_person_name'] ?? null,
+      'contact_person_title' => $validatedData['contact_person_title'] ?? null,
+      'contact_person_email' => $validatedData['contact_person_email'] ?? null,
+      'contact_person_phone' => $validatedData['contact_person_phone'] ?? null,
+      'contact_person_mobile' => $validatedData['contact_person_mobile'] ?? null,
+      'notes' => $validatedData['notes'] ?? null,
+      'updated_by' => $updatedBy,
     ]);
+    if (!empty(array_filter([
+      $validatedData['address_line_1'] ?? null,
+      $validatedData['address_line_2'] ?? null,
+      $validatedData['city'] ?? null,
+      $validatedData['state'] ?? null,
+      $validatedData['zip'] ?? null,
+    ]))) {
+      if ($organization->address) {
+        $organization->address->update([
+          'address_line_1' => $validatedData['address_line_1'] ?? null,
+          'address_line_2' => $validatedData['address_line_2'] ?? null,
+          'city' => $validatedData['city'] ?? null,
+          'state' => $validatedData['state'] ?? null,
+          'zip' => $validatedData['zip'] ?? null,
+          'updated_by' => $updatedBy,
+        ]);
+      } else {
+        $address = Address::create([
+          'address_line_1' => $validatedData['address_line_1'] ?? null,
+          'address_line_2' => $validatedData['address_line_2'] ?? null,
+          'city' => $validatedData['city'] ?? null,
+          'state' => $validatedData['state'] ?? null,
+          'zip' => $validatedData['zip'] ?? null,
+          'created_by' => $updatedBy,
+          'updated_by' => $updatedBy,
+        ]);
 
-    $organization->name = $request->name;
-    $organization->updated_by = $createdBy;
-    $organization->save();
+        $organization->address()->associate($address)->save();
+      }
+    } elseif ($organization->address) {
+      // If all address fields are empty and an address exists, you might want to delete it
+      // TODO: Confirm with the client if this is the desired behavior    
+      //$organization->address->delete();
+      //$organization->address_id = null;
+      //$organization->save();
+    }
 
     // Sync persons (updates the pivot table to match the provided IDs)
     if ($request->has('person_ids')) {
@@ -117,5 +188,12 @@ class OrganizationController extends Controller
 
     return redirect()->route('organization.index')
       ->with('success', 'Organization updated successfully.');
+  }
+
+  public function destroy(Organization $organization)
+  {
+    $organization->delete();
+    $this->logAction('Deleted Organization', 'destroy', 'Organization', $organization->id);
+    return redirect()->route('organization.index')->with('success', 'Organization deleted successfully.');
   }
 }
