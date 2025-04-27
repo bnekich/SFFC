@@ -23,11 +23,13 @@ class FamilyFormRequest extends FormRequest
 
         return [
             'family_name' => 'required|string|max:255',
-            'address' => 'nullable|string|max:255',
+            'address_line_1' => 'nullable|string|max:255',
+            'address_line_2' => 'nullable|string|max:255',
             'city' => 'nullable|string|max:255',
-            'state' => 'nullable|string|max:255',
-            'zip_code' => 'nullable|string|max:10',
-            'phone_number' => 'nullable|string|max:15',
+            'state' => 'nullable|string|max:2',
+            'zip' => 'nullable|string|max:10',
+            'person_ids' => 'nullable|array', // Array of person IDs to associate
+            'person_ids.*' => 'exists:persons,id' // Validate each ID exists
         ];
     }
 }

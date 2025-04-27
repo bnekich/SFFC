@@ -113,11 +113,8 @@ class OrganizationController extends Controller
       ->with('success', 'Organization created successfully.');
   }
 
-  // Display form to edit an existing organization
   public function edit(Organization $organization)
   {
-    //$persons = Person::all();
-    //$selectedPersons = $organization->persons->pluck('id')->toArray();
     $orgTypes = OrganizationType::all();
     $states = USState::cases();
 
@@ -195,5 +192,10 @@ class OrganizationController extends Controller
     $organization->delete();
     $this->logAction('Deleted Organization', 'destroy', 'Organization', $organization->id);
     return redirect()->route('organization.index')->with('success', 'Organization deleted successfully.');
+  }
+  public function show(Organization $organization)
+  {
+    $this->logAction("Viewed Organization", "show", "Organization", $organization->id);
+    return view('organization.show', compact('organization'));
   }
 }

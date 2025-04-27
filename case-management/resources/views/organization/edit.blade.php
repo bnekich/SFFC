@@ -103,11 +103,12 @@
                     </select>
                 </div>
             </div>
-
-
-            <!-- Submit Button -->
-            <button type="submit" class="btn btn-primary">Update Organization</button>
-            <a href="{{ route('organization.index') }}" class="btn btn-secondary">Cancel</a>
+            <div class="row g-3">
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Update Organization</button>
+                    <a href="{{ route('organization.index') }}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </div>
         </form>
     </div>
 @endsection

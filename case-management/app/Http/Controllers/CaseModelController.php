@@ -68,18 +68,28 @@ class CaseModelController extends Controller
 
     public function edit(CaseModel $case)
     {
-        return view('case.edit', compact('case'));
+        $this->logAction("Edit Case", "edit", "CaseModel");
+        $statuses = CaseStatus::cases();
+        return view('case.edit', compact('case', 'statuses'));
     }
 
     public function update(CaseModelFormRequest $request, CaseModel $case)
     {
-        $request->validate([
-            'case_identifier' => 'required|max:255|unique:cases,case_identifier,' . $case->id,
-            'case_description' => 'nullable',
-            // Add other validation rules as needed
+        $this->logAction("Update Case", "update", "CaseModel");
+        $updatedBy = auth()->user()->lastName;
+        $validatedData = $request->validated();
+
+        $case->update([
+            'status' => $validatedData['status'],
+            'start_date' => $validatedData['start_date'],
+            'end_date' => $validatedData['end_date'],
+            'case_description' => $validatedData['case_description'],
+            'client_family_id' => $validatedData['client_family_id'],
+            'host_family_id' => $validatedData['host_family_id'],
+            'assigned_staff_id' => $validatedData['assigned_staff_id'],
+            'updated_by' => $updatedBy,
         ]);
 
-        $case->update($request->all());
         return redirect()->route('case.index')->with('success', 'Case updated successfully.');
     }
 

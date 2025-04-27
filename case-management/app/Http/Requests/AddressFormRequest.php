@@ -25,4 +25,10 @@ class AddressFormRequest extends FormRequest
             'updated_by' => 'required|string|max:255',
         ];
     }
+    
+    public function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        \Log::error('Validation failed', $validator->errors()->toArray());
+        parent::failedValidation($validator);
+    }
 }

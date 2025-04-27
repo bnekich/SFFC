@@ -22,6 +22,18 @@ class CaseModelFormRequest extends FormRequest
             ];
         }
 
+        if ($this->method() === 'PUT') {
+            return [
+                'case_description' => 'nullable|string',
+                'client_family_id' => 'nullable|exists:families,id',
+                'host_family_id' => 'nullable|exists:families,id',
+                'assigned_staff_id' => 'nullable|exists:persons,id',
+                'start_date' => 'nullable|date',
+                'end_date' => 'nullable|date',
+                'status' => 'required|string',
+            ];
+        }
+
         return [
             'case_identifier' => 'required|unique:cases|max:255',
             'case_description' => 'nullable|string',
@@ -31,8 +43,12 @@ class CaseModelFormRequest extends FormRequest
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date',
             'status' => 'required|string',
-            'created_by' => 'required|string',
-            'updated_by' => 'required|string'
         ];
+    }
+
+    public function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        \Log::error('Validation failed', $validator->errors()->toArray());
+        parent::failedValidation($validator);
     }
 }
