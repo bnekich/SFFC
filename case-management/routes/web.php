@@ -19,6 +19,10 @@ use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CaseNoteController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\DocumentController;
+
+Route::get('/document', [DocumentController::class, 'index'])->name('document.index');
+Route::get('/document/{document}/download', [DocumentController::class, 'download'])->name('document.download');
 
 Route::get('/familySearch', [FamilyController::class, 'search'])->middleware('auth');
 Route::get('/orgSearch', [OrganizationController::class, 'search'])->middleware('auth');

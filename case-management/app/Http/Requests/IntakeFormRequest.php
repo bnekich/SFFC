@@ -19,6 +19,7 @@ class IntakeFormRequest extends FormRequest
             return [
                 'parent_name' => 'string',
                 'case_summary' => 'string',
+                'search' => 'string',
             ];
         }
 

@@ -8,9 +8,20 @@ use App\Http\Requests\IntakeFormRequest;
 use App\Enums\Statuses\IntakeStatus;
 //use App\Enums\Ethnicity;
 use App\Models\Intake;
+use App\Models\Document;
 
 class IntakeController extends Controller
 {
+    public function search(IntakeFormRequest $request)
+    {
+        $query = $request->input('query');
+        $documents = Document::whereRaw('MATCH(content) AGAINST(? IN BOOLEAN MODE)', [$query])
+            ->where('user_id', auth()->id()) // Restrict to user
+            ->get();
+
+        return view('document.index', compact('documents'));
+    }
+
     public function index(IntakeFormRequest $request)
     {
         $this->logAction("Viewed Intakes", "index", "Intake");

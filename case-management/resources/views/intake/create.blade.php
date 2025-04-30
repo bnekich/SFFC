@@ -7,6 +7,9 @@
             <h3>Add Intake</h3>
         </div>
     @endsection
+
+    <livewire:upload-document />
+
     <form class="row g-3 align-items-center" action="{{ route('intake.store') }}" method="POST">
         @csrf
         <div class="col-auto">

@@ -26,7 +26,9 @@ if (isSystemUser) {
 
 document.addEventListener("DOMContentLoaded", () => {
     // Select the input element(s) you want to mask
-    const phoneInputs = document.querySelectorAll(".phone-input");
+    const phoneInputs = document.querySelectorAll(
+        ".phone-input:not([type='file'])"
+    );
     if (phoneInputs) {
         phoneInputs.forEach((input) => {
             Inputmask({
@@ -38,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-    const emailInput = document.querySelector(".email-input");
+    const emailInput = document.querySelector(".email-input:not([type='file']");
     if (emailInput) {
         Inputmask({
             alias: "email",
@@ -80,4 +82,29 @@ chBoxes.forEach((checkbox) => {
         roleDropDown.innerText =
             selectedRoles.length > 0 ? selectedRoles.join(", ") : "Select";
     });
+});
+
+document.addEventListener("livewire:initialized", () => {
+    console.log("Livewire initialized");
+});
+
+// In resources/js/app.ts, add at the end
+document.addEventListener("DOMContentLoaded", () => {
+    const fileInput = document.querySelector('input[type="file"]');
+    if (fileInput) {
+        console.log("File input attributes:", fileInput.getAttributeNames());
+        fileInput.addEventListener("change", () => {
+            console.log(
+                "File input changed, readonly:",
+                fileInput.hasAttribute("readonly")
+            );
+        });
+    }
+    const submitButton = document.querySelector('button[type="submit"]');
+    if (submitButton) {
+        console.log(
+            "Submit button attributes:",
+            submitButton.getAttributeNames()
+        );
+    }
 });

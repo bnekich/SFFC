@@ -7,6 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'SFFC') }} @yield('title')</title>
     @vite(['resources/js/app.ts', 'resources/sass/app.scss'])
+    @livewireStyles
 </head>
 
 <body>
@@ -35,6 +36,7 @@
             </div>
         </footer>
     </div>
+    @livewireScripts
 </body>
 
 </html>

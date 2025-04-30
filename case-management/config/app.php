@@ -127,6 +127,7 @@ return [
 
     'providers' => ServiceProvider::defaultProviders()->merge([
         App\Providers\AuthServiceProvider::class,
+        Livewire\LivewireServiceProvider::class,
     ])->toArray(),
 
 ];
