@@ -16,10 +16,9 @@ class DocumentController extends Controller
 
         $documentsQuery = Document::query();
 
-        // Restrict to user's documents unless they have 'view all documents' permission
-        //if (!auth()->user()->hasPermissionTo('view all documents')) {
-        $documentsQuery->where('user_id', auth()->id());
-        //}
+        if (!auth()->user()->hasPermissionTo('documents-viewAll')) {
+            $documentsQuery->where('user_id', auth()->id());
+        }
 
         // Apply full-text search if query is provided
         if ($query) {
@@ -34,10 +33,9 @@ class DocumentController extends Controller
 
     public function download(Document $document)
     {
-        // Check if user has permission to download
         if (
-            !auth()->user()->hasPermissionTo('view documents') ||
-            (!auth()->user()->hasPermissionTo('view all documents') && $document->user_id !== auth()->id())
+            !auth()->user()->hasPermissionTo('documents-view') ||
+            (!auth()->user()->hasPermissionTo('documents-download') && $document->user_id !== auth()->id())
         ) {
             throw new UnauthorizedException(403, 'Unauthorized to download this document.');
         }

@@ -15,11 +15,11 @@ class UploadDocument extends Component
     use WithFileUploads;
 
     public $file;
-    public $allowedTypes = ['pdf', 'doc', 'docx', 'xlsx', 'jpg', 'png', 'txt'];
+    public $allowedTypes = ['pdf', 'doc', 'docx', 'xlsx', 'jpg', 'png', 'txt', 'csv', 'odt'];
     public $maxSize = 10240; // 10MB in KB
 
     protected $rules = [
-        'file' => 'required|file|max:10240|mimes:pdf,doc,docx,xlsx,jpg,png,txt',
+        'file' => 'required|file|max:10240|mimes:pdf,doc,docx,xlsx,jpg,png,txt,csv,odt',
     ];
 
     public function updatedFile()
@@ -32,9 +32,11 @@ class UploadDocument extends Component
     public function uploadFile()
     {
         try {
+            Log::info('uploadFile method called');
             $this->validate();
 
             if (!$this->file) {
+                Log::error('No file selected in uploadFile method');
                 throw new \Exception('No file selected.');
             }
 
@@ -51,7 +53,7 @@ class UploadDocument extends Component
 
             // Save metadata and content to database
             Document::create([
-                'user_id' => auth()->id(),
+                'user_id' => auth()->check() ? auth()->id() : null,
                 'name' => $originalName,
                 'path' => $path,
                 'mime_type' => $mimeType,
@@ -61,7 +63,7 @@ class UploadDocument extends Component
             ]);
 
             session()->flash('message', 'File uploaded successfully!');
-            $this->reset('file'); // Clear file input after upload
+            $this->reset('file');
         } catch (\Exception $e) {
             Log::error('File upload failed: ' . $e->getMessage());
             session()->flash('error', 'Failed to upload file: ' . $e->getMessage());
@@ -73,7 +75,7 @@ class UploadDocument extends Component
         try {
             if (str_contains($mimeType, 'pdf')) {
                 return Pdf::getText($filePath);
-            } elseif (str_contains($mimeType, 'word')) {
+            } elseif (str_contains($mimeType, 'word') || str_contains($mimeType, 'msword')) {
                 $phpWord = IOFactory::load($filePath);
                 $content = '';
                 foreach ($phpWord->getSections() as $section) {
@@ -84,11 +86,22 @@ class UploadDocument extends Component
                     }
                 }
                 return $content;
-            } elseif (str_contains($mimeType, 'text')) {
+            } elseif (str_contains($mimeType, 'text/plain')) {
                 return file_get_contents($filePath);
+            } elseif (str_contains($mimeType, 'csv')) {
+                $handle = fopen($filePath, 'r');
+                $content = '';
+                while (($row = fgetcsv($handle)) !== false) {
+                    $content .= implode(' ', $row) . ' ';
+                }
+                fclose($handle);
+                return trim($content);
+            } else {
+                Log::warning('Unsupported file type: ' . $mimeType);
+                return null;
             }
         } catch (\Exception $e) {
-            Log::error('Text extraction failed: ' . $e->getMessage());
+            Log::error('Text extraction failed for ' . $mimeType . ': ' . $e->getMessage());
         }
         return null;
     }

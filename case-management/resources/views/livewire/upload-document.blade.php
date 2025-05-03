@@ -11,7 +11,7 @@
             <div class="mb-3">
                 <label for="file" class="form-label">Select File</label>
                 <input type="file" class="form-control" id="file" wire:model.live="file"
-                    accept=".pdf,.doc,.docx,.xlsx,.jpg,.png,.txt">
+                    accept=".pdf,.doc,.docx,.xlsx,.jpg,.png,.txt,.csv,.odt">
                 @error('file')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror

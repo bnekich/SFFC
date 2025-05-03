@@ -43,6 +43,13 @@
                                     href="{{ route('organization.index') }}">Organizations</a>
                             </li>
                         @endcanany
+                        @canany(['documents-viewAll', 'documenrs-viewMine', 'documents-downloadAny',
+                            'documents-downloadMine', 'documents-upload'])
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('document.*') ? 'active' : '' }}"
+                                    href="{{ route('document.index') }}">Documents</a>
+                            </li>
+                        @endcanany
                         @canany(['courses-view', 'courses-create', 'courses-edit', 'courses-delete'])
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('course.*') ? 'active' : '' }}"

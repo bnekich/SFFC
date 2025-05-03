@@ -78,11 +78,12 @@ return [
     // ],
     'temporary_file_upload' => [
         'disk' => 'public', // Use 's3' for production
-        'rules' => ['file', 'max:10240', 'mimes:pdf,doc,docx,xlsx,jpg,png,txt'],
+        'rules' => ['file', 'max:10240', 'mimes:pdf,doc,docx,xlsx,jpg,png,txt,csv,odt'],
         'directory' => 'livewire-tmp',
         'middleware' => 'throttle:60,1',
         'preview_mimes' => ['png', 'jpg'],
         'max_upload_time' => 5,
+        'cleanup' => true,
     ],
 
     /*
