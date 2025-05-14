@@ -1,25 +1,23 @@
 @extends('layouts.app')
 
+@section('title')
+    - Documents
+@endsection
+
 @section('content')
     <div class="container">
     @section('header')
         <h3>Documents</h3>
     @endsection
+    <div class="row mb-3">
+        <livewire:upload-document />
+    </div>
 
-    <!-- Search Form -->
-    <form method="GET" action="{{ route('document.index') }}" class="mb-4">
-        <div class="input-group">
-            <input type="text" name="query" class="form-control" placeholder="Search document content..."
-                value="{{ old('query', $query ?? '') }}">
-            <button type="submit" class="btn btn-primary">Search</button>
-            @if ($query)
-                <a href="{{ route('document.index') }}" class="btn btn-secondary">Clear</a>
-            @endif
-        </div>
-    </form>
-
+    <div class="row mb-3">
+        <x-search route="document.index" placeholder="Search Document Text" />
+    </div>
     <!-- Documents Table -->
-    <table class="table table-striped">
+    <table class="table table-responsive">
         <thead>
             <tr>
                 <th>Name</th>
@@ -37,8 +35,7 @@
                     <td>{{ round($document->size / 1024, 2) }} KB</td>
                     <td>{{ $document->created_at->format('Y-m-d H:i') }}</td>
                     <td>
-                        <a href="{{ route('document.download', $document) }}"
-                            class="btn btn-sm btn-primary">Download</a>
+                        <a href="{{ route('document.download', $document) }}" class="btn btn-sm btn-primary">Download</a>
                     </td>
                 </tr>
             @empty

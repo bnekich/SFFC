@@ -12,7 +12,8 @@ class DocumentController extends Controller
 {
     public function index(DocumentFormRequest $request)
     {
-        $query = $request->input('query');
+        //$query = $request->input('query');
+        $query = $request->input('search');
 
         $documentsQuery = Document::query();
 

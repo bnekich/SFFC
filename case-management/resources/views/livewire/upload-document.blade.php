@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card bg-light">
     <div class="card-body">
         <h5 class="card-title">Upload Document</h5>
         @if (session()->has('message'))
@@ -9,7 +9,7 @@
         @endif
         <form wire:submit.prevent="uploadFile" enctype="multipart/form-data">
             <div class="mb-3">
-                <label for="file" class="form-label">Select File</label>
+                {{-- <label for="file" class="form-label">Select File</label> --}}
                 <input type="file" class="form-control" id="file" wire:model.live="file"
                     accept=".pdf,.doc,.docx,.xlsx,.jpg,.png,.txt,.csv,.odt">
                 @error('file')
