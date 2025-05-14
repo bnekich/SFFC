@@ -11,13 +11,17 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container-fluid">
         <header>
-            <x-nav />
-            @yield('header')
+            <div class="card">
+                <div class="card-header">
+                    <x-nav />
+                </div>
+                <div class="card-title text-center bg-dark text-white">
+                    @yield('header')
+                </div>
+            </div>
         </header>
-    </div>
-    <div class="container">
         <main class="py-4">
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -25,10 +29,24 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
+            {{-- @if (session('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif --}}
+            @if ($errors->any())
+                <div class="alert alert-warning">
+                    <strong>Whoops! Something went wrong.</strong>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             @yield('content')
         </main>
-    </div>
-    <div class="container">
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
             <div class="col-md-4 d-flex align-items-center">
                 <span class="mb-3 mb-md-0 text-muted">&copy;{{ date_format(now(), 'Y') }} Safe Families for Children

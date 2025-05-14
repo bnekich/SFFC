@@ -5,51 +5,54 @@
 
 @section('content')
     <div class="container">
+    @section('header')
         <h3>Training Courses</h3>
-        <div class="row mb-3">"
-            <div class="col-8">
+    @endsection
+    <div class="row mb-3">"
+        <x-search route="course.index" placeholder="Title or Instructor" />
+        {{-- <div class="col-8">
                 <form id="searchForm" method="GET" action="{{ route('course.index') }}">
                     <input id="searchBox" type="text" name="search" class="form-control-sm"
                         placeholder="Search for Courses..." value="{{ request('search') }}">
                     <button type="submit" class="btn btn-sm btn-primary">Search</button>
                     <button type="button" class="btn btn-sm btn-secondary" id="clearButton">Clear Search</button>
                 </form>
-            </div>
-            <div class="col-auto align-items-end d-flex justify-content-end">
-                @can('courses-create')
-                    <a href="{{ route('course.create') }}" class="btn btn-sm btn-primary mb-3">Add Course</a>
-                @endcan
-            </div>
+            </div> --}}
+        <div class="col-auto align-items-end d-flex justify-content-end">
+            @can('courses-create')
+                <a href="{{ route('course.create') }}" class="btn btn-sm btn-primary mb-3">Add Course</a>
+            @endcan
         </div>
-        <table class="table table-sm table-hover ">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Instructor</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($courses as $course)
-                    <tr>
-                        <td>{{ $course->title }} </td>
-                        <td>{{ $course->instructor->first_name . ' ' . $course->instructor->last_name }}</td>
-                        <td>
-                            <a href="{{ route('course.show', $course) }}" class="btn btn-info btn-sm">View</a>
-                            <a href="{{ route('course.edit', $course) }}" class="btn btn-warning btn-sm">Edit</a>
-                            @can('courses-delete')
-                                <form action="{{ route('course.destroy', $courses) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Are you sure?')">Delete</button>
-                                </form>
-                            @endcan
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-        {{ $courses->withQueryString()->links() }}
     </div>
+    <table class="table table-sm table-hover ">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Instructor</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($courses as $course)
+                <tr>
+                    <td>{{ $course->title }} </td>
+                    <td>{{ $course->instructor->first_name . ' ' . $course->instructor->last_name }}</td>
+                    <td>
+                        <a href="{{ route('course.show', $course) }}" class="btn btn-info btn-sm">View</a>
+                        <a href="{{ route('course.edit', $course) }}" class="btn btn-warning btn-sm">Edit</a>
+                        @can('courses-delete')
+                            <form action="{{ route('course.destroy', $courses) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Are you sure?')">Delete</button>
+                            </form>
+                        @endcan
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+    {{ $courses->withQueryString()->links() }}
+</div>
 @endsection

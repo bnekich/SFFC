@@ -1,9 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class="container">
+    @section('header')
+        <h3>Audit Logs</h3>
+    @endsection
     <div class="table-responsive">
         <table class="table table=light table-striped table-bordered" style="width: 100%">
-            <caption class="caption-top">List of Audit Logs</caption>
+            {{-- <caption class="caption-top">List of Audit Logs</caption> --}}
             <thead>
                 <tr>
                     <th>ID</th>
@@ -35,4 +39,5 @@
         </table>
         {{ $auditLogs->links('') }}
     </div>
+</div>
 @endsection

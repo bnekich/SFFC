@@ -2,7 +2,10 @@
 
 @section('content')
     <div class="container">
+    @section('header')
         <h3>Manage Roles</h3>
+    @endsection
+    <div class="row mb-3">
         @can('roles-create')
             <a href="{{ route('roles.create') }}" class="btn btn-primary mb-3">Create New Role</a>
         @endcan
@@ -43,5 +46,5 @@
             </tbody>
         </table>
     </div>
-    </div>
+</div>
 @endsection

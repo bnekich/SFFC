@@ -1,5 +1,5 @@
 <div id="app">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-ligth shadow-sm border-none">
         <div class="container-fluid">
             <a class="navbar-brand" href="{{ url('/dashboard') }}">
                 <img src="{{ asset('images/sffc_logo.jpg') }}" alt="Logo" height="40">
@@ -43,7 +43,7 @@
                                     href="{{ route('organization.index') }}">Organizations</a>
                             </li>
                         @endcanany
-                        @canany(['documents-viewAll', 'documenrs-viewMine', 'documents-downloadAny',
+                        @canany(['documents-viewAny', 'documenrs-viewMine', 'documents-downloadAny',
                             'documents-downloadMine', 'documents-upload'])
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('document.*') ? 'active' : '' }}"

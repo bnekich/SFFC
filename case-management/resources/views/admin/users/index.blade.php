@@ -1,7 +1,10 @@
 @extends('layouts.app') <!-- Assuming you have a layout -->
 
 @section('content')
-    <h3>Manage Users</h3>
+    <div class="container">
+    @section('header')
+        <h3>Manage Users</h3>
+    @endsection
     @can('users-create')
         <a href="{{ route('users.create') }}" class="btn btn-primary">Add User</a>
     @endcan
@@ -42,4 +45,5 @@
     @if (session('temp_password'))
         <p>Temporary Password: {{ session('temp_password') }} (Share this securely with the user)</p>
     @endif
+</div>
 @endsection

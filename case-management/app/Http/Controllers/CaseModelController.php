@@ -7,9 +7,17 @@ namespace App\Http\Controllers;
 use App\Enums\Statuses\CaseStatus;
 use App\Models\CaseModel;
 use App\Http\Requests\CaseModelFormRequest;
+use App\Services\CaseService;
 
 class CaseModelController extends Controller
 {
+    protected CaseService $caseService;
+
+    public function __construct(CaseService $caseService)
+    {
+        $this->caseService = $caseService;
+    }
+
     public function index(CaseModelFormRequest $request)
     {
         $this->logAction("Viewed Cases", "index", "CaseModel");
@@ -51,14 +59,31 @@ class CaseModelController extends Controller
 
     public function store(CaseModelFormRequest $request)
     {
-        $request->validate([
-            'case_identifier' => 'required|unique:cases|max:255',
-            'case_description' => 'nullable',
-            // Add other validation rules as needed
-        ]);
+        $validatedData = $request->validated();
+        $currentUser = auth()->check() ? auth()->user() : null;
+        //auth()->user()->person(); //Auth::user()->person; // Assuming User has a person relationship
 
-        CaseModel::create($request->all());
-        return redirect()->route('case.index')->with('success', 'Case created successfully.');
+        try {
+            $case = $this->caseService->createCase($validatedData, $currentUser);
+            $this->logAction("Created Case", "store", "CaseModel");
+            return redirect()->route('case.show', $case)->with('success', 'Case created successfully!');
+        } catch (\DomainException $e) {
+            // Log the exception
+            return back()->withInput()->with('error', 'Failed to create case: ' . $e->getMessage());
+            //return response()->json(['error' => $e->getMessage()], 409);
+        } catch (\Exception $e) {
+            // Log the exception
+            // return back()->withInput()->with('error', 'Failed to create case: ' . $e->getMessage());
+            return back()->withInput()->with('error', 'An unexpected error occurred while creating the case.');
+        }
+        // $request->validate([
+        //     'case_identifier' => 'required|unique:cases|max:255',
+        //     'case_description' => 'nullable',
+        //     Add other validation rules as needed
+        // ]);
+
+        // CaseModel::create($request->all());
+        // return redirect()->route('case.index')->with('success', 'Case created successfully.');
     }
 
     public function show(CaseModel $case)

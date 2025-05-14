@@ -16,7 +16,7 @@ class DocumentController extends Controller
 
         $documentsQuery = Document::query();
 
-        if (!auth()->user()->hasPermissionTo('documents-viewAll')) {
+        if (!auth()->user()->hasPermissionTo('documents-viewAny')) {
             $documentsQuery->where('user_id', auth()->id());
         }
 

@@ -11,7 +11,6 @@ class AddressForm extends Component
     public $address;
     public $states;
 
-    //public function __construct($address = null, $states)
     public function __construct($address, $states)
     {
         $this->address = $address;
