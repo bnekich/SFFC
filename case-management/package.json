@@ -6,6 +6,7 @@
         "dev": "vite"
     },
     "devDependencies": {
+        "@defstudio/vite-livewire-plugin": "^2.0.6",
         "@popperjs/core": "^2.11.8",
         "@types/jquery": "^3.5.32",
         "@types/select2": "^4.0.63",
