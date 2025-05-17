@@ -23,11 +23,11 @@ class CaseNoteFormRequest extends FormRequest
             'case_id' => 'required|exists:cases,id',
             'subject' => 'required|string|max:255',
             'note' => 'required|string',
-            'privacy_level' => 'nullable|in:public,private',
-            'status' => 'nullable|in:active,inactive',
+            'privacy_level' => 'nullable|string',
+            'status' => 'nullable|string',
             'is_approved' => 'nullable|boolean',
             'tags' => 'nullable|array',
-            'tags.*' => 'string|max:255',
+            'tags.*' => 'nullable|exists:tags,id',
         ];
     }
 }
