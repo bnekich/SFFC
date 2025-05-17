@@ -43,12 +43,9 @@ class CaseNoteController extends Controller
     public function create(CaseNoteFormRequest $request)
     {
         $this->logAction("Create Case Note", "create", "CaseNote");
-        $case = CaseModel::find($request->case_id);
-        if (!$case) {
-            return redirect()->route('casenote.index')->with('error', 'Case not found.');
-        }
         $tags = Tag::all();
-        return view('casenote.create', compact('case', 'tags'));
+        $case_id = $request->case_id;
+        return view('casenote.create', compact('case_id', 'tags'));
     }
 
     public function store(CaseNoteFormRequest $request)
@@ -75,7 +72,7 @@ class CaseNoteController extends Controller
             }
         }
 
-        return redirect()->route('case_notes.show', $caseNote->id)
+        return redirect()->route('casenote.show', $caseNote->id)
             ->with('success', 'Case note created successfully.');
         //
     }

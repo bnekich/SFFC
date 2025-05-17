@@ -6,10 +6,11 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        <h3>Add Case Note for Case #{{ $case->id }}</h3>
+                        <h3>Add Case Note for Case #{{ $case_id }}</h3>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('casenote.store', $case->id) }}">
+                        <form method="POST" action="{{ route('casenote.store', $case_id) }}">
+                            <input type="hidden" name="case_id" value="{{ $case_id }}" />
                             @csrf
                             <div class="mb-3">
                                 <label for="subject" class="form-label">Subject</label>
@@ -71,6 +72,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="is_approved" class="form-label">Approved</label>
+                                <input type="hidden" name="is_approved" value="0" />"
                                 <input type="checkbox" id="is_approved" name="is_approved" value="1"
                                     {{ old('is_approved') ? 'checked' : '' }}>
                                 @error('is_approved')
@@ -78,7 +80,8 @@
                                 @enderror
                             </div>
                             <button type="submit" class="btn btn-primary">Create</button>
-                            <a href="{{ route('casenote.index', $case->id) }}" class="btn btn-secondary">Cancel</a>
+                            <a href="{{ route('casenote.index', ['case_id' => $case_id]) }}"
+                                class="btn btn-secondary">Cancel</a>
                         </form>
                     </div>
                 </div>
