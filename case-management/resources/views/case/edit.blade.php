@@ -53,46 +53,43 @@
             </div>
             <div class="row g-3 align-items-center">
                 <div class="col-6">
+                    <input type="hidden" name="assigned_staff_id" value="">
                     <label class="form-label">Case Manager</label>
                     <select class="form-select person-select" name="assigned_staff_id">
                         @if ($case->assignedStaff)
                             <option value="{{ $case->assignedStaff->id }}" selected>
                                 {{ $case->assignedStaff->last_name . ', ' . $case->assignedStaff->first_name }}
                             </option>
-                        @else
-                            <option value=""></option>
                         @endif
                     </select>
                 </div>
             </div>
             <div class="col-6">
+                <input type="hidden" name="client_family_id" value="">
                 <label class="form-label">Client Family</label>
                 <select class="family-select form-select" name="client_family_id">
                     @if ($case->clientFamily)
                         <option value="{{ $case->clientFamily->id }}" selected>
                             {{ $case->clientFamily->family_name }}
                         </option>
-                    @else
-                        <option value=""></option>
                     @endif
                 </select>
             </div>
             <div class="col-6">
+                <input type="hidden" name="host_family_id" value="">
                 <label class="form-label">Host Family</label>
                 <select class="family-select form-select" name="host_family_id">
                     @if ($case->hostFamily)
                         <option value="{{ $case->hostFamily->id }}" selected>
                             {{ $case->hostFamily->family_name }}
                         </option>
-                    @else
-                        <option value=""></option>
                     @endif
                 </select>
             </div>
 
             <div class="row g-3">
                 <div class="col-auto">
-                    <button type="submit" class="btn btn-primary mt-3">Update</button>
+                    <button type="submit" class="btn btn-primary mt-3">Save</button>
                     <a href="{{ route('case.index') }}" class="btn btn-secondary mt-3">Cancel</a>
                 </div>
             </div>
