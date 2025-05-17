@@ -48,10 +48,15 @@
                             <td>{{ $caseNote->status }}</td>
                             <td>{{ $caseNote->is_approved ? 'Yes' : 'No' }}</td>
                             <td class="cm-table-description">{{ $caseNote->note }}</td>
-                            <td>{{ $caseNote->created_at }}</td>
-                            <td>{{ $caseNote->updated_at }}</td>
+                            <td>{{ $caseNote->created_at ? \Carbon\Carbon::parse($caseNote->created_at)->isoFormat('LL') : 'N/A' }}
+                            </td>
+
+                            <td>{{ $caseNote->updated_at ? \Carbon\Carbon::parse($caseNote->updated_at)->isoFormat('LL') : 'N/A' }}
+                            </td>
                             <td class="text-nowrap">
-                                <a href="{{ route('casenote.edit', $caseNote) }}" class="btn btn-sm btn-warning">Edit</a>
+                                <a href="{{ route('casenote.show', $caseNote->id) }}" class="btn btn-sm btn-info">Edit</a>
+                                <a href="{{ route('casenote.edit', $caseNote->id) }}"
+                                    class="btn btn-sm btn-warning">Edit</a>
                                 <form action="{{ route('casenote.destroy', $caseNote) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')

@@ -12,7 +12,8 @@
                         <form method="POST" action="{{ route('casenote.update', $casenote) }}">
                             @csrf
                             @method('PUT')
-                            <div class="mb-3">
+                            <input type="hidden" name="case_id" value="{{ $casenote->case->id }}">
+                            . <div class="mb-3">
                                 <label for="subject" class="form-label">Subject</label>
                                 <input type="text" class="form-control @error('subject') is-invalid @enderror"
                                     id="subject" name="subject" value="{{ old('subject', $casenote->subject) }}">
@@ -78,6 +79,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="is_approved" class="form-label">Approved</label>
+                                <input type="hidden" name="is_approved" value="0" />
                                 <input type="checkbox" id="is_approved" name="is_approved" value="1"
                                     {{ old('is_approved', $casenote->is_approved) ? 'checked' : '' }}>
                                 @error('is_approved')
