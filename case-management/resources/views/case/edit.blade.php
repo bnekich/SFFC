@@ -59,6 +59,8 @@
                             <option value="{{ $case->assignedStaff->id }}" selected>
                                 {{ $case->assignedStaff->last_name . ', ' . $case->assignedStaff->first_name }}
                             </option>
+                        @else
+                            <option value=""></option>
                         @endif
                     </select>
                 </div>
@@ -70,6 +72,8 @@
                         <option value="{{ $case->clientFamily->id }}" selected>
                             {{ $case->clientFamily->family_name }}
                         </option>
+                    @else
+                        <option value=""></option>
                     @endif
                 </select>
             </div>
@@ -80,6 +84,8 @@
                         <option value="{{ $case->hostFamily->id }}" selected>
                             {{ $case->hostFamily->family_name }}
                         </option>
+                    @else
+                        <option value=""></option>
                     @endif
                 </select>
             </div>
