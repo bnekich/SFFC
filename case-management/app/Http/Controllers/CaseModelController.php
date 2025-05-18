@@ -68,22 +68,10 @@ class CaseModelController extends Controller
             $this->logAction("Created Case", "store", "CaseModel");
             return redirect()->route('case.show', $case)->with('success', 'Case created successfully!');
         } catch (\DomainException $e) {
-            // Log the exception
             return back()->withInput()->with('error', 'Failed to create case: ' . $e->getMessage());
-            //return response()->json(['error' => $e->getMessage()], 409);
         } catch (\Exception $e) {
-            // Log the exception
-            // return back()->withInput()->with('error', 'Failed to create case: ' . $e->getMessage());
             return back()->withInput()->with('error', 'An unexpected error occurred while creating the case.');
         }
-        // $request->validate([
-        //     'case_identifier' => 'required|unique:cases|max:255',
-        //     'case_description' => 'nullable',
-        //     Add other validation rules as needed
-        // ]);
-
-        // CaseModel::create($request->all());
-        // return redirect()->route('case.index')->with('success', 'Case created successfully.');
     }
 
     public function show(CaseModel $case)
@@ -101,7 +89,6 @@ class CaseModelController extends Controller
     public function update(CaseModelFormRequest $request, CaseModel $case)
     {
         $this->logAction("Update Case", "update", "CaseModel");
-        $updatedBy = auth()->user()->lastName;
         $validatedData = $request->validated();
 
         $case->update([
@@ -112,7 +99,7 @@ class CaseModelController extends Controller
             'client_family_id' => $validatedData['client_family_id'],
             'host_family_id' => $validatedData['host_family_id'],
             'assigned_staff_id' => $validatedData['assigned_staff_id'],
-            'updated_by' => $updatedBy,
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->route('case.index')->with('success', 'Case updated successfully.');

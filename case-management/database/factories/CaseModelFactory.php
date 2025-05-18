@@ -18,8 +18,8 @@ class CaseModelFactory extends Factory
             'start_date' => fake()->date(),
             'end_date' => null,
             'status' => fake()->randomElement(['O', 'C', 'H', 'X']),
-            'created_by' => "system",
-            'updated_by' => "system",
+            'created_by' => $this->faker->numberBetween(1, 10),
+            'updated_by' => $this->faker->numberBetween(1, 10),
         ];
     }
 }

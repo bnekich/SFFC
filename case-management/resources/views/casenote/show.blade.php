@@ -6,7 +6,7 @@
         <p><strong>Privacy Level:</strong> {{ $casenote->privacy_level }}</p>
         <p><strong>Status:</strong> {{ $casenote->status }}</p>
         @if ($casenote->tags->isNotEmpty())
-            <p><strong>Tags:</strong> {{ $casenote->tags }}</p>
+            <p><strong>Tags:</strong> {{ $casenote->tags->pluck('name')->join(', ') }}</p>
         @else
             <p><strong>Tags:</strong> None</p>
         @endif

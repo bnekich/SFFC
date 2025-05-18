@@ -24,3 +24,8 @@
         max-width: 150px; /* Smaller width on mobile */
     }
 }
+
+.label-required::after {
+    content: "*";
+    color: red;
+}
