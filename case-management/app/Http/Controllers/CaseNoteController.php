@@ -64,30 +64,19 @@ class CaseNoteController extends Controller
             'updated_by' => auth()->id(),
         ]);
 
-        // Attach tags
-        if (!empty($validatedData['tags'])) {
-            foreach ($validatedData['tags'] as $tagName) {
-                $tag = Tag::firstOrCreate(['name' => strtolower(trim($tagName))]);
-                $caseNote->tags()->attach($tag->id);
-            }
+        if ($request->has('tags')) {
+            $caseNote->tags()->sync($request->tags);
+        } else {
+            $caseNote->tags()->detach();
         }
 
         return redirect()->route('casenote.show', $caseNote->id)
             ->with('success', 'Case note created successfully.');
-        //
     }
 
     public function show(CaseNote $casenote)
     {
         $this->logAction("Viewed Case Note", "show", "Casenote");
-        //$caseNote = CaseNote::with('tags')->find($casenote->id);
-        //if (!$caseNote) {
-        //    return redirect()->route('casenote.index')->with('error', 'Case note not found.');
-        //}
-        //$case = CaseModel::find($caseNote->case_id);
-        //if (!$case) {
-        //    return redirect()->route('casenote.index')->with('error', 'Case not found.');
-        //}
         return view('casenote.show', compact('casenote'));
     }
 
@@ -113,15 +102,20 @@ class CaseNoteController extends Controller
             'is_approved' => $validatedData['is_approved'],
         ]);
 
+        if ($request->has('tags')) {
+            $casenote->tags()->sync($request->tags);
+        } else {
+            $casenote->tags()->detach();
+        }
+
         return redirect()->route('casenote.show', $casenote)
             ->with('success', 'Case note updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(CaseNote $note)
+    public function destroy(CaseNote $casenote)
     {
-        //
+        $casenote->delete();
+        return redirect()->route('casenote.index', ['case_id' => $casenote->case->id])
+            ->with('success', 'Case note deleted successfully.');
     }
 }

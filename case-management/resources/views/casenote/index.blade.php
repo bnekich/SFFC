@@ -28,10 +28,10 @@
             <table class="table table-sm table-hover mt-3">
                 <thead>
                     <tr>
+                        <th scope="col">Status</th>
                         <th scope="col">Subject</th>
                         <th scope="col">Tags</th>
                         <th scope="col">Privacy Level</th>
-                        <th scope="col">Status</th>
                         <th scope="col">Approved</th>
                         <th scope="col">Note</th>
                         <th scope="col">Created At</th>
@@ -42,10 +42,10 @@
                 <tbody>
                     @foreach ($caseNotes as $caseNote)
                         <tr>
-                            <td>{{ $caseNote->subject }}</td>
-                            <td>{{ $caseNote->tags->pluck('name')->join(', ') }}</td>
-                            <td>{{ $caseNote->privacy_level }}</td>
                             <td>{{ $caseNote->status }}</td>
+                            <td class="cm-table-description">{{ $caseNote->subject }}</td>
+                            <td class="cm-table-description">{{ $caseNote->tags->pluck('name')->join(', ') }}</td>
+                            <td>{{ $caseNote->privacy_level }}</td>
                             <td>{{ $caseNote->is_approved ? 'Yes' : 'No' }}</td>
                             <td class="cm-table-description">{{ $caseNote->note }}</td>
                             <td>{{ $caseNote->created_at ? \Carbon\Carbon::parse($caseNote->created_at)->isoFormat('LL') : 'N/A' }}
