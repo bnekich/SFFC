@@ -64,13 +64,33 @@ class IntakeController extends Controller
 
     public function store(IntakeFormRequest $request)
     {
-        $successMessage = "";
         $validatedData = $request->validated();
+        $intake = Intake::create([
+            'completed_by_id' => auth()->id(),
+            'parent_name' => $validatedData['parent_name'],
+            'parent_phone' => $validatedData['parent_phone'],
+            'referral_date' => $validatedData['referral_date'],
+            'referral_contact' => $validatedData['referral_contact'],
+            'case_summary' => $validatedData['case_summary'],
+            'hasSFFCHistory' => $validatedData['hasSFFCHistory'],
+            //'do_not_share_list' => $validatedData['do_not_share_list'],
+            'requesting_host_family' => $validatedData['requesting_host_family'],
+            'requesting_family_friend' => $validatedData['requesting_family_friend'],
+            'requesting_resource_friend' => $validatedData['requesting_resource_friend'],
+            //'urgency' => $validatedData['urgency'],
+            //'expected_support_duration' => $validatedData['expected_support_duration'],
+            //'family_preference' => $validatedData['family_preference'],
+            //'known_risks' => $validatedData['known_risks'],
+            //'child_protective_services_experience' => $validatedData['child_protective_services_experience'],
+            //'emotional_behavioral_medical_concerns' => $validatedData['emotional_behavioral_medical_concerns'],
+            //'is_a_sffc_fit' => $validatedData['is_a_sffc_fit'],
+            //'resources_provided' => $validatedData['resources_provided'],
+            'intake_status' => $validatedData['intake_status'],
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
+        ]);
 
-        Intake::create($validatedData->all());
-        $successMessage = "Intake created successfully.";
-        $this->logAction($successMessage, "store", "Intake");
-        return redirect()->route('intake.index')->with('success', $successMessage);
+        return redirect()->route('intake.show', $intake->id)->with('success', 'Intake created successfully.');
     }
 
     public function show(Intake $intake)
@@ -80,19 +100,41 @@ class IntakeController extends Controller
 
     public function edit(Intake $intake)
     {
-        return view('intake.edit', compact('intake'));
+        $this->logAction("Edit Intake", "edit", "Intake");
+        $intakeStatuses = IntakeStatus::cases();
+        return view('intake.edit', compact('intake', 'intakeStatuses'));
     }
 
     public function update(IntakeFormRequest $request, Intake $intake)
     {
-        $request->validate([
-            'parent_name' => 'required|max:50',
-            'case_summary' => 'required',
-            // Add other validation rules as needed
+        $validatedData = $request->validated();
+
+        $intake->update([
+            //'completed_by_id' => auth()->id(),
+            'parent_name' => $validatedData['parent_name'],
+            'parent_phone' => $validatedData['parent_phone'],
+            'referral_date' => $validatedData['referral_date'],
+            'referral_contact' => $validatedData['referral_contact'],
+            'case_summary' => $validatedData['case_summary'],
+            'hasSFFCHistory' => $validatedData['hasSFFCHistory'],
+            //'do_not_share_list' => $validatedData['do_not_share_list'],
+            'requesting_host_family' => $validatedData['requesting_host_family'],
+            'requesting_family_friend' => $validatedData['requesting_family_friend'],
+            'requesting_resource_friend' => $validatedData['requesting_resource_friend'],
+            //'urgency' => $validatedData['urgency'],
+            //'expected_support_duration' => $validatedData['expected_support_duration'],
+            //'family_preference' => $validatedData['family_preference'],
+            //'known_risks' => $validatedData['known_risks'],
+            //'child_protective_services_experience' => $validatedData['child_protective_services_experience'],
+            //'emotional_behavioral_medical_concerns' => $validatedData['emotional_behavioral_medical_concerns'],
+            //'is_a_sffc_fit' => $validatedData['is_a_sffc_fit'],
+            //'resources_provided' => $validatedData['resources_provided'],
+            'intake_status' => $validatedData['intake_status'],
+            'updated_by' => auth()->id(),
         ]);
 
-        $intake->update($request->all());
-        return redirect()->route('intake.index')->with('success', 'Intake updated successfully.');
+
+        return redirect()->route('intake.show', $intake)->with('success', 'Intake updated successfully.');
     }
 
     public function destroy(Intake $intake)

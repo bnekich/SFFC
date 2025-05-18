@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('intakes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('completed_by_id')->nullable;
+            $table->unsignedBigInteger('completed_by_id')->nullable();
             $table->string('parent_name', 50)->nullable();
             $table->string('parent_phone', 20)->nullable();
             $table->date('referral_date')->nullable();
@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('case_summary')->nullable();
             $table->boolean('hasSFFCHistory')->nullable();
             $table->text('do_not_share_list')->nullable();
-            $table->boolean('requesting_host_family')->nutllable();
+            $table->boolean('requesting_host_family')->nullable();
             $table->boolean('requesting_family_friend')->nullable();
             $table->boolean('requesting_resource_friend')->nullable();
             $table->string('urgency', 10)->nullable();
@@ -30,8 +30,8 @@ return new class extends Migration
             $table->boolean('is_a_sffc_fit')->nullable();
             $table->text('resources_provided')->nullable();
             $table->string('intake_status', 2)->nullable();
-            $table->string('created_by', 255);
-            $table->string('updated_by', 255);
+            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
+            $table->foreignId('updated_by')->constrained('users')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

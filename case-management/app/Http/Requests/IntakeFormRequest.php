@@ -24,7 +24,6 @@ class IntakeFormRequest extends FormRequest
         }
 
         return [
-            'completed_by_id' => 'required|integer|exists:person,id',
             'parent_name' => 'string|max:50',
             'parent_phone' => 'string|max:20',
             'referral_date' => 'date',
@@ -44,8 +43,6 @@ class IntakeFormRequest extends FormRequest
             'is_a_sffc_fit' => 'boolean',
             'resources_provided' => 'string',
             'intake_status' => 'string|max:2',
-            'created_by' => 'string|max:255',
-            'updated_by' => 'string|max:255',
         ];
     }
 }

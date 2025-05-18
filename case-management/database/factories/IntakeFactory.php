@@ -31,8 +31,8 @@ class IntakeFactory extends Factory
             'emotional_behavioral_medical_concerns' => '',
             'is_a_sffc_fit' => fake()->boolean(0.5),
             'resources_provided' => '',
-            'created_by' => "system",
-            'updated_by' => "system",
+            'created_by' => $this->faker->numberBetween(1, 10),
+            'updated_by' => $this->faker->numberBetween(1, 10),
             'intake_status' => fake()->randomElement(['F', 'S', 'T', 'I', 'C', 'X', 'O']),
 
         ];

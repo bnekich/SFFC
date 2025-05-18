@@ -37,21 +37,25 @@
         </div>
         <div class="col-auto">
             <div class="form-check form-switch">
+                <input type="hidden" name="hasSFFCHistory" value="0">
                 <input type="checkbox" name="hasSFFCHistory" value="1" class="form-check-input"
                     {{ old('hasSFFCHistory') ? 'checked' : '' }}>
                 <label class="form-check-label">Has SFFC History?</label>
             </div>
             <div class="form-check form-switch">
+                <input type="hidden" name="requesting_host_family" value="0">
                 <input type="checkbox" name="requesting_host_family" value="1" class="form-check-input"
                     {{ old('requesting_host_family') ? 'checked' : '' }}>
                 <label class="form-check-label">Requesting Host Family</label>
             </div>
             <div class="form-check form-switch">
+                <input type="hidden" name="requesting_family_friend" value="0">
                 <input type="checkbox" name="requesting_family_friend" value="1" class="form-check-input"
                     {{ old('requesting_family_friend') ? 'checked' : '' }}>
                 <label class="form-check-label">Requesting Family Friend</label>
             </div>
             <div class="form-check form-switch">
+                <input type="hidden" name="requesting_resource_friend" value="0">
                 <input type="checkbox" name="requesting_resource_friend" value="1" class="form-check-input"
                     {{ old('requesting_resource_friend') ? 'checked' : '' }}>
                 <label class="form-check-label">Requesting Resource Friend</label>

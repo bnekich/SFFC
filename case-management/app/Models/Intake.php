@@ -13,7 +13,6 @@ class Intake extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'completed_by_id',
         'parent_name',
         'parent_phone',
         'referral_date',
