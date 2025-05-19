@@ -88,8 +88,8 @@ class FamilyController extends Controller
         $family = Family::create([
             'family_name' => $validatedData['family_name'],
             'address_id' => $address ? $address->id : null,
-            'created_by' => $createdBy,
-            'updated_by' => $createdBy,
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         if (array_key_exists('person_ids', $validatedData)) {
@@ -108,17 +108,67 @@ class FamilyController extends Controller
     public function edit(Family $family)
     {
         $states = USState::cases();
-
         return view('family.edit', compact('family', 'states'));
     }
 
     public function update(FamilyFormRequest $request, Family $family)
     {
-        //
+        $this->logAction("Update Family", "update", "Family");
+        $validatedData = $request->validated();
+        $updater = auth()->user()->firstName . ' ' . auth()->user()->lastName;
+
+        $family->update([
+            'family_name' => $validatedData['family_name'],
+            'updated_by' => $updater,
+        ]);
+
+        // Update or create address
+        if (!empty(array_filter([
+            $validatedData['address_line_1'] ?? null,
+            $validatedData['address_line_2'] ?? null,
+            $validatedData['city'] ?? null,
+            $validatedData['state'] ?? null,
+            $validatedData['zip'] ?? null,
+        ]))) {
+            if ($family->address) {
+                $family->address->update([
+                    'address_line_1' => $validatedData['address_line_1'] ?? null,
+                    'address_line_2' => $validatedData['address_line_2'] ?? null,
+                    'city' => $validatedData['city'] ?? null,
+                    'state' => $validatedData['state'] ?? null,
+                    'zip' => $validatedData['zip'] ?? null,
+                    'updated_by' => $updater,
+                ]);
+            } else {
+                $address = Address::create([
+                    'address_line_1' => $validatedData['address_line_1'] ?? null,
+                    'address_line_2' => $validatedData['address_line_2'] ?? null,
+                    'city' => $validatedData['city'] ?? null,
+                    'state' => $validatedData['state'] ?? null,
+                    'zip' => $validatedData['zip'] ?? null,
+                    'created_by' => $updater,
+                    'updated_by' => $updater,
+                ]);
+                $family->address()->associate($address)->save();
+            }
+        } elseif ($family->address) {
+            // If all address fields are empty and an address exists, you might want to delete it
+            // TODO: Confirm with the client if this is the desired behavior    
+            //$person->address->delete();
+            //$person->address_id = null;
+            //$person->save();
+        }
+
+        if ($request->has('person_ids')) {
+            $family->persons()->sync($request->person_ids);
+        }
+
+        return redirect()->route('family.show', $family)->with('success', 'Family updated successfully.');
     }
 
     public function destroy(Family $family)
     {
-        //
+        $family->delete();
+        return redirect()->route('family.index')->with('success', 'Family deleted successfully.');
     }
 }

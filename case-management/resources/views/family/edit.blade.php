@@ -33,7 +33,7 @@
             </div>
             <div class="row g-3">
                 <div class="col-auto">
-                    <button type="submit" class="btn btn-primary">Update Family</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
                     <a href="{{ route('family.index') }}" class="btn btn-secondary">Cancel</a>
                 </div>
             </div>

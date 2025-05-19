@@ -9,7 +9,10 @@
         <p><strong>Associated People:</strong></p>
         <ul>
             @foreach ($family->persons as $person)
-                <li>{{ $person->last_name . ', ' . $person->first_name }}</li>
+                <li>
+                    <a href="{{ route('person.show', $person->id) }}">
+                        {{ $person->last_name . ', ' . $person->first_name }}</a>
+                </li>
             @endforeach
         </ul>
         <p><strong>Created By:</strong> {{ $family->created_by ?? 'N/A' }}</p>

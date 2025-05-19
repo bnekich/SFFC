@@ -44,7 +44,7 @@ class Person extends Model
 
     public function families()
     {
-        return $this->belongsToMany(Family::class, 'persons_families');
+        return $this->belongsToMany(Family::class, 'persons_families', 'person_id', 'family_id');
     }
 
     public function organizations()
