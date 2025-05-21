@@ -34,5 +34,8 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
-
+    'notion' => [
+        'api_token' => env('NOTION_API_TOKEN'),
+        'database_id' => env('NOTION_DATABASE_ID'),
+    ],
 ];

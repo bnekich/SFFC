@@ -24,6 +24,7 @@ class CaseModelFormRequest extends FormRequest
 
         if ($this->method() === 'PUT') {
             return [
+                'id' => 'required|exists:cases,id',
                 'case_description' => 'nullable|string',
                 'client_family_id' => 'nullable|exists:families,id',
                 'host_family_id' => 'nullable|exists:families,id',

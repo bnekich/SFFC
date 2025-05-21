@@ -60,11 +60,9 @@ class CaseModelController extends Controller
     public function store(CaseModelFormRequest $request)
     {
         $validatedData = $request->validated();
-        $currentUser = auth()->check() ? auth()->user() : null;
-        //auth()->user()->person(); //Auth::user()->person; // Assuming User has a person relationship
 
         try {
-            $case = $this->caseService->createCase($validatedData, $currentUser);
+            $case = $this->caseService->createCase($validatedData);
             $this->logAction("Created Case", "store", "CaseModel");
             return redirect()->route('case.show', $case)->with('success', 'Case created successfully!');
         } catch (\DomainException $e) {
@@ -90,19 +88,15 @@ class CaseModelController extends Controller
     {
         $this->logAction("Update Case", "update", "CaseModel");
         $validatedData = $request->validated();
-
-        $case->update([
-            'status' => $validatedData['status'],
-            'start_date' => $validatedData['start_date'],
-            'end_date' => $validatedData['end_date'],
-            'case_description' => $validatedData['case_description'],
-            'client_family_id' => $validatedData['client_family_id'],
-            'host_family_id' => $validatedData['host_family_id'],
-            'assigned_staff_id' => $validatedData['assigned_staff_id'],
-            'updated_by' => auth()->id(),
-        ]);
-
-        return redirect()->route('case.index')->with('success', 'Case updated successfully.');
+        try {
+            $case = $this->caseService->updateCase($validatedData);
+            $this->logAction("Updated Case", "update", "CaseModel");
+            return redirect()->route('case.show', $case)->with('success', 'Case updated successfully!');
+        } catch (\DomainException $e) {
+            return back()->withInput()->with('error', 'Failed to update case: ' . $e->getMessage());
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error', 'An unexpected error occurred while updating the case.');
+        }
     }
 
     public function destroy(CaseModel $case)

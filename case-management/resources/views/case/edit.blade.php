@@ -15,6 +15,7 @@
         <form class="row g-3 align-items-center" action="{{ route('case.update', $case->id) }}" method="POST">
             @csrf
             @method('PUT')
+            <input type="hidden" name="id" value="{{ $case->id }}">
             <div class="col-auto">
                 <input type="text" name="case_identifier"
                     class="form-control-sm @error('case_identifier') is-valid @enderror"

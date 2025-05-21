@@ -111,6 +111,19 @@ return [
             // 'encrypt' => env('DB_ENCRYPT', 'yes'),
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
+        'godaddy_mysql' => [
+            'driver' => 'mysql',
+            'host' => env('GODADDY_DB_HOST', '132.148.180.87'),
+            'port' => env('GODADDY_DB_PORT', '3306'),
+            'database' => env('GODADDY_DB_DATABASE', 'kaii85r0d56e_case_management_test'),
+            'username' => env('GODADDY_DB_USERNAME', 'bnekich'),
+            'password' => env('GODADDY_DB_PASSWORD', 'Netman#6962'),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
 
     ],
 
@@ -147,7 +160,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
         ],
 
         'default' => [

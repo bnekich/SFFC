@@ -33,8 +33,8 @@ class Controller extends BaseController
         array $extra = []
     ): void {
 
-        $channel = 'daily';
-        //$channel = 'audit';
+        //$channel = 'daily';
+        $channel = 'audit';
         $level = 'debug';
 
         // TODO set this back to daily for development
