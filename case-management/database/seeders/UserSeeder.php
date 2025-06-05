@@ -12,12 +12,14 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         Person::all()->each(function ($person) {
-            User::factory()->create([
-                'person_id' => $person->id,
-                'firstName' => $person->first_name,
-                'lastName' => $person->last_name,
-                'email' => $person->email
-            ]);
+            if (!User::where('email', $person->email)->exists()) {
+                User::factory()->create([
+                    'person_id' => $person->id,
+                    'firstName' => $person->first_name,
+                    'lastName' => $person->last_name,
+                    'email' => $person->email
+                ]);
+            }
         });
     }
 }

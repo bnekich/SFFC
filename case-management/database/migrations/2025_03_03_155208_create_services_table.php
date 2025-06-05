@@ -14,8 +14,8 @@ class CreateServicesTable extends Migration
             $table->string('description', 255);
             $table->string('provider', 255)->comment('internal or external');
             $table->timestamps();
-            $table->string('created_by', 255);
-            $table->string('updated_by', 255);
+            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
+            $table->foreignId('updated_by')->constrained('users')->onDelete('cascade');
             $table->softDeletes();
         });
     }

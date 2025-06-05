@@ -14,8 +14,8 @@ class CreateRelationshipsTable extends Migration
             $table->unsignedBigInteger('person_id_2')->nullable();
             $table->unsignedBigInteger('relationship_type_id')->nullable();
             $table->timestamps();
-            $table->string('created_by', 255);
-            $table->string('updated_by', 255);
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
             $table->softDeletes();
         });
     }

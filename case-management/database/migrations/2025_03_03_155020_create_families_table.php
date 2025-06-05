@@ -14,8 +14,8 @@ class CreateFamiliesTable extends Migration
             $table->unsignedBigInteger('address_id')->nullable();
             $table->unsignedBigInteger('status_id')->nullable();
             $table->timestamps();
-            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
-            $table->foreignId('updated_by')->constrained('users')->onDelete('cascade');
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
             $table->softDeletes();
         });
     }

@@ -68,7 +68,6 @@ class OrganizationController extends Controller
   public function store(OrganizationFormRequest $request)
   {
     $validatedData = $request->validated();
-    $createdBy = auth()->user()->firstName . ' ' . auth()->user()->lastName;
 
     // Create the address if any address fields are provided
     $address = null;
@@ -85,8 +84,8 @@ class OrganizationController extends Controller
         'city' => $validatedData['city'] ?? null,
         'state' => $validatedData['state'] ?? null,
         'zip' => $validatedData['zip'] ?? null,
-        'created_by' => $createdBy,
-        'updated_by' => $createdBy,
+        'created_by' => auth()->id(),
+        'updated_by' => auth()->id(),
       ]);
     }
 
@@ -100,8 +99,8 @@ class OrganizationController extends Controller
       'contact_person_phone' => $validatedData['contact_person_phone'] ?? null,
       'contact_person_mobile' => $validatedData['contact_person_mobile'] ?? null,
       'notes' => $validatedData['notes'] ?? null,
-      'created_by' => $createdBy,
-      'updated_by' => $createdBy,
+      'created_by' => auth()->id(),
+      'updated_by' => auth()->id(),
     ]);
 
     // Attach persons to the organization
@@ -124,8 +123,6 @@ class OrganizationController extends Controller
   // Update an existing organization
   public function update(OrganizationFormRequest $request, Organization $organization)
   {
-    $updatedBy = auth()->user()->firstName . ' ' . auth()->user()->lastName;
-
     $validatedData = $request->validated();
     $organization->update([
       'name' => $validatedData['name'],
@@ -137,7 +134,7 @@ class OrganizationController extends Controller
       'contact_person_phone' => $validatedData['contact_person_phone'] ?? null,
       'contact_person_mobile' => $validatedData['contact_person_mobile'] ?? null,
       'notes' => $validatedData['notes'] ?? null,
-      'updated_by' => $updatedBy,
+      'updated_by' => auth()->id(),
     ]);
     if (!empty(array_filter([
       $validatedData['address_line_1'] ?? null,
@@ -153,7 +150,7 @@ class OrganizationController extends Controller
           'city' => $validatedData['city'] ?? null,
           'state' => $validatedData['state'] ?? null,
           'zip' => $validatedData['zip'] ?? null,
-          'updated_by' => $updatedBy,
+          'updated_by' => auth()->id(),
         ]);
       } else {
         $address = Address::create([
@@ -162,8 +159,8 @@ class OrganizationController extends Controller
           'city' => $validatedData['city'] ?? null,
           'state' => $validatedData['state'] ?? null,
           'zip' => $validatedData['zip'] ?? null,
-          'created_by' => $updatedBy,
-          'updated_by' => $updatedBy,
+          'created_by' => auth()->id(),
+          'updated_by' => auth()->id(),
         ]);
 
         $organization->address()->associate($address)->save();

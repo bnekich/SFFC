@@ -17,12 +17,12 @@ class PersonFactory extends Factory
             'gender' => 'F',
             'email' => fake()->unique()->safeEmail(),
             'phone' => fake()->phoneNumber(),
-            'address_id' => Address::factory(),
+            'address_id' => 1,
             'can_text_reminder' => fake()->boolean(),
             'can_email_reminder' => fake()->boolean(),
             'ethnicity' => fake()->randomElement(['I', 'A', 'B', 'H', 'M', 'P', 'W', 'T', 'O', 'N', 'U']),
-            'created_by' => fake()->lastName(),
-            'updated_by' => ""
+            'created_by' => 1,
+            'updated_by' => 1,
         ];
     }
 }

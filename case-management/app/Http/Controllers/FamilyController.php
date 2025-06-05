@@ -64,7 +64,6 @@ class FamilyController extends Controller
     {
         $this->logAction("Store Family", "store", "Family");
         $validatedData = $request->validated();
-        $createdBy = auth()->user()->firstName . ' ' . auth()->user()->lastName;
 
         // Create the address if any address fields are provided
         $address = null;
@@ -81,8 +80,8 @@ class FamilyController extends Controller
                 'city' => $validatedData['city'] ?? null,
                 'state' => $validatedData['state'] ?? null,
                 'zip' => $validatedData['zip'] ?? null,
-                'created_by' => $createdBy,
-                'updated_by' => $createdBy,
+                'created_by' => auth()->id(),
+                'updated_by' => auth()->id(),
             ]);
         }
         $family = Family::create([
@@ -115,11 +114,10 @@ class FamilyController extends Controller
     {
         $this->logAction("Update Family", "update", "Family");
         $validatedData = $request->validated();
-        $updater = auth()->user()->firstName . ' ' . auth()->user()->lastName;
 
         $family->update([
             'family_name' => $validatedData['family_name'],
-            'updated_by' => $updater,
+            'updated_by' => auth()->id(),
         ]);
 
         // Update or create address
@@ -137,7 +135,7 @@ class FamilyController extends Controller
                     'city' => $validatedData['city'] ?? null,
                     'state' => $validatedData['state'] ?? null,
                     'zip' => $validatedData['zip'] ?? null,
-                    'updated_by' => $updater,
+                    'updated_by' => auth()->id(),
                 ]);
             } else {
                 $address = Address::create([
@@ -146,8 +144,8 @@ class FamilyController extends Controller
                     'city' => $validatedData['city'] ?? null,
                     'state' => $validatedData['state'] ?? null,
                     'zip' => $validatedData['zip'] ?? null,
-                    'created_by' => $updater,
-                    'updated_by' => $updater,
+                    'created_by' => auth()->id(),
+                    'updated_by' => auth()->id(),
                 ]);
                 $family->address()->associate($address)->save();
             }

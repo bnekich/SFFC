@@ -12,6 +12,8 @@ class CreateCoursesTable extends Migration
             $table->id();
             $table->string('title', 255);
             $table->unsignedBigInteger('instructor_id')->nullable();
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

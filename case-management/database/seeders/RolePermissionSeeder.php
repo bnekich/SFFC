@@ -104,10 +104,10 @@ class RolePermissionSeeder extends Seeder
             ]);
         }
 
-        $users = User::all();
-        foreach ($users as $user) {
-            $user->assignRole('Client');
-        }
+        // $users = User::all();
+        // foreach ($users as $user) {
+        //     $user->assignRole('Client');
+        // }
 
         $address = Address::create([
             'address_line_1' => '123 Main St',
@@ -115,8 +115,8 @@ class RolePermissionSeeder extends Seeder
             'city' => 'New York',
             'state' => 'NY',
             'zip' => '10001',
-            'created_by' => 'system',
-            'updated_by' => 'system'
+            'created_by' => null,
+            'updated_by' => null
         ]);
 
         $adminPerson = Person::create([
@@ -130,8 +130,9 @@ class RolePermissionSeeder extends Seeder
             'can_text_reminder' => true,
             'can_email_reminder' => true,
             'address_id' => $address->id,
-            'created_by' => 'system',
-            'updated_by' => 'system'
+            'created_by' => null,
+            'updated_by' => null
+
         ]);
 
 
@@ -160,8 +161,8 @@ class RolePermissionSeeder extends Seeder
             'can_text_reminder' => true,
             'can_email_reminder' => true,
             'address_id' => $address->id,
-            'created_by' => 'system',
-            'updated_by' => 'system'
+            'created_by' => 1,
+            'updated_by' => 1
         ]);
         $familyCoachSupervisorUser = User::create([
             'person_id' => $familyCoachSupervisorPerson->id,
@@ -245,8 +246,8 @@ class RolePermissionSeeder extends Seeder
             'can_text_reminder' => true,
             'can_email_reminder' => true,
             'address_id' => $address->id,
-            'created_by' => 'system',
-            'updated_by' => 'system'
+            'created_by' => 1,
+            'updated_by' => 1
         ]);
 
         $volunteerUser = User::create([

@@ -20,8 +20,8 @@ class FamilyFactory extends Factory
             'family_name' => fake()->lastName(),
             'address_id' => 1,
             'status_id' => 1,
-            'created_by' => $this->faker->numberBetween(1, 10),
-            'updated_by' => $this->faker->numberBetween(1, 10),
+            'created_by' => 1,
+            'updated_by' => 1,
         ];
     }
 }

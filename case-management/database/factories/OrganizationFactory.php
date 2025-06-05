@@ -19,8 +19,8 @@ class OrganizationFactory extends Factory
             'contact_person_phone' => fake()->phoneNumber(),
             'contact_person_mobile' => fake()->phoneNumber(),
             'notes' => fake()->paragraph(),
-            'created_by' => fake()->lastName(),
-            'updated_by' => ""
+            'created_by' => $this->faker->numberBetween(1, 10),
+            'updated_by' => $this->faker->numberBetween(1, 10)
         ];
     }
 }

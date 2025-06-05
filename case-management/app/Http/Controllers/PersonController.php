@@ -82,7 +82,6 @@ class PersonController extends Controller
     {
         $successMessage = "";
         $validatedData = $request->validated();
-        $createdBy = auth()->user()->firstName . ' ' . auth()->user()->lastName;
 
         // Create the address if any address fields are provided
         $address = null;
@@ -99,8 +98,8 @@ class PersonController extends Controller
                 'city' => $validatedData['city'] ?? null,
                 'state' => $validatedData['state'] ?? null,
                 'zip' => $validatedData['zip'] ?? null,
-                'created_by' => $createdBy,
-                'updated_by' => $createdBy,
+                'created_by' => auth()->id(),
+                'updated_by' => auth()->id(),
             ]);
         }
 
@@ -115,8 +114,8 @@ class PersonController extends Controller
             'can_text_reminder' => $validatedData['can_text_reminder'] ?? false,
             'can_email_reminder' => $validatedData['can_email_reminder'] ?? false,
             'address_id' => $address ? $address->id : null,
-            'created_by' => $createdBy,
-            'updated_by' => $createdBy,
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         if ($request->has('family_ids')) {
@@ -173,7 +172,7 @@ class PersonController extends Controller
     public function update(PersonFormRequest $request, Person $person)
     {
         $validatedData = $request->validated();
-        $updater = auth()->user()->firstName . ' ' . auth()->user()->lastName;
+        //$updater = auth()->user()->firstName . ' ' . auth()->user()->lastName;
 
         $person->update([
             'first_name' => $validatedData['first_name'],
@@ -185,7 +184,7 @@ class PersonController extends Controller
             'phone' => $validatedData['phone'] ?? null,
             'can_text_reminder' => $validatedData['can_text_reminder'] ?? false,
             'can_email_reminder' => $validatedData['can_email_reminder'] ?? false,
-            'updated_by' => $updater,
+            'updated_by' => auth()->id(),
         ]);
 
         // Update or create address
@@ -203,7 +202,7 @@ class PersonController extends Controller
                     'city' => $validatedData['city'] ?? null,
                     'state' => $validatedData['state'] ?? null,
                     'zip' => $validatedData['zip'] ?? null,
-                    'updated_by' => $updater,
+                    'updated_by' => auth()->id(),
                 ]);
             } else {
                 $address = Address::create([
@@ -212,8 +211,8 @@ class PersonController extends Controller
                     'city' => $validatedData['city'] ?? null,
                     'state' => $validatedData['state'] ?? null,
                     'zip' => $validatedData['zip'] ?? null,
-                    'created_by' => $updater,
-                    'updated_by' => $updater,
+                    'created_by' => auth()->id(),
+                    'updated_by' => auth()->id(),
                 ]);
                 $person->address()->associate($address)->save();
             }

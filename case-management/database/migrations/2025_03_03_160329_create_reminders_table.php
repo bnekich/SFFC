@@ -16,8 +16,8 @@ class CreateRemindersTable extends Migration
             $table->dateTime('reminder_time')->nullable();
             $table->string('status', 10)->nullable();
             $table->timestamps();
-            $table->string('created_by', 255);
-            $table->string('updated_by', 255);
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
             $table->softDeletes();
         });
     }

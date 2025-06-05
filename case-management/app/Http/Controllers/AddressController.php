@@ -34,7 +34,8 @@ class AddressController extends Controller
             'city' => 'string|nullable',
             'state' => 'string|size:2|nullable',
             'zip' => 'string|max:10|nullable',
-            'updated_by' => 'required|string|max:255',
+            'created_by' => 'nullable|exists:persons,id',
+            'updated_by' => 'nullable|exists:persons,id',
         ]);
 
         $address->update($request->all());

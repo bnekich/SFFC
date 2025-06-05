@@ -22,8 +22,8 @@ class CreatePersonsTable extends Migration
             $table->boolean('can_email_reminder')->default(true);
             $table->string('ethnicity', 2)->nullable();
             $table->timestamps();
-            $table->string('created_by', 255);
-            $table->string('updated_by', 255);
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
             $table->softDeletes();
         });
     }

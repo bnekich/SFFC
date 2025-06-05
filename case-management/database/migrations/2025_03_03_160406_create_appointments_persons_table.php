@@ -13,8 +13,8 @@ class CreateAppointmentsPersonsTable extends Migration
             $table->unsignedBigInteger('appointment_id')->nullable();
             $table->unsignedBigInteger('person_id')->nullable();
             $table->timestamps();
-            $table->string('created_by', 255);
-            $table->string('updated_by', 255);
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
             $table->softDeletes();
         });
     }

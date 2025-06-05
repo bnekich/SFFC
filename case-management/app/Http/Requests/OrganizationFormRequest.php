@@ -35,8 +35,8 @@ class OrganizationFormRequest extends FormRequest
             'contact_person_phone' => 'nullable|string|max:255',
             'contact_person_mobile' => 'nullable|string|max:255',
             'notes' => 'nullable|string',
-            'person_ids' => 'nullable|array', // Array of person IDs to associate
-            'person_ids.*' => 'exists:persons,id' // Validate each ID exists
+            'person_ids' => 'nullable|array',
+            'person_ids.*' => 'exists:persons,id'
         ];
     }
 }

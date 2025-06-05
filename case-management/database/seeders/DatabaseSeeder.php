@@ -26,9 +26,9 @@ class DatabaseSeeder extends Seeder
         RelationshipType::factory()->create();
         ReminderType::factory()->create();
         $this->call([
+            RolePermissionSeeder::class,
             PersonSeeder::class,
             UserSeeder::class,
-            RolePermissionSeeder::class,
             OrganizationTypeSeeder::class,
             OrganizationSeeder::class,
             TagSeeder::class,

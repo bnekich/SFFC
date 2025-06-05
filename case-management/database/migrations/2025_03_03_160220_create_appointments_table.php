@@ -18,8 +18,8 @@ class CreateAppointmentsTable extends Migration
             $table->boolean('send_reminders')->default(true);
             $table->unsignedBigInteger('status_id')->nullable();
             $table->timestamps();
-            $table->string('created_by', 255);
-            $table->string('updated_by', 255);
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
             $table->softDeletes();
         });
     }

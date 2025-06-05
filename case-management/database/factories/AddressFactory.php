@@ -24,8 +24,8 @@ class AddressFactory extends Factory
             'city' => fake()->city(),
             'state' => fake()->stateAbbr(),
             'zip' => fake()->postcode(),
-            'created_by' => fake()->lastName(),
-            'updated_by' => '',
+            'created_by' => $this->faker->numberBetween(1, 10),
+            'updated_by' => $this->faker->numberBetween(1, 10),
         ];
     }
 }
