@@ -5,20 +5,25 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use App\Http\Requests\PersonFormRequest;
 use App\Models\Person;
-use App\Models\User;
 use App\Models\Address;
 use App\Enums\Gender;
 use App\Enums\USState;
 use App\Models\Organization;
 use Spatie\Permission\Models\Role;
 use App\Enums\Ethnicity;
+use App\Services\PersonService;
 
 class PersonController extends Controller
 {
+    protected PersonService $personService;
+    public function __construct(PersonService $personService)
+    {
+        $this->personService = $personService;
+    }
+
+
     public function search(Request $request)
     {
         $this->logAction("Searched Persons", "search", "Person");
@@ -80,77 +85,19 @@ class PersonController extends Controller
 
     public function store(PersonFormRequest $request)
     {
-        $successMessage = "";
         $validatedData = $request->validated();
 
-        // Create the address if any address fields are provided
-        $address = null;
-        if (!empty(array_filter([
-            $validatedData['address_line_1'] ?? null,
-            $validatedData['address_line_2'] ?? null,
-            $validatedData['city'] ?? null,
-            $validatedData['state'] ?? null,
-            $validatedData['zip'] ?? null,
-        ]))) {
-            $address = Address::create([
-                'address_line_1' => $validatedData['address_line_1'] ?? null,
-                'address_line_2' => $validatedData['address_line_2'] ?? null,
-                'city' => $validatedData['city'] ?? null,
-                'state' => $validatedData['state'] ?? null,
-                'zip' => $validatedData['zip'] ?? null,
-                'created_by' => auth()->id(),
-                'updated_by' => auth()->id(),
-            ]);
+        try {
+            $response = $this->personService->createPerson($validatedData, $request);
+            $this->logAction("Created Person", "store", "Person", $response->person->id);
+            $successMessage = " Person created successfully. Temporary Password is " . $response->tempPassword;
+            $person = $response->person;
+            return redirect()->route('person.show', $person)->with('success', $successMessage);
+        } catch (\DomainException $e) {
+            return back()->withInput()->with('error', 'Failed to create person: ' . $e->getMessage());
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error', 'An unexpected error occurred while creating the person.');
         }
-
-        $person = Person::create([
-            'first_name' => $validatedData['first_name'],
-            'middle_name' => $validatedData['middle_name'] ?? null,
-            'last_name' => $validatedData['last_name'],
-            'date_of_birth' => $validatedData['date_of_birth'] ?? null,
-            'gender' => $validatedData['gender'],
-            'email' => $validatedData['email'] ?? null,
-            'phone' => $validatedData['phone'] ?? null,
-            'can_text_reminder' => $validatedData['can_text_reminder'] ?? false,
-            'can_email_reminder' => $validatedData['can_email_reminder'] ?? false,
-            'address_id' => $address ? $address->id : null,
-            'created_by' => auth()->id(),
-            'updated_by' => auth()->id(),
-        ]);
-
-        if ($request->has('family_ids')) {
-            $person->families()->sync($request->input('family_ids'));
-        }
-
-        if ($request->has('org_ids')) {
-            $person->organizations()->sync($request->input('org_ids'));
-        }
-
-        $tempPassword = Str::random(12);
-        $user = User::create([
-            'person_id' => $person->id,
-            'firstName' => $validatedData['first_name'],
-            'lastName' => $validatedData['last_name'],
-            'email' => $validatedData['email'],
-            'password' => Hash::make($tempPassword),
-            'force_password_reset' => true,
-        ]);
-
-        if ($request->input('isSystemUser', 0)) {
-            if (!empty($request->auth_roles)) {
-                $user->assignRole(array_map('intval', $request->auth_roles));
-                $this->logAction('Assigned Authorization Roles', 'store', 'Person', $person->id);
-            }
-
-            $successMessage .= " Temporary password is " . $tempPassword;
-            $this->logAction('Added as System User', 'store', 'Person', $person->id);
-        } else {
-            $user->assignRole('Client');
-        }
-
-        $successMessage .= " Person created successfully.";
-        $this->logAction('Added Person', 'store', 'Person', $person->id);
-        return redirect()->route('person.index')->with('success', $successMessage);
     }
 
     public function show(Person $person)
@@ -172,74 +119,18 @@ class PersonController extends Controller
     public function update(PersonFormRequest $request, Person $person)
     {
         $validatedData = $request->validated();
-        //$updater = auth()->user()->firstName . ' ' . auth()->user()->lastName;
 
-        $person->update([
-            'first_name' => $validatedData['first_name'],
-            'middle_name' => $validatedData['middle_name'] ?? null,
-            'last_name' => $validatedData['last_name'],
-            'date_of_birth' => $validatedData['date_of_birth'] ?? null,
-            'gender' => $validatedData['gender'],
-            'email' => $validatedData['email'] ?? null,
-            'phone' => $validatedData['phone'] ?? null,
-            'can_text_reminder' => $validatedData['can_text_reminder'] ?? false,
-            'can_email_reminder' => $validatedData['can_email_reminder'] ?? false,
-            'updated_by' => auth()->id(),
-        ]);
-
-        // Update or create address
-        if (!empty(array_filter([
-            $validatedData['address_line_1'] ?? null,
-            $validatedData['address_line_2'] ?? null,
-            $validatedData['city'] ?? null,
-            $validatedData['state'] ?? null,
-            $validatedData['zip'] ?? null,
-        ]))) {
-            if ($person->address) {
-                $person->address->update([
-                    'address_line_1' => $validatedData['address_line_1'] ?? null,
-                    'address_line_2' => $validatedData['address_line_2'] ?? null,
-                    'city' => $validatedData['city'] ?? null,
-                    'state' => $validatedData['state'] ?? null,
-                    'zip' => $validatedData['zip'] ?? null,
-                    'updated_by' => auth()->id(),
-                ]);
-            } else {
-                $address = Address::create([
-                    'address_line_1' => $validatedData['address_line_1'] ?? null,
-                    'address_line_2' => $validatedData['address_line_2'] ?? null,
-                    'city' => $validatedData['city'] ?? null,
-                    'state' => $validatedData['state'] ?? null,
-                    'zip' => $validatedData['zip'] ?? null,
-                    'created_by' => auth()->id(),
-                    'updated_by' => auth()->id(),
-                ]);
-                $person->address()->associate($address)->save();
-            }
-        } elseif ($person->address) {
-            // If all address fields are empty and an address exists, you might want to delete it
-            // TODO: Confirm with the client if this is the desired behavior    
-            //$person->address->delete();
-            //$person->address_id = null;
-            //$person->save();
+        try {
+            $response = $this->personService->updatePerson($validatedData, $request);
+            $this->logAction("Created Person", "store", "Person", $response->person->id);
+            $successMessage = "Person updated successfully.";
+            $person = $response->person;
+            return redirect()->route('person.show', $person)->with('success', $successMessage);
+        } catch (\DomainException $e) {
+            return back()->withInput()->with('error', 'Failed to create person: ' . $e->getMessage());
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error', 'An unexpected error occurred while creating the person.');
         }
-
-        if ($request->has('family_ids')) {
-            $person->families()->sync($request->input('family_ids'));
-        }
-
-        if ($request->has('org_ids')) {
-            $person->organizations()->sync($request->input('org_ids'));
-        }
-
-        if (isset($request['auth_roles'])) {
-            $person->user->roles()->sync($request['auth_roles']);
-            $this->logAction('Updated Authorization Roles', 'update', 'Person', $person->id);
-        }
-
-        $this->logAction('Updated Person', 'update', 'Person', $person->id);
-
-        return redirect()->route('person.index')->with('success', 'Person updated successfully.');
     }
 
     public function destroy(Person $person)
