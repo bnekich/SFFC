@@ -18,21 +18,20 @@ use App\Services\PersonService;
 class PersonController extends Controller
 {
     protected PersonService $personService;
+
     public function __construct(PersonService $personService)
     {
         $this->personService = $personService;
     }
 
-
     public function search(Request $request)
     {
         $this->logAction("Searched Persons", "search", "Person");
         $query = $request->input('q');
-        $page = $request->input('page', 1);
-        $perPage = 10;
+        $page = (int) $request->input('page', 1);
+        $perPage = (int) $request->input('per_page', 10);
 
-        $persons = Person::where('last_name', 'like', "%{$query}%")
-            ->paginate($perPage);
+        $persons = $this->personService->searchPersons($query, $page, $perPage);
 
         return response()->json([
             'items' => $persons->items(),
@@ -45,28 +44,16 @@ class PersonController extends Controller
     {
         $this->logAction("Viewed Persons", "index", "Person");
 
-        $query = Person::query();
+        $filters = [
+            'search' => $request->search,
+            'organization' => $request->organization,
+        ];
+        $sort = [
+            'field' => $request->get('sort', 'last_name'),
+            'direction' => $request->get('direction', 'asc')
+        ];
 
-        if ($request->has('search') && $request->search != '') {
-            $search = $request->search;
-            $query->where(function ($q) use ($search) {
-                $q->where('last_name', 'like', "%$search%")
-                    ->orWhere('first_name', 'like', "%$search%");
-            });
-        }
-
-        // Apply organization filter
-        if ($request->filled('organization')) {
-            $query->whereHas('organizations', function ($q) use ($request) {
-                $q->where('organizations.id', $request->organization);
-            });
-        }
-
-        $sort = $request->get('sort', 'last_name');
-        $direction = $request->get('direction', 'asc');
-        $query->orderBy($sort, $direction);
-
-        $persons = $query->paginate(10);
+        $persons = $this->personService->getPersons($filters, $sort);
         $organizations = Organization::all()->sortBy('name');
         return view('person.index', compact('persons', 'organizations'));
     }
@@ -85,14 +72,14 @@ class PersonController extends Controller
 
     public function store(PersonFormRequest $request)
     {
+        $this->logAction("Store Person", "store", "Person");
         $validatedData = $request->validated();
 
         try {
             $response = $this->personService->createPerson($validatedData, $request);
             $this->logAction("Created Person", "store", "Person", $response->person->id);
-            $successMessage = " Person created successfully. Temporary Password is " . $response->tempPassword;
-            $person = $response->person;
-            return redirect()->route('person.show', $person)->with('success', $successMessage);
+            $successMessage = "Person created successfully. Temporary Password is " . $response->tempPassword;
+            return redirect()->route('person.show', $response->person)->with('success', $successMessage);
         } catch (\DomainException $e) {
             return back()->withInput()->with('error', 'Failed to create person: ' . $e->getMessage());
         } catch (\Exception $e) {
@@ -118,25 +105,27 @@ class PersonController extends Controller
 
     public function update(PersonFormRequest $request, Person $person)
     {
+        $this->logAction("Update Person", "update", "Person", $person->id);
         $validatedData = $request->validated();
 
         try {
             $response = $this->personService->updatePerson($validatedData, $request);
-            $this->logAction("Created Person", "store", "Person", $response->person->id);
-            $successMessage = "Person updated successfully.";
-            $person = $response->person;
-            return redirect()->route('person.show', $person)->with('success', $successMessage);
+            return redirect()->route('person.show', $response->person)->with('success', 'Person updated successfully.');
         } catch (\DomainException $e) {
-            return back()->withInput()->with('error', 'Failed to create person: ' . $e->getMessage());
+            return back()->withInput()->with('error', 'Failed to update person: ' . $e->getMessage());
         } catch (\Exception $e) {
-            return back()->withInput()->with('error', 'An unexpected error occurred while creating the person.');
+            return back()->withInput()->with('error', 'An unexpected error occurred while updating the person.');
         }
     }
 
     public function destroy(Person $person)
     {
-        $person->delete();
-        $this->logAction('Deleted Person', 'destroy', 'Person', $person->id);
-        return redirect()->route('person.index')->with('success', 'Person deleted successfully.');
+        $this->logAction("Delete Person", "destroy", "Person", $person->id);
+        try {
+            $this->personService->deletePerson($person);
+            return redirect()->route('person.index')->with('success', 'Person deleted successfully.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Failed to delete person: ' . $e->getMessage());
+        }
     }
 }

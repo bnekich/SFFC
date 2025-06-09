@@ -9,18 +9,25 @@ use App\Http\Requests\FamilyFormRequest;
 use Illuminate\Http\Request;
 use App\Enums\USState;
 use App\Models\Address;
+use App\Services\FamilyService;
 
 class FamilyController extends Controller
 {
+    protected FamilyService $familyService;
+
+    public function __construct(FamilyService $familyService)
+    {
+        $this->familyService = $familyService;
+    }
+
     //for family search
     public function search(Request $request)
     {
         $query = $request->input('q');
-        $page = $request->input('page', 1);
-        $perPage = 10;
+        $page = (int) $request->input('page', 1);
+        $perPage = (int) $request->input('per_page', 10);
 
-        $families = Family::where('family_name', 'like', "%{$query}%")
-            ->paginate($perPage);
+        $families = $this->familyService->searchFamilies($query, $page, $perPage);
 
         return response()->json([
             'items' => $families->items(),
@@ -33,21 +40,13 @@ class FamilyController extends Controller
     {
         $this->logAction("Viewed Families", "index", "Family");
 
-        $query = Family::query();
+        $filters = ['search' => $request->search];
+        $sort = [
+            'field' => $request->get('sort', 'family_name'),
+            'direction' => $request->get('direction', 'asc')
+        ];
 
-        if ($request->has('search') && $request->search != '') {
-            $search = $request->search;
-            $query->where(function ($q) use ($search) {
-                $q->where('family_name', 'like', "%$search%");
-            });
-        }
-
-        $sort = $request->get('sort', 'family_name');
-        $direction = $request->get('direction', 'asc');
-        $query->orderBy($sort, $direction);
-
-        $families = $query->paginate(10);
-
+        $families = $this->familyService->getFamilies($filters, $sort);
         return view('family.index', compact('families'));
     }
 
@@ -55,7 +54,6 @@ class FamilyController extends Controller
     {
         $this->logAction("Create Family", "create", "Family");
         $states = USState::cases();
-        //$family = new Family();
         $address = new Address();
         return view('family.create', compact('states', 'address'));
     }
@@ -65,37 +63,12 @@ class FamilyController extends Controller
         $this->logAction("Store Family", "store", "Family");
         $validatedData = $request->validated();
 
-        // Create the address if any address fields are provided
-        $address = null;
-        if (!empty(array_filter([
-            $validatedData['address_line_1'] ?? null,
-            $validatedData['address_line_2'] ?? null,
-            $validatedData['city'] ?? null,
-            $validatedData['state'] ?? null,
-            $validatedData['zip'] ?? null,
-        ]))) {
-            $address = Address::create([
-                'address_line_1' => $validatedData['address_line_1'] ?? null,
-                'address_line_2' => $validatedData['address_line_2'] ?? null,
-                'city' => $validatedData['city'] ?? null,
-                'state' => $validatedData['state'] ?? null,
-                'zip' => $validatedData['zip'] ?? null,
-                'created_by' => auth()->id(),
-                'updated_by' => auth()->id(),
-            ]);
+        try {
+            $family = $this->familyService->createFamily($validatedData);
+            return redirect()->route('family.index')->with('success', 'Family created successfully.');
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error', 'Failed to create family: ' . $e->getMessage());
         }
-        $family = Family::create([
-            'family_name' => $validatedData['family_name'],
-            'address_id' => $address ? $address->id : null,
-            'created_by' => auth()->id(),
-            'updated_by' => auth()->id(),
-        ]);
-
-        if (array_key_exists('person_ids', $validatedData)) {
-            $family->persons()->attach($validatedData['person_ids']);
-        }
-
-        return redirect()->route('family.index')->with('success', 'Family created successfully.');
     }
 
     public function show(Family $family)
@@ -106,6 +79,7 @@ class FamilyController extends Controller
 
     public function edit(Family $family)
     {
+        $this->logAction("Edit Family", "edit", "Family");
         $states = USState::cases();
         return view('family.edit', compact('family', 'states'));
     }
@@ -115,58 +89,22 @@ class FamilyController extends Controller
         $this->logAction("Update Family", "update", "Family");
         $validatedData = $request->validated();
 
-        $family->update([
-            'family_name' => $validatedData['family_name'],
-            'updated_by' => auth()->id(),
-        ]);
-
-        // Update or create address
-        if (!empty(array_filter([
-            $validatedData['address_line_1'] ?? null,
-            $validatedData['address_line_2'] ?? null,
-            $validatedData['city'] ?? null,
-            $validatedData['state'] ?? null,
-            $validatedData['zip'] ?? null,
-        ]))) {
-            if ($family->address) {
-                $family->address->update([
-                    'address_line_1' => $validatedData['address_line_1'] ?? null,
-                    'address_line_2' => $validatedData['address_line_2'] ?? null,
-                    'city' => $validatedData['city'] ?? null,
-                    'state' => $validatedData['state'] ?? null,
-                    'zip' => $validatedData['zip'] ?? null,
-                    'updated_by' => auth()->id(),
-                ]);
-            } else {
-                $address = Address::create([
-                    'address_line_1' => $validatedData['address_line_1'] ?? null,
-                    'address_line_2' => $validatedData['address_line_2'] ?? null,
-                    'city' => $validatedData['city'] ?? null,
-                    'state' => $validatedData['state'] ?? null,
-                    'zip' => $validatedData['zip'] ?? null,
-                    'created_by' => auth()->id(),
-                    'updated_by' => auth()->id(),
-                ]);
-                $family->address()->associate($address)->save();
-            }
-        } elseif ($family->address) {
-            // If all address fields are empty and an address exists, you might want to delete it
-            // TODO: Confirm with the client if this is the desired behavior    
-            //$person->address->delete();
-            //$person->address_id = null;
-            //$person->save();
+        try {
+            $family = $this->familyService->updateFamily($family, $validatedData);
+            return redirect()->route('family.show', $family)->with('success', 'Family updated successfully.');
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error', 'Failed to update family: ' . $e->getMessage());
         }
-
-        if ($request->has('person_ids')) {
-            $family->persons()->sync($request->person_ids);
-        }
-
-        return redirect()->route('family.show', $family)->with('success', 'Family updated successfully.');
     }
 
     public function destroy(Family $family)
     {
-        $family->delete();
-        return redirect()->route('family.index')->with('success', 'Family deleted successfully.');
+        $this->logAction("Delete Family", "destroy", "Family");
+        try {
+            $this->familyService->deleteFamily($family);
+            return redirect()->route('family.index')->with('success', 'Family deleted successfully.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Failed to delete family: ' . $e->getMessage());
+        }
     }
 }
