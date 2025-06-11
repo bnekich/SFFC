@@ -4,9 +4,6 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Intake>
- */
 class IntakeFactory extends Factory
 {
     public function definition(): array
@@ -31,8 +28,8 @@ class IntakeFactory extends Factory
             'emotional_behavioral_medical_concerns' => '',
             'is_a_sffc_fit' => fake()->boolean(0.5),
             'resources_provided' => '',
-            'created_by' => $this->faker->numberBetween(1, 10),
-            'updated_by' => $this->faker->numberBetween(1, 10),
+            'created_by' => 1,
+            'updated_by' => 1,
             'intake_status' => fake()->randomElement(['F', 'S', 'T', 'I', 'C', 'X', 'O']),
 
         ];

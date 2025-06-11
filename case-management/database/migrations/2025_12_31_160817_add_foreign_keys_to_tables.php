@@ -8,11 +8,6 @@ class AddForeignKeysToTables extends Migration
 {
     public function up()
     {
-        Schema::table('forms', function (Blueprint $table) {
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null');
-        });
-
         Schema::table('addresses', function (Blueprint $table) {
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null');
@@ -39,11 +34,6 @@ class AddForeignKeysToTables extends Migration
             $table->foreign('address_id')->references('id')->on('addresses')->onDelete('set null');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null');
-        });
-
-        // Users
-        Schema::table('users', function (Blueprint $table) {
-            $table->foreign('person_id')->references('id')->on('persons')->onDelete('cascade');
         });
 
         // Families
@@ -127,11 +117,6 @@ class AddForeignKeysToTables extends Migration
             $table->foreign('volunteer_id')->references('person_id')->on('volunteers')->onDelete('cascade');
         });
 
-        //Forms_Fields
-        Schema::table('forms_fields', function (Blueprint $table) {
-            $table->foreign('form_id')->references('id')->on('forms')->onDelete('cascade');
-            $table->foreign('field_id')->references('id')->on('fields')->onDelete('cascade');
-        });
 
         // Persons_Organizations
         Schema::table('persons_organizations', function (Blueprint $table) {
@@ -147,10 +132,6 @@ class AddForeignKeysToTables extends Migration
             $table->dropForeign(['organization_id']);
         });
 
-        Schema::table('forms_fields', function (Blueprint $table) {
-            $table->dropForeign(['form_id']);
-            $table->dropForeign(['field_id']);
-        });
 
         // Drop foreign keys in reverse order
         Schema::table('volunteers_courses', function (Blueprint $table) {
@@ -237,11 +218,6 @@ class AddForeignKeysToTables extends Migration
 
         Schema::table('volunteers', function (Blueprint $table) {
             $table->dropForeign(['person_id']);
-            $table->dropForeign(['created_by']);
-            $table->dropForeign(['updated_by']);
-        });
-
-        Schema::table('forms', function (Blueprint $table) {
             $table->dropForeign(['created_by']);
             $table->dropForeign(['updated_by']);
         });

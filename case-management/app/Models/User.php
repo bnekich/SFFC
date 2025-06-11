@@ -17,7 +17,6 @@ class User extends Authenticatable
     ];
 
     protected $fillable = [
-        'person_id',
         'firstName',
         'lastName',
         'email',
@@ -38,9 +37,10 @@ class User extends Authenticatable
             'force_password_reset' => 'boolean'
         ];
     }
-
+    /*
     public function person()
     {
         return $this->belongsTo(Person::class);
     }
+*/
 }

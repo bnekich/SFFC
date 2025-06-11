@@ -22,7 +22,6 @@ abstract class ServiceTestCase extends TestCase
     {
         parent::setUp();
 
-        // Create a user first without person_id
         $this->user = User::factory()->create([
             'firstName' => 'Test',
             'lastName' => 'User',
@@ -30,18 +29,23 @@ abstract class ServiceTestCase extends TestCase
             'password' => bcrypt('password'),
         ]);
 
-        // Create a person with the user's ID for created_by
-        $this->person = Person::factory()->create([
-            'first_name' => 'Test',
-            'last_name' => 'User',
-            'email' => 'test@example.com',
+        $this->address = Address::factory()->create([
+            'address_line_1' => '123 Test St',
+            'city' => 'Test City',
+            'state' => 'WI',
+            'zip' => '12345',
             'created_by' => $this->user->id,
             'updated_by' => $this->user->id,
         ]);
 
-        // Update the user with the person's ID
-        DB::table('users')->where('id', $this->user->id)->update(['person_id' => $this->person->id]);
-        $this->user->refresh();
+        $this->person = Person::factory()->create([
+            'first_name' => 'Test',
+            'last_name' => 'User',
+            'email' => 'test@example.com',
+            'address_id' => $this->address->id,
+            'created_by' => $this->user->id,
+            'updated_by' => $this->user->id,
+        ]);
 
         // Authenticate the user
         Auth::login($this->user);
@@ -50,14 +54,13 @@ abstract class ServiceTestCase extends TestCase
     protected function createAuthenticatedUser(): User
     {
         // Create a person first (without address)
-        $person = Person::factory()->create();
+        //$person = Person::factory()->create();
 
         // Create and authenticate a user
         $user = User::factory()->create([
-            'person_id' => $person->id,
-            'firstName' => $person->first_name,
-            'lastName' => $person->last_name,
-            'email' => $person->email
+            'firstName' => 'Test',
+            'lastName' => 'User',
+            'email' => 'test@example.com',
         ]);
 
         Auth::login($user);
@@ -69,7 +72,7 @@ abstract class ServiceTestCase extends TestCase
         ]);
 
         // Update the person with the address
-        $person->update(['address_id' => $address->id]);
+        //$person->update(['address_id' => $address->id]);
 
         return $user;
     }

@@ -103,9 +103,9 @@ class PersonService
                 $person->organizations()->sync($request->input('org_ids'));
             }
 
-            if (isset($request['auth_roles'])) {
-                $person->user->roles()->sync($request['auth_roles']);
-            }
+            // if (isset($request['auth_roles'])) {
+            //     $person->user->roles()->sync($request['auth_roles']);
+            // }
 
             return new PersonServiceResponse($person);
         });
@@ -157,22 +157,19 @@ class PersonService
                 $person->organizations()->sync($request->input('org_ids'));
             }
 
-            $tempPassword = Str::random(12);
-            $user = User::create([
-                'person_id' => $person->id,
-                'firstName' => $data['first_name'],
-                'lastName' => $data['last_name'],
-                'email' => $data['email'],
-                'password' => Hash::make($tempPassword),
-                'force_password_reset' => true,
-            ]);
-
             if ($request->input('isSystemUser', 0)) {
+                $tempPassword = Str::random(12);
+                $user = User::create([
+                    'person_id' => $person->id,
+                    'firstName' => $data['first_name'],
+                    'lastName' => $data['last_name'],
+                    'email' => $data['email'],
+                    'password' => Hash::make($tempPassword),
+                    'force_password_reset' => true,
+                ]);
                 if (!empty($request->auth_roles)) {
                     $user->assignRole(array_map('intval', $request->auth_roles));
                 }
-            } else {
-                $user->assignRole('Client');
             }
 
             return new PersonServiceResponse($person, $tempPassword);

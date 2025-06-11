@@ -12,7 +12,7 @@
         <p><strong>Address:</strong> {{ $person->address->address_line_1 ?? 'N/A' }}</p>
         <p><strong>City:</strong> {{ $person->address->city ?? 'N/A' }}</p>
         <p><strong>State:</strong> {{ $person->address->state ?? 'N/A' }}</p>
-        <p><strong>Zip Code:</strong> {{ $person->address->zip_code ?? 'N/A' }}</p>
+        <p><strong>Zip Code:</strong> {{ $person->address->zip ?? 'N/A' }}</p>
         <p><strong>Country:</strong> {{ $person->address->country ?? 'N/A' }}</p>
         <p><strong>Email:</strong> {{ $person->email ?? 'N/A' }}</p>
         <p><strong>Phone:</strong> {{ $person->phone ?? 'N/A' }}</p>

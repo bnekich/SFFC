@@ -16,6 +16,7 @@ class FamilyFactory extends Factory
      */
     public function definition(): array
     {
+
         return [
             'family_name' => fake()->lastName(),
             'address_id' => 1,

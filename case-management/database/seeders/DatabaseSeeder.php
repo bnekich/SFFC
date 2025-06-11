@@ -28,7 +28,6 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolePermissionSeeder::class,
             PersonSeeder::class,
-            UserSeeder::class,
             OrganizationTypeSeeder::class,
             OrganizationSeeder::class,
             TagSeeder::class,
@@ -36,8 +35,6 @@ class DatabaseSeeder extends Seeder
         Intake::factory()->count(100)->create();
         Family::factory()->count(100)->create();
         CaseModel::factory()->count(100)->create();
-        // FormModel::factory()->create();
-        // Field::factory()->create();
         Course::factory()->count(20)->create();
         CaseNote::factory()->count(100)->create();
     }

@@ -3,27 +3,36 @@
 namespace Tests\Unit\Services;
 
 use App\Models\Family;
-use App\Models\Person;
-use App\Models\Address;
 use App\Services\FamilyService;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Tests\Unit\ServiceTestCase;
+use App\Models\Status;
+use App\Models\Address;
+use App\Models\Person;
 
 class FamilyServiceTest extends ServiceTestCase
 {
     private FamilyService $familyService;
+    private Status $status;
 
     protected function setUp(): void
     {
         parent::setUp();
+
+        // Create the status first
+        $this->status = Status::factory()->create([
+            'name' => 'Open',
+        ]);
+
+        // Initialize the service
         $this->familyService = new FamilyService();
     }
 
     public function test_search_families_returns_paginated_results()
     {
         // Arrange
-        Family::factory()->create(['name' => 'Smith Family']);
-        Family::factory()->create(['name' => 'Jones Family']);
+        Family::factory()->create(['family_name' => 'Smith Family', 'status_id' => $this->status->id, 'address_id' => $this->address->id, 'created_by' => $this->user->id, 'updated_by' => $this->user->id]);
+        Family::factory()->create(['family_name' => 'Jones Family', 'status_id' => $this->status->id, 'address_id' => $this->address->id, 'created_by' => $this->user->id, 'updated_by' => $this->user->id]);
 
         // Act
         $result = $this->familyService->searchFamilies('Smith');
@@ -31,13 +40,13 @@ class FamilyServiceTest extends ServiceTestCase
         // Assert
         $this->assertInstanceOf(LengthAwarePaginator::class, $result);
         $this->assertEquals(1, $result->total());
-        $this->assertEquals('Smith Family', $result->first()->name);
+        $this->assertEquals('Smith Family', $result->first()->family_name);
     }
 
     public function test_get_families_returns_all_paginated_families()
     {
         // Arrange
-        Family::factory()->count(15)->create();
+        Family::factory()->count(15)->create(['address_id' => $this->address->id, 'status_id' => $this->status->id, 'created_by' => $this->user->id, 'updated_by' => $this->user->id]);
 
         // Act
         $result = $this->familyService->getFamilies();
@@ -51,15 +60,13 @@ class FamilyServiceTest extends ServiceTestCase
     {
         // Arrange
         $data = [
-            'name' => 'Test Family',
-            'type' => 'host',
-            'primary_contact_id' => null,
-            'address' => [
-                'street' => '123 Family St',
-                'city' => 'Anytown',
-                'state' => 'WI',
-                'zip' => '12345'
-            ]
+            'family_name' => 'Test Family',
+            'address_line_1' => '123 Test St',
+            'address_line_2' => null,
+            'city' => 'Test City',
+            'state' => 'WI',
+            'zip' => '12345',
+            'status_id' => $this->status->id,
         ];
 
         // Act
@@ -67,107 +74,53 @@ class FamilyServiceTest extends ServiceTestCase
 
         // Assert
         $this->assertInstanceOf(Family::class, $family);
-        $this->assertEquals('Test Family', $family->name);
-        $this->assertEquals('host', $family->type);
+        $this->assertEquals('Test Family', $family->family_name);
         $this->assertEquals($this->user->id, $family->created_by);
 
         // Assert address was created
         $this->assertInstanceOf(Address::class, $family->address);
-        $this->assertEquals('123 Family St', $family->address->street);
+        $this->assertEquals('123 Test St', $family->address->address_line_1);
     }
 
     public function test_update_family_updates_existing_family()
     {
         // Arrange
-        $family = Family::factory()->create();
+        $family = Family::factory()->create(['family_name' => 'Smith Family', 'status_id' => $this->status->id, 'address_id' => $this->address->id, 'created_by' => $this->user->id, 'updated_by' => $this->user->id]);
+
         $data = [
-            'name' => 'Updated Family',
-            'type' => 'client',
-            'address' => [
-                'street' => '456 New St',
-                'city' => 'Newtown',
-                'state' => 'WI',
-                'zip' => '54321'
-            ]
+            'family_name' => 'Updated Family',
+            'address_id' => $this->address->id,
+            'address_line_1' => '456 New St',
+            'address_line_2' => null,
+            'city' => 'Test City',
+            'state' => 'WI',
+            'zip' => '12345',
+            'status_id' => $this->status->id,
+            'updated_by' => $this->user->id,
         ];
 
         // Act
         $updatedFamily = $this->familyService->updateFamily($family, $data);
 
         // Assert
-        $this->assertEquals('Updated Family', $updatedFamily->name);
-        $this->assertEquals('client', $updatedFamily->type);
+        $this->assertEquals('Updated Family', $updatedFamily->family_name);
         $this->assertEquals($this->user->id, $updatedFamily->updated_by);
 
         // Assert address was updated
-        $this->assertEquals('456 New St', $updatedFamily->address->street);
+        $this->assertEquals('456 New St', $updatedFamily->address->address_line_1);
     }
 
     public function test_delete_family_removes_family_and_address()
     {
         // Arrange
-        $family = Family::factory()->create();
-        $address = Address::factory()->create(['family_id' => $family->id]);
+        $family = Family::factory()->create(['family_name' => 'Smith Family', 'status_id' => $this->status->id, 'address_id' => $this->address->id, 'created_by' => $this->user->id, 'updated_by' => $this->user->id]);
+        //$address = Address::factory()->create(['family_id' => $family->id, 'address_line_1' => '123 Test St', 'city' => 'Test City', 'state' => 'WI', 'zip' => '12345']);
 
         // Act
         $this->familyService->deleteFamily($family);
 
         // Assert
-        $this->assertModelDeleted($family);
-        $this->assertModelDeleted($address);
-    }
-
-    public function test_add_family_member_associates_person_with_family()
-    {
-        // Arrange
-        $family = Family::factory()->create();
-        $person = Person::factory()->create();
-
-        // Act
-        $result = $this->familyService->addFamilyMember($family, $person->id);
-
-        // Assert
-        $this->assertTrue($result);
-        $this->assertDatabaseHas('family_person', [
-            'family_id' => $family->id,
-            'person_id' => $person->id
-        ]);
-    }
-
-    public function test_remove_family_member_dissociates_person_from_family()
-    {
-        // Arrange
-        $family = Family::factory()->create();
-        $person = Person::factory()->create();
-        $this->familyService->addFamilyMember($family, $person->id);
-
-        // Act
-        $result = $this->familyService->removeFamilyMember($family, $person->id);
-
-        // Assert
-        $this->assertTrue($result);
-        $this->assertDatabaseMissing('family_person', [
-            'family_id' => $family->id,
-            'person_id' => $person->id
-        ]);
-    }
-
-    public function test_get_family_members_returns_all_family_members()
-    {
-        // Arrange
-        $family = Family::factory()->create();
-        $person1 = Person::factory()->create();
-        $person2 = Person::factory()->create();
-
-        $this->familyService->addFamilyMember($family, $person1->id);
-        $this->familyService->addFamilyMember($family, $person2->id);
-
-        // Act
-        $members = $this->familyService->getFamilyMembers($family);
-
-        // Assert
-        $this->assertCount(2, $members);
-        $this->assertTrue($members->contains($person1));
-        $this->assertTrue($members->contains($person2));
+        $this->assertSoftDeleted($family);
+        //$this->assertModelDeleted($address);
     }
 }

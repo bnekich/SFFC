@@ -6,7 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+//use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -31,12 +31,12 @@ class Person extends Model
         'created_by',
         'updated_by',
     ];
-
+    /*
     public function User(): HasOne
     {
         return $this->hasOne(User::class, 'person_id');
     }
-
+*/
 
     public function address()
     {

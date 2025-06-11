@@ -7,7 +7,7 @@
         <p><strong>Address:</strong> {{ $organization->address->address_line_1 ?? 'N/A' }}</p>
         <p><strong>City:</strong> {{ $organization->address->city ?? 'N/A' }}</p>
         <p><strong>State:</strong> {{ $organization->address->state ?? 'N/A' }}</p>
-        <p><strong>Zip Code:</strong> {{ $organization->address->zip_code ?? 'N/A' }}</p>
+        <p><strong>Zip Code:</strong> {{ $organization->address->zip ?? 'N/A' }}</p>
         <p><strong>Country:</strong> {{ $organization->address->country ?? 'N/A' }}</p>
         <p><strong>Email:</strong> {{ $organization->email ?? 'N/A' }}</p>
         <p><strong>Phone:</strong> {{ $organization->phone ?? 'N/A' }}</p>

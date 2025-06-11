@@ -15,7 +15,6 @@ class UserFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "person_id" => "required",
             "firstName" => "required|string|max:255",
             "lastName" => "required|string|max:255",
             "email" => [
@@ -31,7 +30,6 @@ class UserFormRequest extends FormRequest
     public function messages()
     {
         return [
-            "person_id.required" => "Must be added to the Person table first.",
             "firstName.required" => "A First Name is required.",
             "lastName.required" => "A Last Name is required.",
             "email.required" => "A valid email address is required.",

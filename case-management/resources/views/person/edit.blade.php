@@ -104,33 +104,6 @@
                 </select>
             </div>
 
-            @canany(['users-create', 'users-edit'])
-                <div class="col-auto" id="authRolesSection" style="display: {{ $person->user ? 'block' : 'none' }};">
-                    <div class="dropdown">
-                        <button class="btn btn-success dropdown-toggle" type="button" id="authorizationRoleDropDown"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Select Roles
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="authorizationRoleDropDown">
-                            @foreach ($allRoles as $role)
-                                <div class="form-check form-switch">
-                                    <li>
-                                        <input class="form-check-input" type="checkbox" name="auth_roles[]"
-                                            value="{{ $role->id }}" id="role_{{ $role->id }}"
-                                            data-role="{{ $role->name }}" data-roletype="authorization"
-                                            {{ $person->user->hasRole($role->name) ? 'checked' : '' }}>
-                                        <label for="role_{{ $role->id }}">{{ $role->name }}</label>
-                                    </li>
-                                </div>
-                            @endforeach
-                        </ul>
-                    </div>
-                    @error('auth_roles')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
-                {{-- </div> --}}
-            @endcanany
             <div class="row g-3">
                 <div class="col-auto">
                     @canany('[user-create, user-edit]')
