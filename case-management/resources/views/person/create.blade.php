@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    - Add Person
+@endsection
+
 @section('content')
     <div class="container">
     @section('header')
@@ -10,44 +14,52 @@
     <form class="row g-3 align-items-center" action="{{ route('person.store') }}" method="POST">
         @csrf
         <div class="col-auto">
-            <input type="text" name="first_name" placeholder="First Name"
-                class="form-control-sm @error('first_name') is-invalid @enderror" value="{{ old('first_name') }}">
+            <label for="first_name" class="form-label label-required">First Name</label>
+            <input id="first_name" type="text" name="first_name" placeholder="First Name"
+                class="form-control-sm @error('first_name') is-invalid @enderror" value="{{ old('first_name') }}"
+                required>
             @error('first_name')
                 <span class="invalid-feedback">{{ $message }}</span>
             @enderror
         </div>
         <div class="col-auto">
-            <input type="text" name="middle_name" placeholder="Middle Name"
+            <label for="middle_name" class="form-label">Middle Name</label>
+            <input id="middle_name" type="text" name="middle_name" placeholder="Middle Name"
                 class="form-control-sm  @error('middle_name') is-invalid @enderror" value="{{ old('middle_name') }}">
             @error('middle_name')
                 <span class="invalid-feedback">{{ $message }}</span>
             @enderror
         </div>
         <div class="col-auto">
-            <input type="text" name="last_name" placeholder="Last Name"
-                class="form-control-sm @error('last_name') is-invalid @enderror" value="{{ old('last_name') }}">
+            <label for="last_name" class="form-label label-required">Last Name</label>
+            <input id="last_name" type="text" name="last_name" placeholder="Last Name"
+                class="form-control-sm @error('last_name') is-invalid @enderror" value="{{ old('last_name') }}"
+                required>
             @error('last_name')
                 <span class="invalid-feedback">{{ $message }}</span>
             @enderror
         </div>
         <div class="col-auto">
-            <input type="email" name="email" placeholder="Email"
-                class="form-control-sm @error('email') is-invalid @enderror" value="{{ old('email') }}">
+            <label for="email" class="form-label label-required">Email</label>
+            <input id="email" type="email" name="email" placeholder="Email"
+                class="form-control-sm @error('email') is-invalid @enderror" value="{{ old('email') }}" required>
             @error('email')
                 <span class="invalid-feedback">{{ $message }}</span>
             @enderror
         </div>
         <div class="col-auto">
-            <input type="text" name="phone" placeholder="Phone Number"
-                class="phone-input form-control-sm @error('phone') is-invalid @enderror" value="{{ old('phone') }}">
+            <label for="phone" class="form-label label-required">Phone Number</label>
+            <input id="phone" type="text" name="phone" placeholder="Phone Number"
+                class="phone-input form-control-sm @error('phone') is-invalid @enderror" value="{{ old('phone') }}"
+                required>
             @error('phone')
                 <span class="invalid-feedback">{{ $message }}</span>
             @enderror
         </div>
         <div class="row g-3 align-items-center">
             <div class="col-auto">
-                <label class="form-label">Date of Birth</label>
-                <input type="date" name="date_of_birth"
+                <label for="date_of_birth" class="form-label">Date of Birth</label>
+                <input id="date_of_birth" type="date" name="date_of_birth"
                     class="form-control-sm @error('date_of_birth') is-invalid @enderror"
                     value="{{ old('date_of_birth') }}">
                 @error('date_of_birth')
@@ -55,8 +67,8 @@
                 @enderror
             </div>
             <div class="col-auto">
-                <label class="form-label">Gender</label>
-                <select name="gender" class="form-select-sm @error('gender') is-invalid @enderror">
+                <label for="gender" class="form-label">Gender</label>
+                <select id="gender" name="gender" class="form-select-sm @error('gender') is-invalid @enderror">
                     <option value=""> (Select)</option>
                     @foreach ($genders as $gender)
                         <option value="{{ $gender->value }}" {{ old('gender') == $gender->value ? 'selected' : '' }}>

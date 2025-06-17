@@ -8,12 +8,12 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class PersonFormRequest extends FormRequest
 {
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
-    public function rules()
+    public function rules(): array
     {
         if ($this->method() === 'GET') {
             return [
@@ -43,5 +43,11 @@ class PersonFormRequest extends FormRequest
             'org_ids' => 'nullable|array',
             'ethnicity' => 'string|max:2',
         ];
+    }
+
+    public function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        \Log::error('Validation failed', $validator->errors()->toArray());
+        parent::failedValidation($validator);
     }
 }

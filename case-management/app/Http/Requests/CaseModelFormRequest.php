@@ -47,7 +47,7 @@ class CaseModelFormRequest extends FormRequest
         ];
     }
 
-    public function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    public function failedValidation(\Illuminate\Contracts\Validation\Validator $validator): void
     {
         \Log::error('Validation failed', $validator->errors()->toArray());
         parent::failedValidation($validator);

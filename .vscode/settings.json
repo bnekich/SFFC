@@ -23,5 +23,11 @@
   "[php]": {
     "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
   },
-  "explorer.compactFolders": false
+  "explorer.compactFolders": false,
+  "phpunit.php": "D:\\source\\SFFC\\case-management\\vendor\\bin\\phpunit.bat",
+  "phpunit.phpunit": "D:\\source\\SFFC\\case-management\\vendor\\bin\\phpunit",
+  "phpunit.args": [],
+  "phpunit.paths": {
+    "${workspaceFolder}": "${workspaceFolder}/case-management"
+  }
 }

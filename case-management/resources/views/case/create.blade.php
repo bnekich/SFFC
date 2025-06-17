@@ -16,7 +16,7 @@
         <div class="col-auto">
             <label for="case_identifier" class="form-label label-required">Case Identifier</label>
             <input id="case_identifier" type="text" name="case_identifier" placeholder="A Unique Identifier"
-                class="form-control-sm @error('case_identifier') is-valid @enderror"
+                class="form-control-sm @error('case_identifier') is-invalid @enderror"
                 value="{{ old('case_identifier') }}" required>
             @error('case_identifier')
                 <span class="invalid-feedback">{{ $message }}</span>

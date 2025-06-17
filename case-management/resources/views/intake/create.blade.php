@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    - Add Intake
+@endsection
+
 @section('content')
     <div class="container">
     @section('header')

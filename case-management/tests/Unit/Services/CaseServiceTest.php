@@ -22,6 +22,9 @@ class CaseServiceTest extends ServiceTestCase
     {
         parent::setUp();
         $this->caseService = new CaseService();
+        $this->status = Status::factory()->create([
+            'name' => 'Open',
+        ]);
 
         $this->clientFamily = Family::factory()->create([
             'family_name' => 'Client Family',
