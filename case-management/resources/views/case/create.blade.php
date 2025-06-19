@@ -67,7 +67,7 @@
 
         <div class="row g-3">
             <div class="col-auto">
-                <button type="submit" class="btn btn-primary mt-3">Create</button>
+                <button type="submit" class="btn btn-primary mt-3">Save</button>
                 <a href="{{ route('case.index') }}" class="btn btn-secondary mt-3">Cancel</a>
             </div>
         </div>

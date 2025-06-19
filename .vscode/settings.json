@@ -29,5 +29,8 @@
   "phpunit.args": [],
   "phpunit.paths": {
     "${workspaceFolder}": "${workspaceFolder}/case-management"
-  }
+  },
+  "php.debug.ideKey": "VSCODE",
+  "php.validate.executablePath": "C:\\xampp\\php\\php.exe",
+  "php.suggest.basic": false
 }

@@ -156,7 +156,7 @@ class PersonService
             if ($request->has('org_ids')) {
                 $person->organizations()->sync($request->input('org_ids'));
             }
-
+            $tempPassword = "";
             if ($request->input('isSystemUser', 0)) {
                 $tempPassword = Str::random(12);
                 $user = User::create([
@@ -179,9 +179,6 @@ class PersonService
     public function deletePerson(Person $person): void
     {
         DB::transaction(function () use ($person) {
-            if ($person->user) {
-                $person->user->delete();
-            }
             $person->delete();
         });
     }

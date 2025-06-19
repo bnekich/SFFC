@@ -45,8 +45,14 @@ class CaseModel extends Model
     {
         return $this->hasMany(Appointment::class, 'case_id');
     }
+
     public function caseNotes()
     {
         return $this->hasMany(CaseNote::class, 'case_id');
+    }
+
+    public function createdByUser()
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 }

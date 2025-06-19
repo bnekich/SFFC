@@ -1,16 +1,20 @@
 @extends('layouts.app')
 
-@section('header')
-    <div class="row g-3">
-        <h3>Edit Intake</h3>
-    </div>
+@section('title')
+    - Edit Intake
 @endsection
 
 @section('content')
     <div class="container">
-        <form class="g3 align-items-center" action="{{ route('intake.update', $intake->id) }}" method="POST">
-            @csrf
-            @method('PUT')
+    @section('header')
+        <div class="row g-3">
+            <h3>Edit Intake</h3>
+        </div>
+    @endsection
+    <form class="rowg3 align-items-center" action="{{ route('intake.update', $intake->id) }}" method="POST">
+        @csrf
+        @method('PUT')
+        <div class="row g-3">
             <div class="col-auto">
                 <label class="form-label label-required">Parent Name</label>
                 <input type="text" name="parent_name" placeholder="Parent Name"
@@ -39,6 +43,20 @@
                 @enderror
             </div>
             <div class="col-auto">
+                <label class="form-label label-required">Intake Status</label>
+                <select name="intake_status" class="form-select-sm @error('intake_status') is-invalid @enderror"
+                    required>
+                    @foreach ($intakeStatuses as $status)
+                        <option value="{{ $status->value }}"
+                            {{ $status->value === $intake->intake_status ? 'selected' : '' }}">
+                            {{ $status->label() }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="row g-3">
+            <div class="col-auto">
                 <div class="form-check form-switch">
                     <input type="hidden" name="hasSFFCHistory" value="0">
                     <input type="checkbox" name="hasSFFCHistory" value="1" class="form-check-input"
@@ -64,34 +82,28 @@
                     <label class="form-check-label">Requesting Resource Friend</label>
                 </div>
             </div>
-            <div class="col-auto">
-                <label class="form-label">Intake Status</label>
-                <select name="intake_status" class="form-select-sm @error('intake_status') is-invalid @enderror">
-                    @foreach ($intakeStatuses as $status)
-                        <option value="{{ $status->value }}"
-                            {{ $status->value === $intake->intake_status ? 'selected' : '' }}">
-                            {{ $status->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
+        </div>
+        <div class="row g-3">
             <div class="form-group">
+                <label class="form-label label-required">Referral Contact Information</label>
                 <textarea name="referral_contact" class="form-control  @error('referral_contact') is-invalid @enderror"
-                    placeholder="Referral Contact Information (Name, phone, email, etc.)">{{ old('referral_contact', $intake->referral_contact) }}</textarea>
+                    placeholder="Name, phone, email, etc." required>{{ old('referral_contact', $intake->referral_contact) }}</textarea>
                 @error('referral_contact')
                     <span class="invalid-feedback d-block">{{ $message }}</span>
                 @enderror
             </div>
             <div class="form-group">
-                <textarea name="case_summary" class="form-control" placeholder="Reason for Referral / Case Summary">{{ old('case_summary', $intake->case_summary) }}</textarea>
+                <label class="form-label label-required">Case Summary</label>
+                <textarea name="case_summary" class="form-control" placeholder="Reason for Referral / Case Summary" required>{{ old('case_summary', $intake->case_summary) }}</textarea>
             </div>
-            <div class="row g-3">
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-primary mt-3">Save</button>
-                    <a href="{{ route('intake.index') }}" class="btn btn-secondary mt-3">Cancel</a>
-                </div>
+        </div>
+        <div class="row g-3">
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary mt-3">Save</button>
+                <a href="{{ route('intake.index') }}" class="btn btn-secondary mt-3">Cancel</a>
             </div>
+        </div>
 
-        </form>
-    </div>
+    </form>
+</div>
 @endsection

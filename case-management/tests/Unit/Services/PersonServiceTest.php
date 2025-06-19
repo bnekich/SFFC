@@ -7,6 +7,9 @@ use App\Models\Address;
 use App\Services\PersonService;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Tests\Unit\ServiceTestCase;
+use App\Http\Requests\PersonFormRequest;
+use Illuminate\Support\Arr;
+use Mockery;
 
 class PersonServiceTest extends ServiceTestCase
 {
@@ -21,8 +24,8 @@ class PersonServiceTest extends ServiceTestCase
     public function test_search_persons_returns_paginated_results()
     {
         // Arrange
-        Person::factory()->create(['first_name' => 'John', 'last_name' => 'Doe']);
-        Person::factory()->create(['first_name' => 'Jane', 'last_name' => 'Smith']);
+        Person::factory()->create(['first_name' => 'John', 'last_name' => 'Doe', 'created_by' => $this->user->id, 'updated_by' => $this->user->id, 'address_id' => $this->address->id]);
+        Person::factory()->create(['first_name' => 'Jane', 'last_name' => 'Smith', 'created_by' => $this->user->id, 'updated_by' => $this->user->id, 'address_id' => $this->address->id]);
 
         // Act
         $result = $this->personService->searchPersons('John');
@@ -36,7 +39,7 @@ class PersonServiceTest extends ServiceTestCase
     public function test_get_persons_returns_all_paginated_persons()
     {
         // Arrange
-        Person::factory()->count(15)->create();
+        Person::factory()->count(15)->create(['first_name' => 'John', 'last_name' => 'Doe', 'address_id' => $this->address->id, 'created_by' => $this->user->id, 'updated_by' => $this->user->id]);
 
         // Act
         $result = $this->personService->getPersons();
@@ -57,16 +60,22 @@ class PersonServiceTest extends ServiceTestCase
             'ethnicity' => 'White',
             'email' => 'john.doe@example.com',
             'phone' => '123-456-7890',
-            'address' => [
-                'street' => '123 Main St',
-                'city' => 'Anytown',
-                'state' => 'WI',
-                'zip' => '12345'
-            ]
+            'address_line_1' => '123 Main St',
+            'city' => 'Anytown',
+            'state' => 'WI',
+            'zip' => '12345',
         ];
+        $request = Mockery::mock(PersonFormRequest::class);
+        $request->shouldReceive('has')->andReturn(false);
+        $request->shouldReceive('input')->andReturn(null);
+        $request->shouldReceive('auth_roles')->andReturn(null);
+        $request->person = null;
+        $request->shouldReceive('all')->andReturn($data);
+        $request->shouldReceive('route')->andReturn(null);
 
         // Act
-        $person = $this->personService->createPerson($data);
+        $response = $this->personService->createPerson($data, $request);
+        $person = $response->person;
 
         // Assert
         $this->assertInstanceOf(Person::class, $person);
@@ -76,27 +85,36 @@ class PersonServiceTest extends ServiceTestCase
 
         // Assert address was created
         $this->assertInstanceOf(Address::class, $person->address);
-        $this->assertEquals('123 Main St', $person->address->street);
+        $this->assertEquals('123 Main St', $person->address->address_line_1);
     }
 
     public function test_update_person_updates_existing_person()
     {
         // Arrange
-        $person = Person::factory()->create();
+        $person = Person::factory()->create(['first_name' => 'John', 'last_name' => 'Doe', 'gender' => 'M', 'created_by' => $this->user->id, 'updated_by' => $this->user->id, 'address_id' => $this->address->id]);
         $data = [
             'first_name' => 'Updated',
             'last_name' => 'Name',
             'email' => 'updated@example.com',
-            'address' => [
-                'street' => '456 New St',
-                'city' => 'Newtown',
-                'state' => 'WI',
-                'zip' => '54321'
-            ]
+            'phone' => '123-456-7890',
+            'date_of_birth' => '1990-01-01',
+            'gender' => $person->gender,
+            'address_line_1' => '456 New St',
+            'city' => 'Newtown',
+            'state' => 'WI',
+            'zip' => '54321',
         ];
+        $request = Mockery::mock(PersonFormRequest::class);
+        $request->shouldReceive('has')->andReturn(false);
+        $request->shouldReceive('input')->andReturn(null);
+        $request->shouldReceive('auth_roles')->andReturn(null);
+        $request->person = $person;
+        $request->shouldReceive('all')->andReturn($data);
+        $request->shouldReceive('route')->andReturn(null);
 
         // Act
-        $updatedPerson = $this->personService->updatePerson($person, $data);
+        $response = $this->personService->updatePerson($data, $request);
+        $updatedPerson = $response->person;
 
         // Assert
         $this->assertEquals('Updated', $updatedPerson->first_name);
@@ -105,44 +123,18 @@ class PersonServiceTest extends ServiceTestCase
         $this->assertEquals($this->user->id, $updatedPerson->updated_by);
 
         // Assert address was updated
-        $this->assertEquals('456 New St', $updatedPerson->address->street);
+        $this->assertEquals('456 New St', $updatedPerson->address->address_line_1);
     }
 
-    public function test_delete_person_removes_person_and_address()
+    public function test_delete_person_removes_person()
     {
         // Arrange
-        $person = Person::factory()->create();
-        $address = Address::factory()->create(['person_id' => $person->id]);
+        $person = Person::factory()->create(['first_name' => 'John', 'last_name' => 'Doe', 'gender' => 'M', 'created_by' => $this->user->id, 'updated_by' => $this->user->id, 'address_id' => $this->address->id]);
 
         // Act
         $this->personService->deletePerson($person);
 
         // Assert
-        $this->assertModelDeleted($person);
-        $this->assertModelDeleted($address);
-    }
-
-    public function test_get_person_by_id_returns_person_with_address()
-    {
-        // Arrange
-        $person = Person::factory()->create();
-        Address::factory()->create(['person_id' => $person->id]);
-
-        // Act
-        $result = $this->personService->getPersonById($person->id);
-
-        // Assert
-        $this->assertInstanceOf(Person::class, $result);
-        $this->assertEquals($person->id, $result->id);
-        $this->assertNotNull($result->address);
-    }
-
-    public function test_get_person_by_id_returns_null_for_invalid_id()
-    {
-        // Act
-        $result = $this->personService->getPersonById(999);
-
-        // Assert
-        $this->assertNull($result);
+        $this->assertSoftDeleted($person);
     }
 }

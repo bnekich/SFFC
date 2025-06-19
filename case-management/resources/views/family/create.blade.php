@@ -10,6 +10,7 @@
         <form class="row g-3 align-items-center" action="{{ route('family.store') }}" method="POST">
             @csrf
             <div class="col-auto">
+                <label class="form-label label-required">Family Name</label>
                 <input type="text" id="family_name" name="family_name" placeholder="Family Name"
                     class="form-control-sm @error('family_name') is-invalid @enderror" value="{{ old('family_name') }}"
                     required>

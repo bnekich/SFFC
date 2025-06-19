@@ -15,8 +15,20 @@
                 </li>
             @endforeach
         </ul>
-        <p><strong>Created By:</strong> {{ $family->created_by ?? 'N/A' }}</p>
-        <p><strong>Updated By:</strong> {{ $family->updated_by ?? 'N/A' }}</p>
+        <p><strong>Created By:</strong>
+            @if ($family->createdByUser)
+                {{ $family->createdByUser->firstName }} {{ $family->createdByUser->lastName }}
+            @else
+                N/A
+            @endif
+        </p>
+        <p><strong>Updated By:</strong>
+            @if ($family->updatedByUser)
+                {{ $family->updatedByUser->firstName }} {{ $family->updatedByUser->lastName }}
+            @else
+                N/A
+            @endif
+        </p>
         <a href="{{ route('family.edit', $family) }}" class="btn btn-warning">Edit</a>
         <a href="{{ route('family.index') }}" class="btn btn-secondary">Back</a>
 

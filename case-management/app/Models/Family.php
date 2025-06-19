@@ -37,4 +37,12 @@ class Family extends Model
     {
         return $this->hasMany(CaseModel::class, 'host_family_id');
     }
+    public function createdByUser()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+    public function updatedByUser()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
 }
