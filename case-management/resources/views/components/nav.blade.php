@@ -50,12 +50,12 @@
                                     href="{{ route('document.index') }}">Documents</a>
                             </li>
                         @endcanany
-                        @canany(['courses-view', 'courses-create', 'courses-edit', 'courses-delete'])
+                        {{-- @canany(['courses-view', 'courses-create', 'courses-edit', 'courses-delete'])
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('course.*') ? 'active' : '' }}"
                                     href="{{ route('course.index') }}">Training</a>
                             </li>
-                        @endcanany
+                        @endcanany --}}
                         @canany(['admin-view', 'admin-create', 'admin-edit', 'admin-delete'])
                             <x-nav-admin />
                         @endcanany

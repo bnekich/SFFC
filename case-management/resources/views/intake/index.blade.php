@@ -99,12 +99,9 @@
                         @can('intake-edit')
                             <a href="{{ route('intake.edit', $intake->id) }}" class="btn btn-warning btn-sm">Edit</a>
                         @endcan
-                        @can('intake-delete')
-                            <form class="d-inline" action="{{ route('intake.destroy', $intake->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                            </form>
+                        @can('intakes-delete')
+                            <x-delete-confirmation :route="route('intake.destroy', $intake)" :item-id="$intake->id"
+                                message="Are you sure you want to delete this intake?" />
                         @endcan
                     </td>
                 </tr>

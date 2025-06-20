@@ -25,12 +25,10 @@
                 @canany(['types-create', 'types-edit', 'types-delete'])
                     <td>
                         <a href="{{ route('relationship-types.edit', $type) }}" class="btn btn-sm btn-warning">Edit</a>
-                        <form action="{{ route('relationship-types.destroy', $type) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger"
-                                onclick="return confirm('Are you sure you want to delete this type?')">Delete</button>
-                        </form>
+                        @can('types-delete')
+                            <x-delete-confirmation :route="route('relationship-types.destroy', $type)" :item-id="$type->id"
+                                message="Are you sure you want to delete this relationship type?" />
+                        @endcan
                     </td>
                 @endcanany
             </tr>

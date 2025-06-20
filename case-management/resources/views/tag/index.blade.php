@@ -1,50 +1,41 @@
 @extends('layouts.app')
 
+@section('title')
+    - Manage Tags
+@endsection
+
 @section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Manage Tags</h3>
-                        <a href="{{ route('tag.create') }}" class="btn btn-primary float-end">Create New Tag</a>
-                    </div>
-                    <div class="card-body">
-                        @if (session('success'))
-                            <div class="alert alert-success">{{ session('success') }}</div>
-                        @endif
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Created At</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($tags as $tag)
-                                    <tr>
-                                        <td>{{ $tag->name }}</td>
-                                        <td>{{ $tag->created_at->format('Y-m-d H:i') }}</td>
-                                        <td>
-                                            <a href="{{ route('tag.edit', $tag->id) }}"
-                                                class="btn btn-sm btn-warning">Edit</a>
-                                            <form action="{{ route('tag.destroy', $tag->id) }}" method="POST"
-                                                style="display:inline;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger"
-                                                    onclick="return confirm('Are you sure?')">Delete</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        {{ $tags->links() }}
-                    </div>
-                </div>
-            </div>
+@section('header')
+    <h3>Tags</h3>
+@endsection
+<div class="row mb-3">
+    <x-search route="tag.index" placeholder="Name" />
+    @can('tags-create')
+        <div class="col-auto align-items-end d-flex justify-content-end">
+            <a href="{{ route('tag.create') }}" class="btn btn-sm btn-primary">Create New Tag</a>
         </div>
-    </div>
+    @endcan
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($tags as $tag)
+            <tr>
+                <td>{{ $tag->name }}</td>
+                <td>
+                    <a href="{{ route('tag.edit', $tag->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                    <x-delete-confirmation :route="route('tag.destroy', $tag)" :item-id="$tag->id"
+                        message="Are you sure you want to delete this tag?" />
+                </td>
+            </tr>
+        @endforeach
+    </tbody>
+</table>
+{{ $tags->links() }}
+</div>
 @endsection

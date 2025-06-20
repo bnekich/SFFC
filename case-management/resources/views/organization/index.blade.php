@@ -40,13 +40,8 @@
                             <a href="{{ route('organization.edit', $organization) }}"
                                 class="btn btn-warning btn-sm">Edit</a>
                             @can('organizations-delete')
-                                <form action="{{ route('organization.destroy', $organization) }}" method="POST"
-                                    class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Are you sure?')">Delete</button>
-                                </form>
+                                <x-delete-confirmation :route="route('organization.destroy', $organization)" :item-id="$organization->id"
+                                    message="Are you sure you want to delete this organization?" />
                             @endcan
                         </td>
                     </tr>

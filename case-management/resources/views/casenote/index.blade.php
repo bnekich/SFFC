@@ -57,11 +57,10 @@
                                 <a href="{{ route('casenote.show', $caseNote->id) }}" class="btn btn-sm btn-info">Edit</a>
                                 <a href="{{ route('casenote.edit', $caseNote->id) }}"
                                     class="btn btn-sm btn-warning">Edit</a>
-                                <form action="{{ route('casenote.destroy', $caseNote) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                </form>
+                                @can('casenotes-delete')
+                                    <x-delete-confirmation :route="route('casenote.destroy', $caseNote)" :item-id="$caseNote->id"
+                                        message="Are you sure you want to delete this case note?" />
+                                @endcan
                             </td>
                         </tr>
                     @endforeach

@@ -28,14 +28,10 @@
                             @canany(['users-create', 'users-edit', 'users-delete'])
                                 <a href="{{ route('users.edit', $user) }}" class="btn btn-sm btn-warning">Edit</a>
                             @endcanany
-                            @canany(['users-create', 'users-edit', 'users-delete'])
-                                <form action="{{ route('users.destroy', $user) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger"
-                                        onclick="return confirm('Are you sure?')">Delete</button>
-                                </form>
-                            @endcanany
+                            @can('users-delete')
+                                <x-delete-confirmation :route="route('users.destroy', $user)" :item-id="$user->id"
+                                    message="Are you sure you want to delete this user?" />
+                            @endcan
                         </td>
                     </tr>
                 @endforeach

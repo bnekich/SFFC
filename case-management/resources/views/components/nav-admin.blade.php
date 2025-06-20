@@ -36,14 +36,14 @@
                 <a class="dropdown-item {{ request()->routeIs('organization-types.*') ? 'active' : '' }}"
                     href="{{ route('organization-types.index') }}">Organization Types</a>
             </li>
-            <li>
+            {{-- <li>
                 <a class="dropdown-item {{ request()->routeIs('relationship-types.*') ? 'active' : '' }}"
                     href="{{ route('relationship-types.index') }}">Relationship Types</a>
             </li>
             <li>
                 <a class="dropdown-item {{ request()->routeIs('reminder-types.*') ? 'active' : '' }}"
                     href="{{ route('reminder-types.index') }}">Reminder Types</a>
-            </li>
+            </li> --}}
         @endcan
         @can('tags-view')
             <li>

@@ -41,12 +41,8 @@
                         <a href="{{ route('course.show', $course) }}" class="btn btn-info btn-sm">View</a>
                         <a href="{{ route('course.edit', $course) }}" class="btn btn-warning btn-sm">Edit</a>
                         @can('courses-delete')
-                            <form action="{{ route('course.destroy', $courses) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm"
-                                    onclick="return confirm('Are you sure?')">Delete</button>
-                            </form>
+                            <x-delete-confirmation :route="route('courses.destroy', $course)" :item-id="$course->id"
+                                message="Are you sure you want to delete this course?" />
                         @endcan
                     </td>
                 </tr>

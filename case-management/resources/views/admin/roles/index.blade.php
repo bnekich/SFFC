@@ -33,12 +33,10 @@
                         @canany(['roles-create', 'roles-edit', 'roles-delete'])
                             <td>
                                 <a href="{{ route('roles.edit', $role) }}" class="btn btn-sm btn-warning">Edit</a>
-                                <form action="{{ route('roles.destroy', $role) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger"
-                                        onclick="return confirm('Are you sure?')">Delete</button>
-                                </form>
+                                @can('roles-delete')
+                                    <x-delete-confirmation :route="route('roles.destroy', $role)" :item-id="$role->id"
+                                        message="Are you sure you want to delete this role?" />
+                                @endcan
                             </td>
                         @endcanany
                     </tr>

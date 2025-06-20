@@ -65,13 +65,9 @@
                             <td>
                                 <a href="{{ route('person.show', $person) }}" class="btn btn-info btn-sm">View</a>
                                 <a href="{{ route('person.edit', $person) }}" class="btn btn-warning btn-sm">Edit</a>
-                                @can('person-delete')
-                                    <form action="{{ route('person.destroy', $person) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm"
-                                            onclick="return confirm('Are you sure?')">Delete</button>
-                                    </form>
+                                @can('persons-delete')
+                                    <x-delete-confirmation :route="route('person.destroy', $person)" :item-id="$person->id"
+                                        message="Are you sure you want to delete this person?" />
                                 @endcan
                             </td>
                         </tr>

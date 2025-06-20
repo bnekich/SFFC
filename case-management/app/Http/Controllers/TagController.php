@@ -5,15 +5,27 @@ namespace App\Http\Controllers;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Http\Requests\TagFormRequest;
 
 class TagController extends Controller
 {
-    /**
-     * Display a listing of the tags.
-     */
-    public function index()
+    public function index(TagFormRequest $request)
     {
-        $tags = Tag::paginate(10); // Paginate with 10 tags per page
+        $this->logAction("Viewed Tags", "index", "Tag");
+        $query = Tag::query();
+
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where('name', 'like', "%$search%");
+        }
+
+        $sort = [
+            'field' => $request->get('sort', 'name'),
+            'direction' => $request->get('direction', 'asc')
+        ];
+
+        $tags = $query->orderBy($sort['field'], $sort['direction'])->paginate(10);
+
         return view('tag.index', compact('tags'));
     }
 

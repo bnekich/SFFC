@@ -26,12 +26,10 @@
                 @canany(['types-create', 'types-edit', 'types-delete'])
                     <td>
                         <a href="{{ route('reminder-types.edit', $type) }}" class="btn btn-sm btn-warning">Edit</a>
-                        <form action="{{ route('reminder-types.destroy', $type) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger"
-                                onclick="return confirm('Are you sure you want to delete this type?')">Delete</button>
-                        </form>
+                        @can('types-delete')
+                            <x-delete-confirmation :route="route('reminder-types.destroy', $type)" :item-id="$type->id"
+                                message="Are you sure you want to delete this reminder type?" />
+                        @endcan
                     </td>
                 @endcanany
             </tr>

@@ -26,13 +26,10 @@
                                     <td>
                                         <a href="{{ route('permissions.edit', $permission) }}"
                                             class="btn btn-sm btn-warning">Edit</a>
-                                        <form action="{{ route('permissions.destroy', $permission) }}" method="POST"
-                                            class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger"
-                                                onclick="return confirm('Are you sure?')">Delete</button>
-                                        </form>
+                                        @can('permissions-delete')
+                                            <x-delete-confirmation :route="route('permissions.destroy', $permission)" :item-id="$permission->id"
+                                                message="Are you sure you want to delete this permission?" />
+                                        @endcan
                                     </td>
                                 </tr>
                             @endforeach

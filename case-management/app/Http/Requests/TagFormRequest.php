@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class OrganizationTypeFormRequest extends FormRequest
+class TagFormRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -17,12 +15,12 @@ class OrganizationTypeFormRequest extends FormRequest
     {
         if ($this->method() === 'GET') {
             return [
-                'name' => 'required|string|max:255|unique:organization_types,name',
+                'name' => 'string',
             ];
         }
 
         return [
-            'name' => 'required|string|max:255|unique:organization_types,name',
+            'name' => 'required|string|max:255|unique:tags,name',
         ];
     }
 }

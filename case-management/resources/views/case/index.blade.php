@@ -88,11 +88,8 @@
                             <a href="{{ route('case.edit', $case->id) }}" class="btn btn-warning btn-sm">Edit</a>
                         @endcan
                         @can('cases-delete')
-                            <form class="d-inline" action="{{ route('case.destroy', $case->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                            </form>
+                            <x-delete-confirmation :route="route('case.destroy', $case)" :item-id="$case->id"
+                                message="Are you sure you want to delete this case?" />
                         @endcan
                     </td>
                 </tr>

@@ -47,11 +47,8 @@
                                 <a href="{{ route('family.edit', $family->id) }}" class="btn btn-warning btn-sm">Edit</a>
                             @endcan
                             @can('families-delete')
-                                <form class="d-inline" action="{{ route('family.destroy', $family->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                </form>
+                                <x-delete-confirmation :route="route('family.destroy', $family)" :item-id="$family->id"
+                                    message="Are you sure you want to delete this family?" />
                             @endcan
                         </td>
                     </tr>
