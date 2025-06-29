@@ -10,10 +10,19 @@ use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
 {
-    public function index()
+    public function index(PermissionFormRequest $request)
     {
         $this->logAction("Viewed Permissions", "index", "Permission");
-        $permissions = Permission::all();
+        $query = Permission::query();
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where('name', 'like', "%$search%");
+        }
+        $sort = $request->get('sort', 'name');
+        $direction = $request->get('direction', 'asc');
+        $query->orderBy($sort, $direction);
+        $permissions = $query->paginate(10);
+        //$permissions = Permission::all();
         return view('admin.permissions.index', compact('permissions'));
     }
 

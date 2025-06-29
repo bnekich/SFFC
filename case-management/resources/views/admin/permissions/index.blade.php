@@ -7,6 +7,7 @@
             @section('header')
                 <h3 class="mb-4">Manage Permissions</h3>
             @endsection
+            <x-search route="permissions.index" placeholder="Name" />
 
             <a href="{{ route('permissions.create') }}" class="btn btn-primary mb-3">Create New Permission</a>
 
@@ -35,6 +36,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    {{ $permissions->links() }}
                 </div>
             </div>
         </div>

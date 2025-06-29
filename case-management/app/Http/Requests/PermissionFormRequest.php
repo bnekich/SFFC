@@ -15,6 +15,12 @@ class PermissionFormRequest extends FormRequest
 
   public function rules(): array
   {
+    if ($this->method() === 'GET') {
+      return [
+        'name' => 'string',
+      ];
+    }
+
     return [
       'name' => 'required|string|max:255|unique:permissions,name',
     ];
