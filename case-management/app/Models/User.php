@@ -37,10 +37,4 @@ class User extends Authenticatable
             'force_password_reset' => 'boolean'
         ];
     }
-    /*
-    public function person()
-    {
-        return $this->belongsTo(Person::class);
-    }
-*/
 }

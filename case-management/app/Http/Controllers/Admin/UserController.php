@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\UserFormRequest;
 use App\Http\Controllers\Controller;
+use App\Mail\TemporaryPasswordEmail;
 use App\Models\User;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Str;
-use Spatie\Permission\Exceptions\UnauthorizedException;
-use App\Http\Requests\UserFormRequest;
-use Illuminate\Support\Arr;
 
 class UserController extends Controller
 {
@@ -59,9 +60,10 @@ class UserController extends Controller
 
         $this->logAction("Create Users", "store", "User", $user->id);
 
+        Mail::to($user->email)->send(new TemporaryPasswordEmail($user, $tempPassword));
+
         return redirect()->route('admin.users.index')
-            ->with('temp_password', $tempPassword)
-            ->with('success', 'User created successfully');
+            ->with('success', 'User created successfully. A temporary password has been sent to their email.');
     }
 
     public function update(UserFormRequest $request, User $user)
@@ -76,7 +78,7 @@ class UserController extends Controller
             $user->syncRoles($validatedData["roles"]);
         }
 
-        return redirect()->route('users.index')->with('success', 'User updated successfully.');
+        return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
     }
 
     public function destroy(User $user)
@@ -86,6 +88,6 @@ class UserController extends Controller
         $user->roles()->detach();
         $user->permissions()->detach();
         $user->delete();
-        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+        return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
     }
 }

@@ -31,12 +31,7 @@ class Person extends Model
         'created_by',
         'updated_by',
     ];
-    /*
-    public function User(): HasOne
-    {
-        return $this->hasOne(User::class, 'person_id');
-    }
-*/
+
 
     public function address()
     {
@@ -54,45 +49,8 @@ class Person extends Model
             ->withTimestamps();
     }
 
-    // public function appointments()
-    // {
-    //     return $this->belongsToMany(Appointment::class, 'appointments_persons')->withTimestamps()->withPivot('created_by', 'updated_by');
-    // }
-
     public function courses()
     {
         return $this->hasMany(Course::class, 'instructor_id');
     }
-
-    // public function relationships1()
-    // {
-    //     return $this->hasMany(Relationship::class, 'person_id_1');
-    // }
-
-    // public function relationships2()
-    // {
-    //     return $this->hasMany(Relationship::class, 'person_id_2');
-    // }
-
-    // public function volunteer()
-    // {
-    //     return $this->hasOne(Volunteer::class, 'id');
-    // }
-
-    // public function assignedCases()
-    // {
-    //     return $this->hasMany(CaseModel::class, 'assigned_staff_id');
-    // }
-
-    // public function appointments()
-    // {
-    //     return $this->belongsToMany(Appointment::class, 'appointments_persons')->withTimestamps()->withPivot('created_by', 'updated_by');
-    // }
-
-    // public function reminders()
-    // {
-    //     return $this->hasMany(Reminder::class, 'for_person_id');
-    // }
-
-
 }

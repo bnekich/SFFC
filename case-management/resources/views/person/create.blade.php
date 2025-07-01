@@ -1,4 +1,15 @@
 @extends('layouts.app')
+{{-- Add this to resources/views/person/create.blade.php --}}
+@if ($errors->any())
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Please correct the following errors:</h4>
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
 @section('title')
     - Add Person

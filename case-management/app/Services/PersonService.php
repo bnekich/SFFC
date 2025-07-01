@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Models\Person;
-use App\Models\Address;
-use App\Models\User;
 use App\Http\Requests\PersonFormRequest;
+use App\Mail\TemporaryPasswordEmail;
+use App\Models\Address;
+use App\Models\Person;
+use App\Models\User;
 use App\Services\Responses\PersonServiceResponse;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class PersonService
 {
@@ -160,7 +162,6 @@ class PersonService
             if ($request->input('isSystemUser', 0)) {
                 $tempPassword = Str::random(12);
                 $user = User::create([
-                    'person_id' => $person->id,
                     'firstName' => $data['first_name'],
                     'lastName' => $data['last_name'],
                     'email' => $data['email'],
@@ -170,6 +171,8 @@ class PersonService
                 if (!empty($request->auth_roles)) {
                     $user->assignRole(array_map('intval', $request->auth_roles));
                 }
+
+                Mail::to($user->email)->send(new TemporaryPasswordEmail($user, $tempPassword));
             }
 
             return new PersonServiceResponse($person, $tempPassword);

@@ -8,8 +8,11 @@ use App\Services\PersonService;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Tests\Unit\ServiceTestCase;
 use App\Http\Requests\PersonFormRequest;
-use Illuminate\Support\Arr;
 use Mockery;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TemporaryPasswordEmail;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 class PersonServiceTest extends ServiceTestCase
 {
@@ -86,6 +89,58 @@ class PersonServiceTest extends ServiceTestCase
         // Assert address was created
         $this->assertInstanceOf(Address::class, $person->address);
         $this->assertEquals('123 Main St', $person->address->address_line_1);
+    }
+
+    public function test_create_person_as_system_user_creates_user_and_sends_email()
+    {
+        // Arrange
+        Mail::fake();
+        $role = Role::create(['name' => 'Test Role', 'guard_name' => 'web']);
+
+        $data = [
+            'first_name' => 'System',
+            'last_name' => 'User',
+            'date_of_birth' => '1990-01-01',
+            'gender' => 'F',
+            'ethnicity' => 'Other',
+            'email' => 'system.user@example.com',
+            'phone' => '987-654-3210',
+            'address_line_1' => '456 System Ave',
+            'city' => 'Techville',
+            'state' => 'CA',
+            'zip' => '54321',
+        ];
+
+        $request = Mockery::mock(PersonFormRequest::class);
+        $request->shouldReceive('has')->with('family_ids')->andReturn(false);
+        $request->shouldReceive('has')->with('org_ids')->andReturn(false);
+        $request->shouldReceive('input')->with('isSystemUser', 0)->andReturn(true);
+        $request->auth_roles = [$role->id];
+
+        // Act
+        $response = $this->personService->createPerson($data, $request);
+        $person = $response->person;
+
+        // Assert Person was created correctly
+        $this->assertInstanceOf(Person::class, $person);
+        $this->assertEquals('System', $person->first_name);
+        $this->assertEquals('system.user@example.com', $person->email);
+
+        // Assert User was created correctly
+        $createdUser = User::where('email', 'system.user@example.com')->first();
+        $this->assertNotNull($createdUser);
+        $this->assertEquals('System', $createdUser->firstName);
+        $this->assertEquals('User', $createdUser->lastName);
+        $this->assertTrue($createdUser->hasRole('Test Role'));
+        $this->assertNotEmpty($response->tempPassword);
+
+        // Assert Email was sent to the new user
+        Mail::assertSent(TemporaryPasswordEmail::class, function ($mail) use ($createdUser) {
+            $this->assertTrue($mail->hasTo($createdUser->email));
+            $this->assertEquals($createdUser->id, $mail->user->id);
+            $this->assertNotEmpty($mail->password);
+            return true;
+        });
     }
 
     public function test_update_person_updates_existing_person()

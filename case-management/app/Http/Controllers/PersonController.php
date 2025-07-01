@@ -78,12 +78,18 @@ class PersonController extends Controller
         try {
             $response = $this->personService->createPerson($validatedData, $request);
             $this->logAction("Created Person", "store", "Person", $response->person->id);
-            $successMessage = "Person created successfully. Temporary Password is " . $response->tempPassword;
+
+            if (!empty($response->tempPassword)) {
+                $successMessage = "Person and user account created successfully. A temporary password has been sent to their email.";
+            } else {
+                $successMessage = "Person created successfully.";
+            }
             return redirect()->route('person.show', $response->person)->with('success', $successMessage);
         } catch (\DomainException $e) {
             return back()->withInput()->with('error', 'Failed to create person: ' . $e->getMessage());
         } catch (\Exception $e) {
-            return back()->withInput()->with('error', 'An unexpected error occurred while creating the person.');
+            \Illuminate\Support\Facades\Log::error('Failed to create person: ' . $e->getMessage(), ['exception' => $e]);
+            return back()->withInput()->with('error', 'An unexpected error occurred while creating the person. Please check the logs.');
         }
     }
 
@@ -114,7 +120,8 @@ class PersonController extends Controller
         } catch (\DomainException $e) {
             return back()->withInput()->with('error', 'Failed to update person: ' . $e->getMessage());
         } catch (\Exception $e) {
-            return back()->withInput()->with('error', 'An unexpected error occurred while updating the person.');
+            \Illuminate\Support\Facades\Log::error('Failed to update person: ' . $e->getMessage(), ['exception' => $e]);
+            return back()->withInput()->with('error', 'An unexpected error occurred while updating the person. Please check the logs.');
         }
     }
 
