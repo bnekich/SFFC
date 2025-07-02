@@ -17,7 +17,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'role' => RoleMiddleware::class,
-            'permission' => PermissionMiddleware::class
+            'permission' => PermissionMiddleware::class,
+            '2fa.pending' => \App\Http\Middleware\EnsureUserIsPendingTwoFactor::class,
         ]);
         $middleware->web(append: [ForcePasswordReset::class]);
         //$middleware->web(append: [LogAuditActions::class]);

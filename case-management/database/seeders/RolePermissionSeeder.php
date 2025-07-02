@@ -108,6 +108,7 @@ class RolePermissionSeeder extends Seeder
             'lastName' => 'Nekich',
             'firstName' => 'Bruce',
             'email' => 'bnekich@example.com',
+            'phone' => '(414)303-4050',
             'password' => bcrypt('password'),
             'force_password_reset' => false,
         ]);
@@ -145,6 +146,7 @@ class RolePermissionSeeder extends Seeder
             'lastName' => 'Jones',
             'firstName' => 'Emily',
             'email' => 'ejones@example.com',
+            'phone' => '(414)999-9999',
             'password' => bcrypt('password'),
             'force_password_reset' => false,
         ]);

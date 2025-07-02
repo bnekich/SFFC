@@ -23,7 +23,6 @@
                     <form method="POST" action="{{ route('users.store') }}" class="card p-4">
                         @csrf
 
-                        <!-- First Name -->
                         <div class="mb-3">
                             <label for="firstName" class="form-label">First Name</label>
                             <input type="text" class="form-control @error('firstName') is-invalid @enderror"
@@ -33,7 +32,6 @@
                             @enderror
                         </div>
 
-                        <!-- First Name -->
                         <div class="mb-3">
                             <label for="lastName" class="form-label">Last Name</label>
                             <input type="text" class="form-control @error('lastName') is-invalid @enderror"
@@ -43,7 +41,6 @@
                             @enderror
                         </div>
 
-                        <!-- Email -->
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
@@ -52,6 +49,17 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                        <div class="col-auto">
+                            <label for="phone" class="form-label label-required">Phone Number</label>
+                            <input id="phone" type="text" name="phone" placeholder="Phone Number"
+                                class="phone-input form-control-sm @error('phone') is-invalid @enderror"
+                                value="{{ old('phone') }}" required>
+                            @error('phone')
+                                <span class="invalid-feedback">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+
 
                         <!-- Roles -->
                         <div class="mb-3">
@@ -76,7 +84,8 @@
                         </div>
 
                         <!-- Submit Button -->
-                        <button type="submit" class="btn btn-primary">Create User</button>
+                        <button type="submit" class="btn btn-primary">Create User
+                        </button>
                         <a href="{{ route('users.index') }}" class="btn btn-secondary">Cancel</a>
                     </form>
             </div>

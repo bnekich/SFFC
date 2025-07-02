@@ -22,6 +22,7 @@ class UserFormRequest extends FormRequest
                 Rule::email()
                     ->rfcCompliant(strict: true)
             ],
+            "phone" => "required|string|max:255",
             "roles" => "required|array",
             "roles.*" => "exists:roles,name",
         ];

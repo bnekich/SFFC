@@ -20,8 +20,16 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            return redirect()->route('dashboard');
+            $user = Auth::user();
+
+            // For now, we will assume all users require 2FA.
+            // In a real application, you would likely have a user setting for this.
+
+            // Store user ID for 2FA verification and log them out of the main guard
+            $request->session()->put('2fa_user_id', $user->id);
+            Auth::logout();
+
+            return redirect()->route('2fa.challenge');
         }
 
         return back()->withErrors([

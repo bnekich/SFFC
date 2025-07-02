@@ -165,6 +165,7 @@ class PersonService
                     'firstName' => $data['first_name'],
                     'lastName' => $data['last_name'],
                     'email' => $data['email'],
+                    'phone' => $data['phone'],
                     'password' => Hash::make($tempPassword),
                     'force_password_reset' => true,
                 ]);

@@ -49,6 +49,7 @@ class UserController extends Controller
             'firstName' => $validatedRequest['firstName'],
             'lastName' => $validatedRequest['lastName'],
             'email' => $validatedRequest['email'],
+            'phone' => $validatedRequest['phone'],
             'password' => Hash::make($tempPassword),
             'force_password_reset' => true,
         ]);

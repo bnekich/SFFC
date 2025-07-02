@@ -20,6 +20,8 @@ class User extends Authenticatable
         'firstName',
         'lastName',
         'email',
+        'phone',
+        'email_verified_at',
         'password',
         'force_password_reset'
     ];
@@ -36,5 +38,14 @@ class User extends Authenticatable
             'password' => 'hashed',
             'force_password_reset' => 'boolean'
         ];
+    }
+    public function routeNotificationForSms($notification)
+    {
+        return $this->phone;
+    }
+
+    public function routeNotificationForEmail($notification)
+    {
+        return $this->email;
     }
 }

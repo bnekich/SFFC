@@ -20,6 +20,12 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CaseNoteController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\Auth\TwoFactorController;
+
+Route::get('/2fa/challenge', [TwoFactorController::class, 'showChallenge'])->name('2fa.challenge');
+Route::post('/2fa/challenge', [TwoFactorController::class, 'sendCode'])->name('2fa.challenge');
+Route::post('/2fa/verify', [TwoFactorController::class, 'verify'])->name('2fa.verify');
+Route::post('/2fa/send', [TwoFactorController::class, 'sendCode'])->name('2fa.send');
 
 Route::get('/document', [DocumentController::class, 'index'])->name('document.index');
 Route::get('/document/{document}/download', [DocumentController::class, 'download'])->name('document.download');
