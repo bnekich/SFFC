@@ -54,15 +54,7 @@ Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard'
 Route::get('/dashboard/settings', [HomeController::class, 'settings'])->name('dashboard.settings');
 Route::post('/dashboard/settings', [HomeController::class, 'updateSettings']);
 
-Route::controller(AuthController::class)->group(function () {
-    Route::get('/login', 'showLogin')->name('show.login');
-    Route::post('/login', 'login')->name('login');
-    Route::post('/logout', 'logout')->name('logout')->middleware('auth');
-});
-
-
-Route::post('/password/reset', [PasswordResetController::class, 'update'])->name('password.update')->middleware('auth');
-Route::get('/password/reset', [PasswordResetController::class, 'show'])->name('password.reset')->middleware('auth');
+Auth::routes();
 
 Route::resource('roles', RoleController::class)->middleware(['auth', 'permission:roles-create|roles-update|roles-delete']);
 
