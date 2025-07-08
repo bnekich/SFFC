@@ -3,10 +3,11 @@
 use App\Http\Controllers\Admin\AuditLogController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PermissionController;
-use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\CaseModelController;
 use App\Http\Controllers\OrganizationTypeController;
 use App\Http\Controllers\RelationshipTypeController;
@@ -54,7 +55,21 @@ Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard'
 Route::get('/dashboard/settings', [HomeController::class, 'settings'])->name('dashboard.settings');
 Route::post('/dashboard/settings', [HomeController::class, 'updateSettings']);
 
-Auth::routes();
+/*
+ * We comment this out because it registers default authentication routes pointing to LoginController.
+ * Your custom 2FA logic, however, is located in AuthController, so we need to define the routes manually.
+ */
+// Auth::routes();
+
+Route::get('login', [AuthController::class, 'showLogin'])->name('show.login');
+Route::post('login', [AuthController::class, 'login'])->name('login');
+Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+
+// Password Reset Routes - Add these back to restore functionality
+Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 
 Route::resource('roles', RoleController::class)->middleware(['auth', 'permission:roles-create|roles-update|roles-delete']);
 
