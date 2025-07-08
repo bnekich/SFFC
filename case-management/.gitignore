@@ -1,6 +1,5 @@
 /.phpunit.cache
 /node_modules
-/public/build
 /public/hot
 /public/storage
 /storage/*.key
@@ -24,4 +23,4 @@ yarn-error.log
 _ide_helper.php
 _ide_helper_models.php
 /config/ide-helper.php
-Consolidated Deployment Plan for Safe Families Application.tex
+Consolidated Deployment Plan for Safe Families Application.texpublic/build
