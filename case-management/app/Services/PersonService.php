@@ -115,7 +115,11 @@ class PersonService
 
     public function createPerson(array $data, PersonFormRequest $request): PersonServiceResponse
     {
-        return DB::transaction(function () use ($data, $request) {
+        $tempPassword = "";
+        $person = null;
+        $user = null;
+
+        DB::transaction(function () use ($data, $request, &$person, &$user, &$tempPassword) {
             // Create the address if any address fields are provided
             $address = null;
             if (!empty(array_filter([
@@ -158,9 +162,11 @@ class PersonService
             if ($request->has('org_ids')) {
                 $person->organizations()->sync($request->input('org_ids'));
             }
-            $tempPassword = "";
+
             if ($request->input('isSystemUser', 0)) {
-                $tempPassword = Str::random(12);
+                // TODO change when deployed to production
+                //$tempPassword = Str::random(12);
+                $tempPassword = "tmp-password";
                 $user = User::create([
                     'firstName' => $data['first_name'],
                     'lastName' => $data['last_name'],
@@ -172,12 +178,15 @@ class PersonService
                 if (!empty($request->auth_roles)) {
                     $user->assignRole(array_map('intval', $request->auth_roles));
                 }
-
-                Mail::to($user->email)->send(new TemporaryPasswordEmail($user, $tempPassword));
             }
-
-            return new PersonServiceResponse($person, $tempPassword);
         });
+
+        // TODO uncomment before production deployment
+        //if ($request->input('isSystemUser', 0) && $user) {
+        //    Mail::to($user->email)->send(new TemporaryPasswordEmail($user, $tempPassword));
+        //}
+
+        return new PersonServiceResponse($person, $tempPassword);
     }
 
     public function deletePerson(Person $person): void

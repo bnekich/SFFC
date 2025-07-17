@@ -53,4 +53,9 @@ class Person extends Model
     {
         return $this->hasMany(Course::class, 'instructor_id');
     }
+
+    public function volunteer()
+    {
+        return $this->hasOne(Volunteer::class);
+    }
 }

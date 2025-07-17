@@ -22,6 +22,7 @@ use App\Http\Controllers\CaseNoteController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\Auth\TwoFactorController;
+use App\Http\Controllers\Auth\PasswordResetController;
 
 Route::get('/2fa/challenge', [TwoFactorController::class, 'showChallenge'])->name('2fa.challenge');
 Route::post('/2fa/challenge', [TwoFactorController::class, 'sendCode'])->name('2fa.challenge');
@@ -69,8 +70,7 @@ Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
-Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
-
+Route::post('password/reset', [PasswordResetController::class, 'update'])->name('password.update');
 Route::resource('roles', RoleController::class)->middleware(['auth', 'permission:roles-create|roles-update|roles-delete']);
 
 Route::resource('permissions', PermissionController::class)->middleware(['auth', 'permission:permissions-create|permissions-update|permissions-delete']);

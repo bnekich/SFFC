@@ -16,6 +16,7 @@ class AddForeignKeysToTables extends Migration
         Schema::table('volunteers', function (Blueprint $table) {
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('person_id')->references('id')->on('persons')->onDelete('cascade');
         });
 
         Schema::table('cases', function (Blueprint $table) {
