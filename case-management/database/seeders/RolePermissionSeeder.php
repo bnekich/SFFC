@@ -117,6 +117,61 @@ class RolePermissionSeeder extends Seeder
         $adminRole->givePermissionTo(Permission::all());
         $adminUser->assignRole($adminRole);
 
+        $qaUser1 = User::create([
+            'lastName' => 'Thorngate',
+            'firstName' => 'Jon',
+            'email' => 'jthorngate@example.com',
+            'phone' => '(262)111-1111',
+            'password' => bcrypt('password'),
+            'force_password_reset' => false,
+        ]);
+
+        $qaUser1->assignRole($adminRole);
+
+        $qaUser2 = User::create([
+            'lastName' => 'Bernhard',
+            'firstName' => 'Bethany',
+            'email' => 'bbernhard@example.com',
+            'phone' => '(262)111-1111',
+            'password' => bcrypt('password'),
+            'force_password_reset' => false,
+        ]);
+
+        $qaUser2->assignRole($adminRole);
+
+        $qaUser3 = User::create([
+            'lastName' => 'Petri',
+            'firstName' => 'Megan',
+            'email' => 'mpetri@example.com',
+            'phone' => '(262)111-1111',
+            'password' => bcrypt('password'),
+            'force_password_reset' => false,
+        ]);
+
+        $qaUser3->assignRole($adminRole);
+
+        $qaUser4 = User::create([
+            'lastName' => 'Combs',
+            'firstName' => 'Amanda',
+            'email' => 'acombs@example.com',
+            'phone' => '(262)111-1111',
+            'password' => bcrypt('password'),
+            'force_password_reset' => false,
+        ]);
+
+        $qaUser4->assignRole($adminRole);
+
+        $qaUser5 = User::create([
+            'lastName' => 'Holm',
+            'firstName' => 'Amanda',
+            'email' => 'aholm@example.com',
+            'phone' => '(262)111-1111',
+            'password' => bcrypt('password'),
+            'force_password_reset' => false,
+        ]);
+
+        $qaUser5->assignRole($adminRole);
+
         $address = Address::create([
             'address_line_1' => '123 Main St',
             'address_line_2' => 'Apt 4B',
