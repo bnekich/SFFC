@@ -27,6 +27,11 @@ class CaseService
             $query->where('status', $filters['status']);
         }
 
+        if (!empty($filters['assigned_staff_id'])) {
+            $query->where('assigned_staff_id', $filters['assigned_staff_id']);
+        }
+
+
         $sort['field'] = $sort['field'] ?? 'case_identifier';
         $sort['direction'] = $sort['direction'] ?? 'asc';
         $query->orderBy($sort['field'], $sort['direction']);

@@ -15,6 +15,7 @@
             @if ($item === 'open_cases')
                 <div class="col-md-4">
                     <x-dashboard-item-open-cases />
+                    {{-- :user_id={{ auth()->user()->id }} /> --}}
                 </div>
             @elseif($item === 'pending_appointments')
                 <div class="col-md-4">

@@ -14,7 +14,7 @@ class CaseModelFactory extends Factory
             'case_description' => fake()->paragraph(),
             'client_family_id' => null,
             'host_family_id' => null,
-            'assigned_staff_id' => null,
+            'assigned_staff_id' => fake()->numberBetween(1, 9),
             'start_date' => fake()->date(),
             'end_date' => null,
             'status' => fake()->randomElement(['O', 'C', 'H', 'X']),

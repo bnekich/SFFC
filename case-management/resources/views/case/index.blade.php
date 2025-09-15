@@ -26,6 +26,13 @@
                     </option>
                 @endforeach
             </select>
+            <div class="form-check form-switch">
+                <input type="hidden" name="user_id" value="0">
+                <input type="checkbox" name="user_id" value="1" class="form-check-input"
+                    onchange="document.getElementById('filterForm').submit()" {{ request('user_id') ? 'checked' : '' }}>
+                <label class="form-check-label">Show
+                    Assigned Cases</label>
+            </div>
         </form>
     </div>
     <div class="col-auto align-items-end d-flex justify-content-end">

@@ -172,6 +172,40 @@ class RolePermissionSeeder extends Seeder
 
         $qaUser5->assignRole($adminRole);
 
+        $qaUser6 = User::create([
+            'lastName' => 'Johnson-Lyga',
+            'firstName' => 'Stacia',
+            'email' => 'stacia@example.com',
+            'phone' => '(262)111-1111',
+            'password' => bcrypt('password'),
+            'force_password_reset' => false,
+        ]);
+
+        $qaUser6->assignRole($adminRole);
+
+        $qaUser7 = User::create([
+            'lastName' => 'Tussoni',
+            'firstName' => 'Tracy',
+            'email' => 'tracy@example.com',
+            'phone' => '(262)111-1111',
+            'password' => bcrypt('password'),
+            'force_password_reset' => false,
+        ]);
+
+        $qaUser7->assignRole($adminRole);
+
+        $qaUser8 = User::create([
+            'lastName' => 'Gremminger',
+            'firstName' => 'Makayla',
+            'email' => 'makayla@example.com',
+            'phone' => '(262)111-1111',
+            'password' => bcrypt('password'),
+            'force_password_reset' => false,
+        ]);
+
+        $qaUser8->assignRole($adminRole);
+
+
         $address = Address::create([
             'address_line_1' => '123 Main St',
             'address_line_2' => 'Apt 4B',

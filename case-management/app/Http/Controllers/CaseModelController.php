@@ -25,6 +25,7 @@ class CaseModelController extends Controller
         $filters = [
             'search' => $request->search,
             'status' => $request->status,
+            'assigned_staff_id' => $request->user_id,
         ];
         $sort = [
             'field' => $request->get('sort', 'case_identifier'),
