@@ -10,12 +10,12 @@ class CreateRelationshipsTable extends Migration
     {
         Schema::create('relationships', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('person_id_1')->nullable();
-            $table->unsignedBigInteger('person_id_2')->nullable();
-            $table->unsignedBigInteger('relationship_type_id')->nullable();
+            $table->bigInteger('person_id_1')->nullable();
+            $table->bigInteger('person_id_2')->nullable();
+            $table->bigInteger('relationship_type_id')->nullable();
             $table->timestamps();
-            $table->unsignedBigInteger('created_by')->nullable();
-            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->bigInteger('created_by')->nullable();
+            $table->bigInteger('updated_by')->nullable();
             $table->softDeletes();
         });
     }

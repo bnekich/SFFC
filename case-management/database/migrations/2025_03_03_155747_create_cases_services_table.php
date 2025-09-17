@@ -10,8 +10,8 @@ class CreateCasesServicesTable extends Migration
     {
         Schema::create('cases_services', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('case_id')->nullable();
-            $table->unsignedBigInteger('service_id')->nullable();
+            $table->bigInteger('case_id')->nullable();
+            $table->bigInteger('service_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -10,11 +10,11 @@ class CreateVolunteersTable extends Migration
     public function up()
     {
         Schema::create('volunteers', function (Blueprint $table) {
-            $table->unsignedBigInteger('person_id');
+            $table->bigInteger('person_id');
             $table->primary('person_id');
             $table->timestamps();
-            $table->unsignedBigInteger('created_by')->nullable();
-            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->bigInteger('created_by')->nullable();
+            $table->bigInteger('updated_by')->nullable();
             $table->softDeletes();
         });
     }

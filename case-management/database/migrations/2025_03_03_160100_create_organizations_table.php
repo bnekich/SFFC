@@ -11,8 +11,8 @@ class CreateOrganizationsTable extends Migration
         Schema::create('organizations', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255);
-            $table->unsignedBigInteger('organization_type_id')->nullable();
-            $table->unsignedBigInteger('address_id')->nullable();
+            $table->bigInteger('organization_type_id')->nullable();
+            $table->bigInteger('address_id')->nullable();
             $table->string('contact_person_name', 255)->nullable();
             $table->string('contact_person_title', 255)->nullable();
             $table->string('contact_person_email', 255)->nullable();
@@ -20,8 +20,8 @@ class CreateOrganizationsTable extends Migration
             $table->string('contact_person_mobile', 255)->nullable();
             $table->text('notes')->nullable();
             $table->timestamps();
-            $table->unsignedBigInteger('created_by')->nullable();
-            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->bigInteger('created_by')->nullable();
+            $table->bigInteger('updated_by')->nullable();
             $table->softDeletes();
         });
     }

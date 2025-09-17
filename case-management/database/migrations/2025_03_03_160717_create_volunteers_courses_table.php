@@ -10,8 +10,8 @@ class CreateVolunteersCoursesTable extends Migration
     {
         Schema::create('volunteers_courses', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('course_id')->nullable();
-            $table->unsignedBigInteger('volunteer_id')->nullable();
+            $table->bigInteger('course_id')->nullable();
+            $table->bigInteger('volunteer_id')->nullable();
             $table->boolean('completed')->nullable();
             $table->timestamps();
             $table->softDeletes();

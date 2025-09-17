@@ -10,8 +10,8 @@ class CreatePersonsFamiliesTable extends Migration
     {
         Schema::create('persons_families', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('person_id')->nullable();
-            $table->unsignedBigInteger('family_id')->nullable();
+            $table->bigInteger('person_id')->nullable();
+            $table->bigInteger('family_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -11,11 +11,11 @@ class CreateFamiliesTable extends Migration
         Schema::create('families', function (Blueprint $table) {
             $table->id();
             $table->string('family_name', 255)->comment('e.g. Smith Family');
-            $table->unsignedBigInteger('address_id')->nullable();
-            $table->unsignedBigInteger('status_id')->nullable();
+            $table->bigInteger('address_id')->nullable();
+            $table->bigInteger('status_id')->nullable();
             $table->timestamps();
-            $table->unsignedBigInteger('created_by')->nullable();
-            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->bigInteger('created_by')->nullable();
+            $table->bigInteger('updated_by')->nullable();
             $table->softDeletes();
         });
     }

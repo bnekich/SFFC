@@ -12,7 +12,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['daily', 'audit'],
+            'channels' => ['single'],
             'ignore_exceptions' => false,
         ],
 

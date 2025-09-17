@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null'); // Foreign key to users table
             $table->string('action', 255); // VARCHAR(255) for action description
             $table->string('model_type', 255)->nullable(); // Polymorphic type (e.g., 'Case', 'Patient')
-            $table->unsignedBigInteger('model_id')->nullable(); // ID of the related model
+            $table->bigInteger('model_id')->nullable(); // ID of the related model
             $table->text('details')->nullable(); // TEXT for additional context (JSON-encoded)
             $table->timestamp('created_at')->useCurrent(); // TIMESTAMP with current timestamp default
 

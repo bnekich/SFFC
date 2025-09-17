@@ -10,11 +10,11 @@ class CreateAppointmentsPersonsTable extends Migration
     {
         Schema::create('appointments_persons', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('appointment_id')->nullable();
-            $table->unsignedBigInteger('person_id')->nullable();
+            $table->bigInteger('appointment_id')->nullable();
+            $table->bigInteger('person_id')->nullable();
             $table->timestamps();
-            $table->unsignedBigInteger('created_by')->nullable();
-            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->bigInteger('created_by')->nullable();
+            $table->bigInteger('updated_by')->nullable();
             $table->softDeletes();
         });
     }

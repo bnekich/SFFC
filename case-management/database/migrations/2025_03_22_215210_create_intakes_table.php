@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('intakes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('completed_by_id')->nullable();
+            $table->bigInteger('completed_by_id')->nullable();
             $table->string('parent_name', 50)->nullable();
             $table->string('parent_phone', 20)->nullable();
             $table->date('referral_date')->nullable();

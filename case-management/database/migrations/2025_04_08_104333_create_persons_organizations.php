@@ -10,8 +10,8 @@ return new class extends Migration
     {
         Schema::create('persons_organizations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('person_id');
-            $table->unsignedBigInteger('organization_id');
+            $table->bigInteger('person_id');
+            $table->bigInteger('organization_id');
             $table->timestamps();
             $table->softDeletes();
         });

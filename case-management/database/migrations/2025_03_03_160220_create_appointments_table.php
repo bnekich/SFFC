@@ -10,16 +10,16 @@ class CreateAppointmentsTable extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('case_id')->nullable();
+            $table->bigInteger('case_id')->nullable();
             $table->string('description', 255)->nullable();
             $table->dateTime('start')->nullable();
             $table->dateTime('end')->nullable();
             $table->string('location', 255)->nullable();
             $table->boolean('send_reminders')->default(true);
-            $table->unsignedBigInteger('status_id')->nullable();
+            $table->bigInteger('status_id')->nullable();
             $table->timestamps();
-            $table->unsignedBigInteger('created_by')->nullable();
-            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->bigInteger('created_by')->nullable();
+            $table->bigInteger('updated_by')->nullable();
             $table->softDeletes();
         });
     }

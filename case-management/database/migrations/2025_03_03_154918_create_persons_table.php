@@ -17,13 +17,13 @@ class CreatePersonsTable extends Migration
             $table->char('gender', 1);
             $table->string('email', 255)->nullable();
             $table->string('phone', 255)->nullable();
-            $table->unsignedBigInteger('address_id')->nullable();
+            $table->bigInteger('address_id')->nullable();
             $table->boolean('can_text_reminder')->default(true);
             $table->boolean('can_email_reminder')->default(true);
             $table->string('ethnicity', 2)->nullable();
             $table->timestamps();
-            $table->unsignedBigInteger('created_by')->nullable();
-            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->bigInteger('created_by')->nullable();
+            $table->bigInteger('updated_by')->nullable();
             $table->softDeletes();
         });
     }

@@ -12,9 +12,9 @@ class CreateCasesTable extends Migration
             $table->id();
             $table->string('case_identifier', 255)->unique()->default('NA');
             $table->text('case_description');
-            $table->unsignedBigInteger('client_family_id')->nullable();
-            $table->unsignedBigInteger('host_family_id')->nullable();
-            $table->unsignedBigInteger('assigned_staff_id')->nullable();
+            $table->bigInteger('client_family_id')->nullable();
+            $table->bigInteger('host_family_id')->nullable();
+            $table->bigInteger('assigned_staff_id')->nullable();
             $table->date('start_date');
             $table->date('end_date')->nullable();
             $table->string('status', 2)->default('O');

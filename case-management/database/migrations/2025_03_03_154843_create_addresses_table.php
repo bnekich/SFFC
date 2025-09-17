@@ -16,8 +16,8 @@ class CreateAddressesTable extends Migration
             $table->string('state', 2)->nullable();
             $table->string('zip', 10)->nullable();
             $table->timestamps();
-            $table->unsignedBigInteger('created_by')->nullable();
-            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->bigInteger('created_by')->nullable();
+            $table->bigInteger('updated_by')->nullable();
             $table->softDeletes();
         });
     }
