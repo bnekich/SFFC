@@ -50,7 +50,8 @@ class SendTwoFactorCode extends Notification
     }
 
     // In production, use a real SMS channel like 'vonage'.
-    return ['vonage'];
+    //return ['vonage'];
+    return [];
   }
 
   /**
