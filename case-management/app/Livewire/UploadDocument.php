@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Document;
+use PhpOffice\PhpSpreadsheet\IOFactory as SpreadsheetIOFactory;
 use Illuminate\Support\Facades\Storage;
 use Spatie\PdfToText\Pdf;
 use PhpOffice\PhpWord\IOFactory;
@@ -18,9 +19,12 @@ class UploadDocument extends Component
     public $allowedTypes = ['pdf', 'doc', 'docx', 'xlsx', 'jpg', 'png', 'txt', 'csv', 'odt'];
     public $maxSize = 10240; // 10MB in KB
 
-    protected $rules = [
-        'file' => 'required|file|max:10240|mimes:pdf,doc,docx,xlsx,jpg,png,txt,csv,odt',
-    ];
+    public function rules()
+    {
+        return [
+            'file' => 'required|file|max:' . $this->maxSize . '|mimes:' . implode(',', $this->allowedTypes),
+        ];
+    }
 
     public function updatedFile()
     {
@@ -74,25 +78,32 @@ class UploadDocument extends Component
     {
         try {
             if (str_contains($mimeType, 'pdf')) {
-                return Pdf::getText($filePath);
-            } elseif (str_contains($mimeType, 'word') || str_contains($mimeType, 'msword')) {
+                return Pdf::getText($filePath, null, ['pdftotext_path' => '/usr/bin/pdftotext']);
+            } elseif (in_array($mimeType, ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.oasis.opendocument.text'])) {
                 $phpWord = IOFactory::load($filePath);
-                $content = '';
-                foreach ($phpWord->getSections() as $section) {
-                    foreach ($section->getElements() as $element) {
+                // Use a more robust text extraction method
+                $text = '';
+                $sections = $phpWord->getSections();
+                foreach ($sections as $section) {
+                    $elements = $section->getElements();
+                    foreach ($elements as $element) {
                         if (method_exists($element, 'getText')) {
-                            $content .= $element->getText();
+                            $text .= $element->getText() . ' ';
                         }
                     }
                 }
-                return $content;
+                return trim($text);
+            } elseif (in_array($mimeType, ['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])) {
+                $spreadsheet = SpreadsheetIOFactory::load($filePath);
+                $worksheet = $spreadsheet->getActiveSheet();
+                return implode(' ', array_map('implode', $worksheet->toArray()));
             } elseif (str_contains($mimeType, 'text/plain')) {
                 return file_get_contents($filePath);
             } elseif (str_contains($mimeType, 'csv')) {
                 $handle = fopen($filePath, 'r');
                 $content = '';
                 while (($row = fgetcsv($handle)) !== false) {
-                    $content .= implode(' ', $row) . ' ';
+                    $content .= implode(' ', $row) . "\n";
                 }
                 fclose($handle);
                 return trim($content);

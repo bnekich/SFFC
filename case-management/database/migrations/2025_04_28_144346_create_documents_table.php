@@ -13,16 +13,17 @@ return new class extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id')->nullable(); // Uploader
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null'); // Uploader
             $table->string('name'); // Original file name
             $table->string('path'); // Storage path
             $table->string('mime_type'); // e.g., application/pdf
             $table->bigInteger('size'); // File size in bytes
-            $table->text('content')->nullable(); // Extracted text for full-text search
+            $table->text('content')->nullable(); // Extracted text for full-text search.
             $table->string('type'); // e.g., pdf, docx, image
             $table->timestamps();
             $table->softDeletes(); // Soft delete for documents
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+
+            $table->fullText('content');
         });
     }
 

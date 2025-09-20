@@ -23,7 +23,7 @@ class DocumentController extends Controller
 
         // Apply full-text search if query is provided
         if ($query) {
-            $documentsQuery->whereRaw('MATCH(content) AGAINST(? IN BOOLEAN MODE)', [$query]);
+            $documentsQuery->whereFullText('content', $query);
         }
 
         // Paginate results
@@ -35,8 +35,8 @@ class DocumentController extends Controller
     public function download(Document $document)
     {
         if (
-            !auth()->user()->hasPermissionTo('documents-view') ||
-            (!auth()->user()->hasPermissionTo('documents-download') && $document->user_id !== auth()->id())
+            !auth()->user()->hasPermissionTo('documents-viewAny') ||
+            (!auth()->user()->hasPermissionTo('documents-downloadAny') && $document->user_id !== auth()->id())
         ) {
             throw new UnauthorizedException(403, 'Unauthorized to download this document.');
         }
