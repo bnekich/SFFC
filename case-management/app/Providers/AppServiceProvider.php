@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,5 +24,8 @@ class AppServiceProvider extends ServiceProvider
         Paginator::defaultView('vendor.pagination.bootstrap-5');
         // Optionally, set simple pagination too:
         Paginator::defaultSimpleView('vendor.pagination.bootstrap-5');
+        if (app()->environment('production')) {
+            URL::forceScheme('https');
+        }
     }
 }
