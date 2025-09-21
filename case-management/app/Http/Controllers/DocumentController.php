@@ -34,18 +34,18 @@ class DocumentController extends Controller
 
     public function download(Document $document)
     {
-        if (
-            !auth()->user()->hasPermissionTo('documents-viewAny') ||
-            (!auth()->user()->hasPermissionTo('documents-downloadAny') && $document->user_id !== auth()->id())
-        ) {
+        // Check if the user has permission to download any document or if it's their own document
+        $canDownloadAny = auth()->user()->hasPermissionTo('documents-downloadAny');
+        $isOwner = $document->user_id === auth()->id();
+
+        if (!$canDownloadAny && !$isOwner) {
             throw new UnauthorizedException(403, 'Unauthorized to download this document.');
         }
 
-        // Verify file exists
-        if (!Storage::disk('public')->exists($document->path)) {
+        if (!Storage::disk('spaces')->exists($document->path)) {
             abort(404, 'File not found.');
         }
 
-        return Storage::disk('public')->download($document->path, $document->name);
+        return Storage::disk('spaces')->download($document->path, $document->name);
     }
 }

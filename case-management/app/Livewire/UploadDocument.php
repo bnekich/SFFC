@@ -46,16 +46,16 @@ class UploadDocument extends Component
 
             Log::info('Uploading file: ' . $this->file->getClientOriginalName());
 
-            // Store file
-            $path = $this->file->store('documents', 'public'); // Use 's3' for production
             $originalName = $this->file->getClientOriginalName();
             $mimeType = $this->file->getMimeType();
             $size = $this->file->getSize();
+            $localPath = $this->file->getRealPath();
 
             // Extract text based on file type
-            $content = $this->extractText($this->file->getRealPath(), $mimeType);
+            $content = $this->extractText($localPath, $mimeType);
 
-            // Save metadata and content to database
+            // Store file in Digital Ocean Spaces and save metadata to database
+            $path = $this->file->store('documents', 'spaces');
             Document::create([
                 'user_id' => auth()->check() ? auth()->id() : null,
                 'name' => $originalName,
