@@ -34,16 +34,26 @@ class UploadDocument extends Component
 
     public function uploadFile()
     {
+        $context = [
+            'file_name' => $this->file ? $this->file->getClientOriginalName() : null,
+            'mime_type' => $this->file ? $this->file->getMimeType() : null,
+            'size' => $this->file ? $this->file->getSize() : null,
+        ];
+
         try {
-            Log::info('uploadFile method called');
+            //Log::info('uploadFile method called');
+            Log::channel('audit')->debug('uploadFile method called', $context);
+
             $this->validate();
+            Log::channel('audit')->debug('File validation successful', $context);
 
             if (!$this->file) {
-                Log::error('No file selected in uploadFile method');
+                //Log::error('No file selected in uploadFile method');
+                Log::channel('audit')->debug('No file selected', $context);
                 throw new \Exception('No file selected.');
             }
 
-            Log::info('Uploading file: ' . $this->file->getClientOriginalName());
+            Log::channel('audit')->debug('Uploading file: ' . $this->file->getClientOriginalName(), $context);
 
             $originalName = $this->file->getClientOriginalName();
             $mimeType = $this->file->getMimeType();
