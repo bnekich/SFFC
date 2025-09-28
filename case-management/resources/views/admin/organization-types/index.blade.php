@@ -39,7 +39,7 @@
             </tr>
         @empty
             <tr>
-                <td colspan="3">No organization types found.</td>
+                <td colspan="2">No organization types found.</td>
             </tr>
         @endforelse
     </tbody>

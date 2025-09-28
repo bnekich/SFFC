@@ -23,6 +23,7 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\Auth\TwoFactorController;
 use App\Http\Controllers\Auth\PasswordResetController;
+use App\Http\Controllers\CaseStatusController;
 
 Route::get('/2fa/challenge', [TwoFactorController::class, 'showChallenge'])->name('2fa.challenge');
 Route::post('/2fa/challenge', [TwoFactorController::class, 'sendCode'])->name('2fa.challenge');
@@ -50,6 +51,7 @@ Route::resource('organization', OrganizationController::class)->middleware('auth
 Route::resource('course', CourseController::class)->middleware('auth');
 Route::resource('casenote', CaseNoteController::class)->middleware('auth');
 Route::resource('tag', TagController::class)->middleware('auth');
+Route::resource('case-statuses', CaseStatusController::class)->middleware('auth');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard')->middleware('auth');

@@ -51,5 +51,9 @@
                     href="{{ route('tag.index') }}">Tags</a>
             </li>
         @endcan
+        <li>
+            <a class="dropdown-item {{ request()->routeIs('case-statuses.*') ? 'active' : '' }}"
+                href="{{ route('case-statuses.index') }}">Case Statuses</a>
+        </li>
     </ul>
 </li>

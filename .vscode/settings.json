@@ -32,5 +32,14 @@
   },
   "php.debug.ideKey": "VSCODE",
   "php.validate.executablePath": "C:\\xampp\\php\\php.exe",
-  "php.suggest.basic": false
+  "php.suggest.basic": false,
+  "mcp.servers": {
+    "laravel-boost": {
+      "command": "php",
+      "args": ["artisan", "boost:mcp"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    }
+  }
 }

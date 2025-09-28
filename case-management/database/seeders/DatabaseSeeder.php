@@ -31,6 +31,9 @@ class DatabaseSeeder extends Seeder
             OrganizationTypeSeeder::class,
             OrganizationSeeder::class,
             TagSeeder::class,
+            CaseStatusSeeder::class,
+            IntakeStatusSeeder::class,
+            IntakeOutcomeSeeder::class,
         ]);
         Intake::factory()->count(100)->create();
         Family::factory()->count(100)->create();
