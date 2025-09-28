@@ -32,7 +32,7 @@
         @endif
     </p>
     <p><strong>Case Status:</strong>
-        {{ $case->status ? Status::from($case->status)->label() : 'N/A' }}
+        {{ $case->caseStatus ? $case->caseStatus->name : 'N/A' }}
     </p>
     <p><strong>Case Start Date:</strong>
         {{ $case->start_date ? \Carbon\Carbon::parse($case->start_date)->isoFormat('LL') : 'N/A' }}

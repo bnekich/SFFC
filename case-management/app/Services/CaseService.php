@@ -24,7 +24,7 @@ class CaseService
         }
 
         if (!empty($filters['status'])) {
-            $query->where('status', $filters['status']);
+            $query->where('case_status_id', $filters['status']);
         }
 
         if (!empty($filters['assigned_staff_id'])) {
@@ -54,7 +54,7 @@ class CaseService
                 'assigned_staff_id' => $data['assigned_staff_id'],
                 'start_date' => $data['start_date'],
                 'end_date' => $data['end_date'] ?? null,
-                'status' => $data['status'],
+                'case_status_id' => $data['case_status_id'],
                 'created_by' => auth()->id(),
                 'updated_by' => auth()->id(),
             ]);
@@ -76,7 +76,7 @@ class CaseService
                 'assigned_staff_id' => $data['assigned_staff_id'],
                 'start_date' => $data['start_date'],
                 'end_date' => $data['end_date'] ?? null,
-                'status' => $data['status'],
+                'case_status_id' => $data['case_status_id'],
                 'updated_by' => auth()->id(),
             ]);
 

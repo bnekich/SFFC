@@ -23,12 +23,13 @@
             @enderror
         </div>
         <div class="col-auto">
-            <label for="status" class="form-label label-required">Case Status</label>
-            <select id="status" name="status" class="form-select-sm @error('status') is-invalid @enderror" required>
+            <label for="case_status_id" class="form-label label-required">Case Status</label>
+            <select id="case_status_id" name="case_status_id"
+                class="form-select-sm @error('case_status_id') is-invalid @enderror" required>
                 <option value=""> (Select)</option>
                 @foreach ($statuses as $status)
-                    <option value="{{ $status->value }}" {{ old('status') == $status->value ? 'selected' : '' }}>
-                        {{ $status->label() }}
+                    <option value="{{ $status->id }}" {{ old('status') == $status->id ? 'selected' : '' }}>
+                        {{ $status->name }}
                     </option>
                 @endforeach
             </select>

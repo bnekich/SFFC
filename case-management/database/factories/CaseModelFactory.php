@@ -17,7 +17,7 @@ class CaseModelFactory extends Factory
             'assigned_staff_id' => fake()->numberBetween(1, 9),
             'start_date' => fake()->date(),
             'end_date' => null,
-            'status' => fake()->randomElement(['O', 'C', 'H', 'X']),
+            'case_status_id' => fake()->numberBetween(1, 4),
             'created_by' => 1,
             'updated_by' => 1,
         ];

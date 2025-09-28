@@ -24,11 +24,12 @@
         <div class="row g-3">
             <div class="col-auto">
                 <label for="status" class="form-label label-required">Case Status</label>
-                <select id="status" name="status" class="form-select-sm @error('status') is-invalid @enderror" required>
+                <select id="case_status_id" name="case_status_id"
+                    class="form-select-sm @error('case_status_id') is-invalid @enderror" required>
                     @foreach ($statuses as $status)
-                        <option value="{{ $status->value }}"
-                            {{ old('status', $case->status) == $status->value ? 'selected' : '' }}>
-                            {{ $status->label() }}
+                        <option value="{{ $status->id }}"
+                            {{ old('case_status_id', $case->case_status_id) == $status->id ? 'selected' : '' }}>
+                            {{ $status->name }}
                         </option>
                     @endforeach
                 </select>

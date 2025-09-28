@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Enums\Statuses\CaseStatus;
 use App\Models\CaseModel;
 use App\Http\Requests\CaseModelFormRequest;
+use App\Models\CaseStatus;
 use App\Services\CaseService;
 
 class CaseModelController extends Controller
@@ -33,7 +33,8 @@ class CaseModelController extends Controller
         ];
 
         $cases = $this->caseService->getCases($filters, $sort);
-        $statuses = CaseStatus::cases();
+        $statuses = CaseStatus::all();
+
 
         return view('case.index', compact('cases', 'statuses'));
     }
@@ -41,7 +42,7 @@ class CaseModelController extends Controller
     public function create()
     {
         $this->logAction("Create Case", "create", "CaseModel");
-        $statuses = CaseStatus::cases();
+        $statuses = CaseStatus::all();
         return view('case.create', compact('statuses'));
     }
 
@@ -69,7 +70,7 @@ class CaseModelController extends Controller
     public function edit(CaseModel $case)
     {
         $this->logAction("Edit Case", "edit", "CaseModel", $case->id);
-        $statuses = CaseStatus::cases();
+        $statuses = CaseStatus::all();
         return view('case.edit', compact('case', 'statuses'));
     }
 

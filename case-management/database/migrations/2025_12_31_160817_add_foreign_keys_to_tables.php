@@ -23,6 +23,7 @@ class AddForeignKeysToTables extends Migration
             $table->foreign('client_family_id')->references('id')->on('families')->onDelete('set null');
             $table->foreign('host_family_id')->references('id')->on('families')->onDelete('set null');
             $table->foreign('assigned_staff_id')->references('id')->on('persons')->onDelete('set null');
+            $table->foreign('case_status_id')->references('id')->on('case_statuses')->onDelete('set null');
         });
 
         // Intake

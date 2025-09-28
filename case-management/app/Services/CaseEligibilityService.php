@@ -10,6 +10,8 @@ class CaseEligibilityService
    */
   public function isEligible(string $caseStatus): bool
   {
-    return $caseStatus === 'pending_review';
+    //return $caseStatus === 'pending_review';
+    // commented out pending definition of eligibility
+    return true;
   }
 }

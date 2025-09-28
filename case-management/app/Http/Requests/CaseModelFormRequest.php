@@ -31,7 +31,7 @@ class CaseModelFormRequest extends FormRequest
                 'assigned_staff_id' => 'nullable|exists:persons,id',
                 'start_date' => 'nullable|date',
                 'end_date' => 'nullable|date',
-                'status' => 'required|string',
+                'case_status_id' => 'required|exists:case_statuses,id',
             ];
         }
 
@@ -43,7 +43,7 @@ class CaseModelFormRequest extends FormRequest
             'assigned_staff_id' => 'nullable|exists:persons,id',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date',
-            'status' => 'required|string',
+            'case_status_id' => 'required|exists:case_statuses,id',
         ];
     }
 

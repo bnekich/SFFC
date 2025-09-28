@@ -10,7 +10,7 @@ class DashboardItemOpenCases extends Component
 
     public function __construct()
     {
-        $this->openCasesCount = \App\Models\CaseModel::where('status', '=', 'O')->count();
+        $this->openCasesCount = \App\Models\CaseModel::where('case_status_id', '=', '1')->count();
     }
 
     public function render()

@@ -17,7 +17,7 @@ class CreateCasesTable extends Migration
             $table->bigInteger('assigned_staff_id')->nullable();
             $table->date('start_date');
             $table->date('end_date')->nullable();
-            $table->string('status', 2)->default('O');
+            $table->bigInteger('case_status_id')->nullable();
             $table->timestamps();
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->constrained('users')->onDelete('cascade');

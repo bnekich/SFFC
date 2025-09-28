@@ -14,7 +14,7 @@ class CaseModel extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'cases';
-    protected $fillable = ['case_identifier', 'case_description', 'client_family_id', 'host_family_id', 'assigned_staff_id', 'start_date', 'end_date', 'status', 'created_by', 'updated_by'];
+    protected $fillable = ['case_identifier', 'case_description', 'client_family_id', 'host_family_id', 'assigned_staff_id', 'start_date', 'end_date', 'case_status_id', 'created_by', 'updated_by'];
 
     public function clientFamily()
     {
@@ -29,6 +29,11 @@ class CaseModel extends Model
     public function assignedStaff()
     {
         return $this->belongsTo(Person::class, 'assigned_staff_id');
+    }
+
+    public function caseStatus()
+    {
+        return $this->belongsTo(CaseStatus::class, 'case_status_id');
     }
 
     public function services()

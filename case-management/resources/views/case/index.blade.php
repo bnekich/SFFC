@@ -21,8 +21,8 @@
             <select name="status" class="form-control-sm" onchange="document.getElementById('filterForm').submit()">
                 <option value="">-- Filter by Status --</option>
                 @foreach ($statuses as $status)
-                    <option value="{{ $status->value }}" {{ request('status') == $status->value ? 'selected' : '' }}>
-                        {{ $status->label() }}
+                    <option value="{{ $status->id }}" {{ request('status') == $status->id ? 'selected' : '' }}>
+                        {{ $status->name }}
                     </option>
                 @endforeach
             </select>
@@ -65,25 +65,25 @@
                 <tr>
                     <td>{{ $case->case_identifier }}</td>
                     <td>
-                        @switch ($case->status)
-                            @case(Status::Open->value)
-                                <span class="badge bg-success">{{ Status::Open->label() }}</span>
+                        @switch ($case->caseStatus->name)
+                            @case('Open')
+                                <span class="badge bg-success">Open</span>
                             @break
 
-                            @case(Status::OnHold->value)
-                                <span class="badge bg-warning">{{ Status::OnHold->label() }}</span>
+                            @case('On Hold')
+                                <span class="badge bg-warning">On Hold</span>
                             @break
 
-                            @case(Status::Closed->value)
-                                <span class="badge bg-danger">{{ Status::Closed->label() }}</span>
+                            @case('Closed')
+                                <span class="badge bg-danger">Closed</span>
                             @break
 
-                            @case(Status::Cancelled->value)
-                                <span class="badge bg-danger">{{ Status::Cancelled->label() }}</span>
+                            @case('Cancelled')
+                                <span class="badge bg-danger">Cancelled</span>
                             @break
 
                             @default
-                                <span class="badge bg-danger">{{ $case->status }}</span>
+                                <span class="badge bg-danger">{{ $case->caseStatus->name }}</span>
                         @endswitch
                     </td>
                     <td class="cm-table-description">{{ $case->case_description }}</td>
