@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Volunteer>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Note>
  */
-class VolunteerFactory extends Factory
+class NoteFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,11 +17,7 @@ class VolunteerFactory extends Factory
     public function definition(): array
     {
         return [
-            'person_id' => 1,
-            'county' => 'Dodge',
-            'church_id' => 1,
-            'created_by' => 1,
-            'updated_by' => 1
+            //
         ];
     }
 }

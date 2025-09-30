@@ -17,6 +17,7 @@ class CaseModelFormRequest extends FormRequest
     {
         if ($this->method() === 'GET') {
             return [
+                'id' => 'integer|exists:cases,id',
                 'case_identifier' => 'string',
                 'case_description' => 'string',
             ];

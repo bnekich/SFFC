@@ -10,8 +10,10 @@ class CreateVolunteersTable extends Migration
     public function up()
     {
         Schema::create('volunteers', function (Blueprint $table) {
+            $table->id();
             $table->bigInteger('person_id');
-            $table->primary('person_id');
+            $table->string('county', 50);
+            $table->bigInteger('church_id');
             $table->timestamps();
             $table->bigInteger('created_by')->nullable();
             $table->bigInteger('updated_by')->nullable();

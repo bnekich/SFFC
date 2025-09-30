@@ -24,6 +24,7 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\Auth\TwoFactorController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\CaseStatusController;
+use App\Http\Controllers\NoteController;
 
 Route::get('/2fa/challenge', [TwoFactorController::class, 'showChallenge'])->name('2fa.challenge');
 Route::post('/2fa/challenge', [TwoFactorController::class, 'sendCode'])->name('2fa.challenge');
@@ -36,6 +37,7 @@ Route::get('/document/{document}/download', [DocumentController::class, 'downloa
 Route::get('/familySearch', [FamilyController::class, 'search'])->middleware('auth');
 Route::get('/orgSearch', [OrganizationController::class, 'search'])->middleware('auth');
 Route::get('/peopleSearch', [PersonController::class, 'search'])->middleware('auth');
+Route::get('api/noteables', [NoteController::class, 'apiNoteables'])->middleware(['auth'])->name('note.apiNoteables');
 
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::resource('organization-types', OrganizationTypeController::class);
@@ -52,6 +54,9 @@ Route::resource('course', CourseController::class)->middleware('auth');
 Route::resource('casenote', CaseNoteController::class)->middleware('auth');
 Route::resource('tag', TagController::class)->middleware('auth');
 Route::resource('case-statuses', CaseStatusController::class)->middleware('auth');
+Route::resource('note', NoteController::class)->middleware('auth');
+
+
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard')->middleware('auth');

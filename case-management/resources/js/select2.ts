@@ -102,10 +102,6 @@ $(document).ready(() => {
     initializeFamilySelect2();
 });
 
-$(document).ready(() => {
-    initializeOrgSelect2();
-});
-
 export function initializePersonSelect2(): void {
     if ($(".person-select").length) {
         // Only run if element exists
@@ -143,4 +139,43 @@ export function initializePersonSelect2(): void {
 
 $(document).ready(() => {
     initializePersonSelect2();
+});
+
+export function initializeCaseSelect2(): void {
+    if ($(".case-select").length) {
+        // Only run if element exists
+        $(".case-select").select2({
+            placeholder: "Search for cases...",
+            allowClear: true,
+            minimumInputLength: 1,
+            ajax: {
+                url: "/api/noteables?type=cases",
+                dataType: "json",
+                delay: 250,
+                data: function (params) {
+                    return {
+                        q: params.term,
+                        page: params.page || 1,
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.items.map(function (item) {
+                            return {
+                                id: item.id,
+                                text: item.case_identifier,
+                            };
+                        }),
+                        pagination: {
+                            more: data.current_page < data.last_page,
+                        },
+                    };
+                },
+            },
+        });
+    }
+}
+
+$(document).ready(() => {
+    initializeCaseSelect2();
 });

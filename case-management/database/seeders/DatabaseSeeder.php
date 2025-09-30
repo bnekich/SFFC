@@ -14,6 +14,7 @@ use App\Models\Intake;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\CaseNote;
+use App\Models\Volunteer;
 
 class DatabaseSeeder extends Seeder
 {
@@ -40,5 +41,6 @@ class DatabaseSeeder extends Seeder
         CaseModel::factory()->count(100)->create();
         Course::factory()->count(20)->create();
         CaseNote::factory()->count(100)->create();
+        Volunteer::factory()->create();
     }
 }

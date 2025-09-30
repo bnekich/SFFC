@@ -9,7 +9,7 @@ class Volunteer extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['training_status', 'availability', 'assignment_date', 'created_by', 'updated_by'];
+    protected $fillable = ['person_id', 'county', 'church_id', 'created_by', 'updated_by'];
 
     public function person()
     {
@@ -21,8 +21,8 @@ class Volunteer extends Model
         return $this->belongsToMany(CaseModel::class, 'cases_volunteers');
     }
 
-    public function courses()
+    public function notes()
     {
-        return $this->belongsToMany(Course::class, 'volunteers_courses')->withPivot('completed');
+        return $this->morphToMany(Note::class, 'noteable');
     }
 }
