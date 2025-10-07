@@ -17,6 +17,7 @@ class AddForeignKeysToTables extends Migration
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null');
             $table->foreign('person_id')->references('id')->on('persons')->onDelete('cascade');
+            $table->foreign('volunteer_status_id')->references('id')->on('volunteer_statuses')->onDelete('set null');
             $table->foreign('church_id')->references('id')->on('organizations')->onDelete('set null');
         });
 
@@ -221,6 +222,7 @@ class AddForeignKeysToTables extends Migration
 
         Schema::table('volunteers', function (Blueprint $table) {
             $table->dropForeign(['person_id']);
+            $table->dropForeign(['volunteer_status_id']);
             $table->dropForeign(['created_by']);
             $table->dropForeign(['updated_by']);
         });

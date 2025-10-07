@@ -10,8 +10,5 @@ class CaseStatus extends Model
   use HasFactory;
 
   protected $table = 'case_statuses';
-
-  protected $fillable = [
-    'name'
-  ];
+  protected $fillable = ['name'];
 }

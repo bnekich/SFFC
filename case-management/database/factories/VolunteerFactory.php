@@ -20,6 +20,7 @@ class VolunteerFactory extends Factory
             'person_id' => 1,
             'county' => 'Dodge',
             'church_id' => 1,
+            'volunteer_status_id' => 1,
             'created_by' => 1,
             'updated_by' => 1
         ];

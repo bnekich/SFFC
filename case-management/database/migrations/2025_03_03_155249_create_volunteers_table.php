@@ -14,6 +14,7 @@ class CreateVolunteersTable extends Migration
             $table->bigInteger('person_id');
             $table->string('county', 50);
             $table->bigInteger('church_id');
+            $table->bigInteger('volunteer_status_id');
             $table->timestamps();
             $table->bigInteger('created_by')->nullable();
             $table->bigInteger('updated_by')->nullable();

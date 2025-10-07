@@ -25,6 +25,7 @@ use App\Http\Controllers\Auth\TwoFactorController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\CaseStatusController;
 use App\Http\Controllers\NoteController;
+use App\Http\Controllers\VolunteerStatusController;
 
 Route::get('/2fa/challenge', [TwoFactorController::class, 'showChallenge'])->name('2fa.challenge');
 Route::post('/2fa/challenge', [TwoFactorController::class, 'sendCode'])->name('2fa.challenge');
@@ -55,7 +56,7 @@ Route::resource('casenote', CaseNoteController::class)->middleware('auth');
 Route::resource('tag', TagController::class)->middleware('auth');
 Route::resource('case-statuses', CaseStatusController::class)->middleware('auth');
 Route::resource('note', NoteController::class)->middleware('auth');
-
+Route::resource('volunteer-statuses', VolunteerStatusController::class)->middleware('auth');
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');

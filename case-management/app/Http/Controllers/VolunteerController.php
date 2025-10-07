@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Volunteer;
 use App\Http\Requests\VolunteerFormRequest;
-use App\Http\Requests\UpdateVolunteerRequest;
 
 class VolunteerController extends Controller
 {
@@ -51,7 +50,7 @@ class VolunteerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateVolunteerRequest $request, Volunteer $volunteer)
+    public function update(VolunteerFormRequest $request, Volunteer $volunteer)
     {
         //
     }

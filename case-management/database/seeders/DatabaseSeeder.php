@@ -15,6 +15,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\CaseNote;
 use App\Models\Volunteer;
+use App\Models\VolunteerStatus;
 
 class DatabaseSeeder extends Seeder
 {
@@ -35,6 +36,7 @@ class DatabaseSeeder extends Seeder
             CaseStatusSeeder::class,
             IntakeStatusSeeder::class,
             IntakeOutcomeSeeder::class,
+            VolunteerStatusSeeder::class,
         ]);
         Intake::factory()->count(100)->create();
         Family::factory()->count(100)->create();

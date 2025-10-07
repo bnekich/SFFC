@@ -9,11 +9,16 @@ class Volunteer extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['person_id', 'county', 'church_id', 'created_by', 'updated_by'];
+    protected $fillable = ['person_id', 'county', 'church_id', 'volunteer_status_id', 'created_by', 'updated_by'];
 
     public function person()
     {
         return $this->belongsTo(Person::class, 'id');
+    }
+
+    public function volunteerStatus()
+    {
+        return $this->belongsTo(VolunteerStatus::class, 'volunteer_status_id');
     }
 
     public function cases()
