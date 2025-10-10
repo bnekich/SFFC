@@ -5,7 +5,7 @@ import livewire from "@defstudio/vite-livewire-plugin";
 export default defineConfig({
     plugins: [
         laravel({
-            input: ["resources/js/app.ts", "resources/sass/app.scss"],
+            input: ["resources/js/app.ts", "resources/css/tailwind.scss"],
             refresh: true,
         }),
         livewire(),

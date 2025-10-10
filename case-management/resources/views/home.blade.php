@@ -1,36 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - SFFC Case Management</title>
-    <link rel="stylesheet" href="//fonts.bunny.net/css?family=Nunito">
-    @vite(['resources/js/app.ts', 'resources/sass/app.scss'])
-</head>
+@section('title')
+    - Home
+@endsection
 
-<body>
-    <div class="container">
-        <header style="background-color: cornflowerblue; padding: 1rem;">
-            <img src="images/sffc_logo.jpg" alt="Hero Image" class="img-fluid">
-        </header>
-        <main>
-            <div>
-                <section>
-                    <h2>Welcome to the Case Management System</h2>
-                    <p>This system is designed to help you manage your cases more efficiently.</p>
-                    <p>Please <a href="login">log in</a> to continue.</p>
-                </section>
-            </div>
-        </main>
-        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-            <div class="col-md-4 d-flex align-items-center">
-                <span class="mb-3 mb-md-0 text-muted">&copy;{{ date_format(now(), 'Y') }} Safe Families for Children
-                    Wisconsin</span>
-            </div>
-
-        </footer>
+@section('content')
+@section('header')
+    <div class="place-items-center text-center">
+        <img src="images/sffc_logo.jpg" alt="Safe Families for Children Logo" class="w-1/2 max-w-md mb-8 rounded-lg shadow-md">
+        <span class="text-3xl font-bold text-white-800 mb-4">Welcome to the Safe Families for Children Case Management System
+        </span>
     </div>
-</body>
+@endsection
 
-</html>
+<div class="place-items-center text-center">
+    <p class="font-bold text-2xl bold mb-4 uppercase">keeping children safe and families together</p>
+    <p class="font-bold">Please <a href="login"
+            class="text-blue-600 hover:text-blue-800 font-medium underline transition-colors">log in</a> to
+        continue.</p>
+</div>
+
+@endsection

@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "../sass/app.scss";
+
+@layer components {
+    .sffc-btn-primary {
+        @apply inline-flex items-center justify-center px-4 py-2 text-sm font-medium tracking-wide text-white transition-colors duration-200 bg-blue-600 rounded-md hover:bg-blue-700 focus:ring-2 focus:ring-offset-2 focus:ring-blue-700 focus:outline-none;
+    }
+    .sffc-text-input {
+        @apply mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2;
+    }
+    .sffc-label {
+        @apply block text-sm font-medium text-gray-700;
+    }
+}

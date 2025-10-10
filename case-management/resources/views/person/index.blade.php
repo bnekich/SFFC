@@ -5,22 +5,28 @@
 @endsection
 
 @section('content')
-    <div class="container">
-    @section('header')
-        <h3>People</h3>
-    @endsection
-    <div class="row mb-3">
-        <x-search route="person.index" placeholder="First Name or Last Name" />
-        <div class="col-auto align-items-end d-flex justify-content-end">
+@section('header')
+    <h3 class="text-2xl font-bold">People</h3>
+@endsection
+<div class="container mx-auto p-4">
+    <div class="flex justify-between items-center mb-4">
+        <div class="w-1/3">
+            <x-search route="person.index" placeholder="First Name or Last Name" />
+        </div>
+        <div>
             @can('person-create')
-                <a href="{{ route('person.create') }}" class="btn btn-sm btn-primary">Add Person</a>
+                <a href="{{ route('person.create') }}"
+                    class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-sm text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Add
+                    Person</a>
             @endcan
         </div>
     </div>
-    <div class="row mb-3">
-        <div class="col-4">
+    <div class="mb-4">
+        <div class="w-full md:w-1/3">
             <form id="filterForm" method="GET" action="{{ route('person.index') }}">
-                <select name="organization" class="form-control-sm"
+                <label for="organization" class="sr-only">Filter by Organization</label>
+                <select name="organization" id="organization"
+                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                     onchange="document.getElementById('filterForm').submit()">
                     <option value="">-- Filter by Organization --</option>
                     @foreach ($organizations as $organization)
@@ -33,38 +39,51 @@
             </form>
         </div>
     </div>
-    <div class="row mb-3">
-        <div class="table-responsive">
-            <table class="table table-sm table-hover mt-3">
-                <thead>
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
                     <tr>
-                        {{-- <th scope="col">ID</th> --}}
-                        <th scope="col">First Name</th>
-                        <th scope="col">Last Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Organization</th>
-                        <th scope="col">Phone</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">First
+                            Name</th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last
+                            Name</th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email
+                        </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Organization</th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone
+                        </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="bg-white divide-y divide-gray-200">
                     @forelse ($persons as $person)
-                        <tr>
-                            {{-- <td>{{ $person->id }}</td> --}}
-                            <td>{{ $person->first_name }} </td>
-                            <td>{{ $person->last_name }}</td>
-                            <td>{{ $person->email }}</td>
-                            <td>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                {{ $person->first_name }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $person->last_name }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $person->email }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 @if ($person->organizations->isNotEmpty())
                                     {{ $person->organizations->pluck('name')->join(', ') }}
                                 @else
                                     N/A
                                 @endif
                             </td>
-                            <td>{{ $person->phone }}</td>
-                            <td>
-                                <a href="{{ route('person.show', $person) }}" class="btn btn-info btn-sm">View</a>
-                                <a href="{{ route('person.edit', $person) }}" class="btn btn-warning btn-sm">Edit</a>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $person->phone }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                                <a href="{{ route('person.show', $person) }}"
+                                    class="text-indigo-600 hover:text-indigo-900">View</a>
+                                <a href="{{ route('person.edit', $person) }}"
+                                    class="text-yellow-600 hover:text-yellow-900">Edit</a>
                                 @can('persons-delete')
                                     <x-delete-confirmation :route="route('person.destroy', $person)" :item-id="$person->id"
                                         message="Are you sure you want to delete this person?" />
@@ -73,12 +92,15 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center">No people found</td>
+                            <td colspan="6" class="px-6 py-4 text-center text-sm text-gray-500">No people found</td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
+        </div>
+        <div class="p-4">
             {{ $persons->withQueryString()->links() }}
         </div>
     </div>
+</div>
 @endsection

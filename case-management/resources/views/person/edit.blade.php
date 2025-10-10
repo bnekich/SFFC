@@ -1,118 +1,142 @@
 @extends('layouts.app')
 
 @section('header')
-    <div class="row g3">
-        <h3>Edit {{ $person->first_name }} {{ $person->last_name }}</h3>
-    </div>
+    <h3 class="text-2xl font-bold">Edit {{ $person->first_name }} {{ $person->last_name }}</h3>
 @endsection
 
 @section('content')
-    <div class="container">
-        <form class="row g-3 align-items-center" action="{{ route('person.update', $person) }}" method="POST">
+    <div class="container mx-auto p-4">
+        <form class="space-y-6" action="{{ route('person.update', $person) }}" method="POST">
             @csrf
             @method('PUT')
 
-            <div class="col-auto">
-                <input type="text" name="first_name" placeholder="First Name"
-                    class="form-control-sm @error('first_name') is-invalid @enderror"
-                    value="{{ old('first_name', $person->first_name) }}">
-                @error('first_name')
-                    <span class="invalid-feedback">{{ $message }}</span>
-                @enderror
-            </div>
-            <div class="col-auto">
-                <input type="text" name="middle_name" placeholder="Middle Name"
-                    class="form-control-sm @error('middle_name') is-invalid @enderror"
-                    value="{{ old('middle_name', $person->middle_name) }}">
-                @error('middle_name')
-                    <span class="invalid-feedback">{{ $message }}</span>
-                @enderror
-            </div>
-            <div class="col-auto">
-                <input type="text" name="last_name" placeholder="Last Name"
-                    class="form-control-sm @error('last_name') is-invalid @enderror"
-                    value="{{ old('last_name', $person->last_name) }}">
-                @error('last_name')
-                    <span class="invalid-feedback">{{ $message }}</span>
-                @enderror
-            </div>
-            <div class="col-auto">
-                <input type="email" name="email" placeholder="Email"
-                    class="form-control-sm @error('email') is-invalid @enderror" value="{{ old('email', $person->email) }}">
-                @error('email')
-                    <span class="invalid-feedback">{{ $message }}</span>
-                @enderror
-            </div>
-            <div class="col-auto">
-                <input type="text" name="phone" placeholder="Phone"
-                    class="phone-input form-control-sm @error('phone') is-invalid @enderror"
-                    value="{{ old('phone', $person->phone) }}">
-                @error('phone')
-                    <span class="invalid-feedback">{{ $message }}</span>
-                @enderror
-            </div>
-            <div class="row g-3 align-items-center">
-                <div class="col-auto">
-                    <label class="form-label">Date of Birth</label>
-                    <input type="date" name="date_of_birth"
-                        class="form-control-sm @error('date_of_birth') is-invalid @enderror"
-                        value="{{ old('date_of_birth', $person->date_of_birth) }}">
-                    @error('date_of_birth')
-                        <span class="invalid-feedback">{{ $message }}</span>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <label for="first_name" class="block text-sm font-medium text-gray-700">First Name</label>
+                    <input id="first_name" type="text" name="first_name" placeholder="First Name"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('first_name') border-red-500 @enderror"
+                        value="{{ old('first_name', $person->first_name) }}">
+                    @error('first_name')
+                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
-                <div class="col-auto">
-                    <label class="form-label">Gender</label>
-                    <select name="gender" class="form-select-sm @error('gender') is-invalid @enderror">
+                <div>
+                    <label for="middle_name" class="block text-sm font-medium text-gray-700">Middle Name</label>
+                    <input id="middle_name" type="text" name="middle_name" placeholder="Middle Name"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('middle_name') border-red-500 @enderror"
+                        value="{{ old('middle_name', $person->middle_name) }}">
+                    @error('middle_name')
+                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div>
+                    <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
+                    <input id="last_name" type="text" name="last_name" placeholder="Last Name"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('last_name') border-red-500 @enderror"
+                        value="{{ old('last_name', $person->last_name) }}">
+                    @error('last_name')
+                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                    <input id="email" type="email" name="email" placeholder="Email"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('email') border-red-500 @enderror"
+                        value="{{ old('email', $person->email) }}">
+                    @error('email')
+                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div>
+                    <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
+                    <input id="phone" type="text" name="phone" placeholder="Phone"
+                        class="phone-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('phone') border-red-500 @enderror"
+                        value="{{ old('phone', $person->phone) }}">
+                    @error('phone')
+                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <label for="date_of_birth" class="block text-sm font-medium text-gray-700">Date of Birth</label>
+                    <input id="date_of_birth" type="date" name="date_of_birth"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('date_of_birth') border-red-500 @enderror"
+                        value="{{ old('date_of_birth', $person->date_of_birth ? \Carbon\Carbon::parse($person->date_of_birth)->format('Y-m-d') : '') }}">
+                    @error('date_of_birth')
+                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div>
+                    <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
+                    <select id="gender" name="gender"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('gender') border-red-500 @enderror">
                         <option value="">(Select One)</option>
                         @foreach ($genders as $gender)
                             <option value="{{ $gender->value }}"
-                                {{ $gender->value === $person->gender ? 'selected' : '' }}>
+                                {{ old('gender', $person->gender) == $gender->value ? 'selected' : '' }}>
                                 {{ $gender->name }}</option>
                         @endforeach
                     </select>
                     @error('gender')
-                        <span class="invalid-feedback">{{ $message }}</span>
+                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
-                <div class="col-auto form-check">
-                    <input type="checkbox" name="can_text_reminder" value="1" class="form-check-input"
-                        {{ old('can_text_reminder', $person->can_text_reminder) ? 'checked' : '' }}>
-                    <label class="form-check-label">Can Text Reminder</label>
-                </div>
-                <div class="col-auto form-check">
-                    <input type="checkbox" name="can_email_reminder" value="1" class="form-check-input"
-                        {{ old('can_email_reminder', $person->can_email_reminder) ? 'checked' : '' }}>
-                    <label class="form-check-label">Can Email Reminder</label>
-                </div>
-            </div>
-            <x-address-form :address="$person->address" :states="$states" />
-            <div class="col-6">
-                <label class="form-label">Family Connections</label>
-                <select class="family-select form-select" name="family_ids[]" multiple>
-                    @foreach ($person->families as $family)
-                        <option value="{{ $family->id }}" selected>{{ $family->family_name }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col-6">
-                <label class="form-label">Organizations</label>
-                <select class="org-select form-select" name="org_ids[]" multiple>
-                    @foreach ($person->organizations as $organization)
-                        <option value="{{ $organization->id }}" selected>{{ $organization->name }}</option>
-                    @endforeach
-                </select>
             </div>
 
-            <div class="row g-3">
-                <div class="col-auto">
-                    @canany('[user-create, user-edit]')
-                        <button type="submit" class="btn btn-primary mt-3">Update</button>
-                    @endcanany
-                    @can('users-delete')
-                        <a href="{{ route('person.index') }}" class="btn btn-secondary mt-3">Cancel</a>
-                    @endcan
+            <div class="space-y-4">
+                <div class="flex items-center">
+                    <input id="can_text_reminder" type="checkbox" name="can_text_reminder" value="1"
+                        class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                        {{ old('can_text_reminder', $person->can_text_reminder) ? 'checked' : '' }}>
+                    <label for="can_text_reminder" class="ml-2 block text-sm text-gray-900">Can Receive Text
+                        Reminders</label>
                 </div>
+                <div class="flex items-center">
+                    <input id="can_email_reminder" type="checkbox" name="can_email_reminder" value="1"
+                        class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                        {{ old('can_email_reminder', $person->can_email_reminder) ? 'checked' : '' }}>
+                    <label for="can_email_reminder" class="ml-2 block text-sm text-gray-900">Can Receive Email
+                        Reminders</label>
+                </div>
+            </div>
+
+            <x-address-form :address="$person->address" :states="$states" />
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="family_ids" class="block text-sm font-medium text-gray-700">Family Connections</label>
+                    <select id="family_ids"
+                        class="family-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        name="family_ids[]" multiple>
+                        @foreach ($person->families as $family)
+                            <option value="{{ $family->id }}" selected>{{ $family->family_name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label for="org_ids" class="block text-sm font-medium text-gray-700">Organizations</label>
+                    <select id="org_ids"
+                        class="org-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        name="org_ids[]" multiple>
+                        @foreach ($person->organizations as $organization)
+                            <option value="{{ $organization->id }}" selected>{{ $organization->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+                @canany(['user-create', 'user-edit'])
+                    <button type="submit"
+                        class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Update</button>
+                @endcanany
+                <a href="{{ route('person.index') }}"
+                    class="inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Cancel</a>
             </div>
         </form>
     </div>
