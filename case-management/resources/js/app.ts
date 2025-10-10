@@ -1,4 +1,3 @@
-import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap";
 import Inputmask from "inputmask";
 import "./select2";

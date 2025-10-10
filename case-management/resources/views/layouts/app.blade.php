@@ -56,7 +56,6 @@
             </div>
         </footer>
     </div>
-    @livewire('notifications')
     @livewireScripts
 </body>
 
