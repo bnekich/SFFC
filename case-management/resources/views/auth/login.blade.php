@@ -14,16 +14,17 @@
 
 <form class="space-y-4 m-2" method="POST" action="{{ route('login') }}">
     @csrf
-    <div class="flex flex-col gap-4">
-        <div>
-            <label for="email" class="sffc-label">{{ __('Email Address') }}<span class="text-red-500">*</span></label>
+    <div class="flex flex-direction-row gap-6">
+        <div class="flex flex-row gap-6">
+            <label for="email" class="sffc-label">{{ __('Email Address') }}<span
+                    class="text-red-500">*</span></label>
             <input id="email" type="email" name="email"
                 class="sffc-text-input @error('email') border-red-500 @enderror" value="{{ old('email') }}" required>
             @error('email')
                 <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
             @enderror
         </div>
-        <div>
+        <div class="flex flex-row gap-6">
             <label for="password" class="sffc-label">{{ __('Password') }}<span class="text-red-500">*</span></label>
             <input id="password" type="password" class="sffc-text-input @error('password') border-red-500 @enderror"
                 name="password" required autocomplete="current-password">
@@ -31,7 +32,7 @@
                 <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
             @enderror
         </div>
-        <div>
+        <div class="flex flex-row gap-6 justify-center">
             <button type="submit" class="sffc-btn-primary">{{ __('Login') }}</button>
             @if (Route::has('password.request'))
                 <a href="{{ route('password.request') }}"
