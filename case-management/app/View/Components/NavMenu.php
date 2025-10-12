@@ -37,7 +37,8 @@ class NavMenu extends Component
                 ['name' => 'Volunteer Statuses', 'url' => route('volunteer-statuses.index')],
             ]],
             ['name' => $userName, 'url' => '#', 'submenu' => [
-                ['name' => 'Logout', 'action' => 'logout']
+                ['name' => 'Logout', 'action' => 'logout'],
+                ['name' => 'Dashboard Settings', 'url' => route('dashboard.settings')]
             ]]
         ];
     }

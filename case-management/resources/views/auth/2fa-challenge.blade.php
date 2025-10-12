@@ -9,12 +9,12 @@
 @endsection
 
 @if (!$codeSent)
-    <div class="flex flex-col place-items-center text-center">
-        <p class="text-lg font-medium">Please select a method to receive your verification code.</p>
-        <form method="POST" action="{{ route('2fa.send') }}" class="p-4 space-y-6">
+    <div class="place-items-center text-center">
+        <p class="text-lg text-blue-700 font-medium">Please select a method to receive your verification code.</p>
+        <form method="POST" action="{{ route('2fa.send') }}">
             @csrf
             <input type="hidden" name="method" value="email">
-            <button type="submit" class="sffc-btn-primary" {{ !$hasEmail ? 'disabled' : '' }}>
+            <button type="submit" class="sffc-btn-primary m-2" {{ !$hasEmail ? 'disabled' : '' }}>
                 Send Code via Email
             </button>
         </form>
@@ -33,7 +33,7 @@
         @endif
     </div>
 @else
-    <div class="flex flex-col place-items-center text-center">
+    <div class="place-items-center text-center">
         <form method="POST" action="{{ route('2fa.verify') }}" class="p-4 space-y-6">
             @csrf
 
@@ -50,7 +50,7 @@
                 {{ __('Verify') }}
             </button>
         </form>
-        <a href="{{ route('2fa.challenge') }}">Didn't receive a code? Send again.</a>
+        <a class="sffc-label" href="{{ route('2fa.challenge') }}">Didn't receive a code? Send again.</a>
     </div>
 @endif
 @endsection
