@@ -3,7 +3,7 @@
 <form action="{{ $route }}" method="POST" class="d-inline delete-form">
     @csrf
     @method('DELETE')
-    <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
+    <button type="button"class="whitespace-nowrap text-sm text-red-500" data-bs-toggle="modal"
         data-bs-target="#deleteModal{{ $itemId }}">
         Delete
     </button>

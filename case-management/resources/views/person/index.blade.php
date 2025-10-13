@@ -12,34 +12,30 @@
 <div class="flex justify-between items-center mb-4">
     <x-search route="person.index" placeholder="First Name or Last Name" />
 </div>
-<div class="mb-4">
-    <div class="mb-4">
-        <form id="filterForm" method="GET" action="{{ route('person.index') }}">
-            <label for="organization" class="sr-only">Filter by Organization</label>
-            <select name="organization" id="organization"
-                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                onchange="document.getElementById('filterForm').submit()">
-                <option value="">-- Filter by Organization --</option>
-                @foreach ($organizations as $organization)
-                    <option value="{{ $organization->id }}"
-                        {{ request('organization') == $organization->id ? 'selected' : '' }}>
-                        {{ $organization->name }}
-                    </option>
-                @endforeach
-            </select>
-        </form>
-    </div>
-    @can('person-create')
-        <a href="{{ route('person.create') }}" class="inline-flex sffc-btn-primary">Add
-            Person</a>
-    @endcan
-</div>
+<form class="mb-4" id="filterForm" method="GET" action="{{ route('person.index') }}">
+    <label for="organization" class="sr-only">Filter by Organization</label>
+    <select name="organization" id="organization"
+        class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+        onchange="document.getElementById('filterForm').submit()">
+        <option value="">-- Filter by Organization --</option>
+        @foreach ($organizations as $organization)
+            <option value="{{ $organization->id }}"
+                {{ request('organization') == $organization->id ? 'selected' : '' }}>
+                {{ $organization->name }}
+            </option>
+        @endforeach
+    </select>
+</form>
+@can('person-create')
+    <a href="{{ route('person.create') }}" class="mb-4 inline-flex sffc-btn-primary">Add
+        Person</a>
+@endcan
 <div class="bg-white shadow-md rounded-lg overflow-hidden">
     <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-blue-600">
             <thead class="bg-blue-600 text-white uppercase text-sm leading50">
                 <tr>
-                    <th scope="col" class="px-6 py-3 text-left text-xs   uppercase ">
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium  uppercase ">
                         First
                         Name</th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium  uppercase ">

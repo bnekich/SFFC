@@ -93,6 +93,7 @@
     </footer>
 
     @livewireScripts
+    @yield('styles')
 </body>
 
 </html>
