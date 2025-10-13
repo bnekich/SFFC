@@ -1,4 +1,4 @@
-<nav class="border-4 bg-blue-600 text-white w-min">
+<nav class="bg-blue-600 text-white w-min">
     <a href="{{ url('/dashboard') }}">
         <img src="{{ asset('images/sffc_logo.jpg') }}" alt="Logo">
     </a>

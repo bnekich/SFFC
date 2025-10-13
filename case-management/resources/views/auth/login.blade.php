@@ -8,8 +8,14 @@
 
 @section('header')
     <div class="place-items-center text-center">
-        <img src="images/sffc_logo.jpg" alt="Safe Families for Children Logo" class="w-1/2 max-w-md mb-8 rounded-lg shadow-md">
-        <span class="text-kg uppercase">Please enter your Email Address and Password</span>
+        <img src="images/sffc_logo.jpg" alt="Safe Families for Children Logo" class="w-1/2 max-w-md mb-2 rounded-lg shadow-md">
+        <blockquote class="italic p-4"> Therefore if you have any encouragement from being united with
+            Christ, if any comfort
+            from his
+            love, if any common sharing in the Spirit, if any tenderness and compassion, then make my joy complete by being
+            like-minded, having the same love, being one in spirit and of one mind. Do nothing out of selfish ambition or
+            vain conceit. Rather, in humility value others above yourselves, not looking to your own interests but each of
+            you to the interests of the others. (Phil 2:1-5 NASB)</blockquote>
     </div>
 @endsection
 <div class="place-items-center">

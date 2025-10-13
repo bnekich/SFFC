@@ -10,7 +10,7 @@
     @livewireStyles
 </head>
 
-<body x-data="{ sidebarOpen: false }" class="grid grid-cols-2 md:grid-cols-[288px_1fr] min-h-screen w-full h-full">
+<body x-data="{ sidebarOpen: false }" class="grid grid-cols-2 md:grid-cols-[auto_1fr] min-h-screen w-full h-full">
 
     @auth
         <!-- Mobile menu button -->
@@ -55,7 +55,7 @@
 
     <!-- Side navigation menu (desktop) -->
     @auth
-        <aside class="col-span-1 row-start-2 row-end-3 bg-blue-600 w-min text-white hidden md:block">
+        <aside class="col-span-1 row-start-2 row-end-3 bg-blue-600 text-white hidden md:block">
             <x-nav-menu />
         </aside>
     @endauth
