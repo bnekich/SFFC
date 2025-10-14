@@ -3,6 +3,7 @@ import Inputmask from "inputmask";
 import "./select2";
 //import Alpine from "alpinejs";
 import focus from "@alpinejs/focus";
+import Choices from "choices.js";
 
 //window.Alpine = Alpine;
 Alpine.plugin(focus);
@@ -73,43 +74,61 @@ if (clearButton) {
 const chBoxes = document.querySelectorAll(
     '.dropdown-menu input[type="checkbox"]'
 );
-const roleDropDown = document.getElementById("authorizationRoleDropDown");
-let selectedRoles = [];
-chBoxes.forEach((checkbox) => {
-    checkbox.addEventListener("change", (event) => {
-        if (event.target.checked) {
-            selectedRoles.push(event.target.dataset.role);
-        } else {
-            selectedRoles = selectedRoles.filter(
-                (item) => item !== event.target.dataset.role
-            );
-        }
-        roleDropDown.innerText =
-            selectedRoles.length > 0 ? selectedRoles.join(", ") : "Select";
+
+// const roleDropDown = document.getElementById("authorizationRoleDropDown");
+// let selectedRoles = [];
+// chBoxes.forEach((checkbox) => {
+//     checkbox.addEventListener("change", (event) => {
+//         if (event.target.checked) {
+//             selectedRoles.push(event.target.dataset.role);
+//         } else {
+//             selectedRoles = selectedRoles.filter(
+//                 (item) => item !== event.target.dataset.role
+//             );
+//         }
+//         roleDropDown.innerText =
+//             selectedRoles.length > 0 ? selectedRoles.join(", ") : "Select";
+//     });
+// });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const element = document.querySelector("#personAuthRoles"); // Replace with your select's ID
+    const choices = new Choices(element, {
+        removeItemButton: true,
+        allowHTML: false,
     });
 });
 
-document.addEventListener("livewire:initialized", () => {
-    console.log("Livewire initialized");
+document.addEventListener("DOMContentLoaded", function () {
+    const element = document.querySelector("#userRoles"); // Replace with your select's ID
+    const choices = new Choices(element, {
+        removeItemButton: true,
+        allowHTML: false,
+    });
 });
 
-// In resources/js/app.ts, add at the end
-document.addEventListener("DOMContentLoaded", () => {
-    const fileInput = document.querySelector('input[type="file"]');
-    if (fileInput) {
-        console.log("File input attributes:", fileInput.getAttributeNames());
-        fileInput.addEventListener("change", () => {
-            console.log(
-                "File input changed, readonly:",
-                fileInput.hasAttribute("readonly")
-            );
-        });
-    }
-    const submitButton = document.querySelector('button[type="submit"]');
-    if (submitButton) {
-        console.log(
-            "Submit button attributes:",
-            submitButton.getAttributeNames()
-        );
-    }
-});
+// debugging code
+
+// document.addEventListener("livewire:initialized", () => {
+//     console.log("Livewire initialized");
+// });
+
+// document.addEventListener("DOMContentLoaded", () => {
+//     const fileInput = document.querySelector('input[type="file"]');
+//     if (fileInput) {
+//         console.log("File input attributes:", fileInput.getAttributeNames());
+//         fileInput.addEventListener("change", () => {
+//             console.log(
+//                 "File input changed, readonly:",
+//                 fileInput.hasAttribute("readonly")
+//             );
+//         });
+//     }
+//     const submitButton = document.querySelector('button[type="submit"]');
+//     if (submitButton) {
+//         console.log(
+//             "Submit button attributes:",
+//             submitButton.getAttributeNames()
+//         );
+//     }
+// });

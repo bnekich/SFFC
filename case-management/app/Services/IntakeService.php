@@ -13,13 +13,6 @@ use Illuminate\Database\Eloquent\Collection;
 
 class IntakeService
 {
-    public function searchDocuments(string $query): Collection
-    {
-        return Document::whereRaw('MATCH(content) AGAINST(? IN BOOLEAN MODE)', [$query])
-            ->where('user_id', auth()->id())
-            ->get();
-    }
-
     public function getIntakes(array $filters = [], array $sort = []): LengthAwarePaginator
     {
         $query = Intake::query();

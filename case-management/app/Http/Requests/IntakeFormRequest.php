@@ -17,9 +17,7 @@ class IntakeFormRequest extends FormRequest
     {
         if ($this->method() === 'GET') {
             return [
-                'parent_name' => 'string',
-                'case_summary' => 'string',
-                'search' => 'string',
+                'name' => 'string',
             ];
         }
 

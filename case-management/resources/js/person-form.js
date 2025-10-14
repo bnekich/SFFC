@@ -10,21 +10,22 @@ if (isSystemUser) {
 const chBoxes = document.querySelectorAll(
     '.dropdown-menu input[type="checkbox"]'
 );
-const roleDropDown = document.getElementById("authorizationRoleDropDown");
-let selectedRoles = [];
-chBoxes.forEach((checkbox) => {
-    checkbox.addEventListener("change", (event) => {
-        if (event.target.checked) {
-            selectedRoles.push(event.target.dataset.role);
-        } else {
-            selectedRoles = selectedRoles.filter(
-                (item) => item !== event.target.dataset.role
-            );
-        }
-        roleDropDown.innerText =
-            selectedRoles.length > 0 ? selectedRoles.join(", ") : "Select";
-    });
-});
+
+// const roleDropDown = document.getElementById("authorizationRoleDropDown");
+// let selectedRoles = [];
+// chBoxes.forEach((checkbox) => {
+//     checkbox.addEventListener("change", (event) => {
+//         if (event.target.checked) {
+//             selectedRoles.push(event.target.dataset.role);
+//         } else {
+//             selectedRoles = selectedRoles.filter(
+//                 (item) => item !== event.target.dataset.role
+//             );
+//         }
+//         roleDropDown.innerText =
+//             selectedRoles.length > 0 ? selectedRoles.join(", ") : "Select";
+//     });
+// });
 
 $(document).ready(function () {
     $(".family-select").select2({

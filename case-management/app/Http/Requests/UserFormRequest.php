@@ -14,6 +14,14 @@ class UserFormRequest extends FormRequest
 
     public function rules(): array
     {
+        if ($this->method() === 'GET') {
+            return [
+                'lastName' => 'string',
+                'firstName' => 'string',
+                'email' => 'string',
+            ];
+        }
+
         return [
             "firstName" => "required|string|max:255",
             "lastName" => "required|string|max:255",
@@ -23,8 +31,8 @@ class UserFormRequest extends FormRequest
                     ->rfcCompliant(strict: true)
             ],
             "phone" => "required|string|max:255",
-            "roles" => "required|array",
-            "roles.*" => "exists:roles,name",
+            "roles" => "required|array|min:1",
+            "roles.*" => "exists:roles,id",
         ];
     }
 

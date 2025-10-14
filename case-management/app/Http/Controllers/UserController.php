@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use App\Http\Requests\UserFormRequest;
 use App\Http\Controllers\Controller;
@@ -14,14 +14,30 @@ use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Str;
+use App\Services\UserService;
 
 class UserController extends Controller
 {
+    protected UserService $userService;
 
-    public function index()
+    public function __construct(UserService $userService)
     {
+        $this->userService = $userService;
+    }
+
+    public function index(UserFormRequest $request)
+    {
+        // $users = User::with('roles')->get();
+
         $this->logAction("Viewed Users", "index", "User");
-        $users = User::with('roles')->get();
+
+        $filters = ['search' => $request->search];
+        $sort = [
+            'field' => $request->get('sort', 'lastName'),
+            'direction' => $request->get('direction', 'asc')
+        ];
+
+        $users = $this->userService->getUsers($filters, $sort);
         return view('admin.users.index', compact('users'));
     }
 
@@ -53,17 +69,16 @@ class UserController extends Controller
             'password' => Hash::make($tempPassword),
             'force_password_reset' => true,
         ]);
-
         if (!empty($validatedRequest['roles'])) {
             $roles = array_filter($validatedRequest['roles'], fn($role) => $role !== 'Administrator');
-            $user->syncRoles($roles);
+            $user->assignRole(array_map('intval', $validatedRequest['roles']));
         }
 
         $this->logAction("Create Users", "store", "User", $user->id);
 
         Mail::to($user->email)->send(new TemporaryPasswordEmail($user, $tempPassword));
 
-        return redirect()->route('admin.users.index')
+        return redirect()->route('users.index')
             ->with('success', 'User created successfully. A temporary password has been sent to their email.');
     }
 
@@ -79,7 +94,7 @@ class UserController extends Controller
             $user->syncRoles($validatedData["roles"]);
         }
 
-        return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
+        return redirect()->route('users.index')->with('success', 'User updated successfully.');
     }
 
     public function destroy(User $user)
@@ -89,6 +104,6 @@ class UserController extends Controller
         $user->roles()->detach();
         $user->permissions()->detach();
         $user->delete();
-        return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
+        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
     }
 }

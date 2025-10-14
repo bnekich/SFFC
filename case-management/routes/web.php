@@ -6,7 +6,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\CaseModelController;
 use App\Http\Controllers\OrganizationTypeController;
@@ -99,7 +99,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
         Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
     });
-
     Route::delete('/users/{user}', [UserController::class, 'destroy'])
         ->name('users.destroy')
         ->middleware('can:users-delete');

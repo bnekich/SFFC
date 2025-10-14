@@ -156,32 +156,14 @@
         @endcan
         <!-- Authorization Roles (Conditional) -->
         <div id="authRolesSection" style="display: none;">
-            <div class="relative inline-block text-left" x-data="{ open: false }">
-                <button @click="open = !open" type="button"
-                    class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    id="authorizationRoleDropDown" data-bs-toggle="dropdown" aria-expanded="false">
-                    Select Roles
-                    <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                        fill="currentColor" aria-hidden="true">
-                        <path fill-rule="evenodd"
-                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                            clip-rule="evenodd" />
-                    </svg>
-                </button>
-                <ul x-show="open" @click.away="open = false"
-                    class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none p-2"
-                    aria-labelledby="authorizationRoleDropDown" style="display: none;">
-                    @foreach ($allRoles as $role)
-                        <li class="flex items-center p-2">
-                            <input class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                type="checkbox" name="auth_roles[]" value="{{ $role->id }}"
-                                id="role_{{ $role->id }}" data-role="{{ $role->name }}">
-                            <label for="role_{{ $role->id }}"
-                                class="ml-2 text-sm text-gray-700">{{ $role->name }}</label>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
+            <select id="personAuthRoles" name="auth_roles[]" multiple data-placeholder="Select Roles">
+                @foreach ($allRoles as $role)
+                    <option value="{{ $role->id }}" @selected(in_array($role->id, old('your_field_name', [])))>
+                        {{ $role->name }}
+                    </option>
+                @endforeach
+            </select>
+
             @error('auth_roles')
                 <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
             @enderror

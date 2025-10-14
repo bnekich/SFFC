@@ -19,13 +19,6 @@ class IntakeController extends Controller
         $this->intakeService = $intakeService;
     }
 
-    public function search(IntakeFormRequest $request)
-    {
-        $query = $request->input('query');
-        $documents = $this->intakeService->searchDocuments($query);
-        return view('document.index', compact('documents'));
-    }
-
     public function index(IntakeFormRequest $request)
     {
         $this->logAction("Viewed Intakes", "index", "Intake");
