@@ -10,15 +10,21 @@
     </h3>
 @endsection
 <div class="row">
-    @foreach (auth()->user()->dashboard_preferences ?? ['open_cases', 'pending_appointments'] as $item)
+    @foreach (auth()->user()->dashboard_preferences ?? ['open_cases', 'pending_appointments', 'volunteers'] as $item)
         @if ($item === 'open_cases')
             <div class="col-md-4">
                 <x-dashboard-item-open-cases />
                 {{-- :user_id={{ auth()->user()->id }} /> --}}
             </div>
-        @elseif($item === 'pending_appointments')
+        @endif
+        @if ($item === 'pending_appointments')
             <div class="col-md-4">
                 <x-dashboard-item-pending-appointments />
+            </div>
+        @endif
+        @if ($item === 'volunteers')
+            <div class="col-md-4">
+                <x-dashboard-item-volunteers />
             </div>
         @endif
     @endforeach

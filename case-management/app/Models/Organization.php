@@ -40,4 +40,9 @@ class Organization extends Model
     {
         return $this->belongsTo(OrganizationType::class);
     }
+    public function volunteers()
+    {
+        // An organization can have many volunteers.
+        return $this->hasMany(Volunteer::class, 'church_id');
+    }
 }

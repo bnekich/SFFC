@@ -17,10 +17,10 @@ class VolunteerFactory extends Factory
     public function definition(): array
     {
         return [
-            'person_id' => 1,
-            'county' => 'Dodge',
-            'church_id' => 1,
-            'volunteer_status_id' => 1,
+            'person_id' => $this->faker->numberBetween(1, 99),
+            'county' => $this->faker->randomElement(['Dodge', 'Jefferson']),
+            'church_id' => 10,
+            'volunteer_status_id' => $this->faker->numberBetween(1, 4),
             'created_by' => 1,
             'updated_by' => 1
         ];

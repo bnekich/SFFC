@@ -1,0 +1,17 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Services\Responses;
+
+use App\Models\Volunteer;
+
+class VolunteerServiceResponse
+{
+  public Volunteer $volunteer;
+
+  public function __construct(Volunteer $volunteer)
+  {
+    $this->volunteer = $volunteer;
+  }
+}

@@ -5,6 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Gate;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,6 +23,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Administrator has all permissions
+        Gate::before(function ($user, $ability) {
+            if ($user->hasRole('Administrator')) {
+                return $user->hasRole('Administrator') ? true : null;
+            }
+        });
+
         Paginator::defaultView('vendor.pagination.bootstrap-5');
         // Optionally, set simple pagination too:
         Paginator::defaultSimpleView('vendor.pagination.bootstrap-5');

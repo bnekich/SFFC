@@ -18,7 +18,7 @@
                 </form>
             </div>
             <div class="col-auto align-items-end d-flex justify-content-end">
-                @can('cases-create')
+                @can('case-create')
                     <a href="{{ route('casenote.create', ['case_id' => $case->id]) }}" class="btn btn-sm btn-primary">Add Case
                         Note</a>
                 @endcan
@@ -57,7 +57,7 @@
                                 <a href="{{ route('casenote.show', $caseNote->id) }}" class="btn btn-sm btn-info">Edit</a>
                                 <a href="{{ route('casenote.edit', $caseNote->id) }}"
                                     class="btn btn-sm btn-warning">Edit</a>
-                                @can('casenotes-delete')
+                                @can('casenote-delete')
                                     <x-delete-confirmation :route="route('casenote.destroy', $caseNote)" :item-id="$caseNote->id"
                                         message="Are you sure you want to delete this case note?" />
                                 @endcan

@@ -26,6 +26,7 @@ use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\CaseStatusController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\VolunteerStatusController;
+use App\Http\Controllers\VolunteerController;
 
 Route::get('/2fa/challenge', [TwoFactorController::class, 'showChallenge'])->name('2fa.challenge');
 Route::post('/2fa/challenge', [TwoFactorController::class, 'sendCode'])->name('2fa.challenge');
@@ -56,6 +57,7 @@ Route::resource('casenote', CaseNoteController::class)->middleware('auth');
 Route::resource('tag', TagController::class)->middleware('auth');
 Route::resource('case-statuses', CaseStatusController::class)->middleware('auth');
 Route::resource('note', NoteController::class)->middleware('auth');
+Route::resource('volunteer', VolunteerController::class)->middleware('auth');
 Route::resource('volunteer-statuses', VolunteerStatusController::class)->middleware('auth');
 
 
@@ -79,27 +81,27 @@ Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestF
 Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('password/reset', [PasswordResetController::class, 'update'])->name('password.update');
-Route::resource('roles', RoleController::class)->middleware(['auth', 'permission:roles-create|roles-update|roles-delete']);
+Route::resource('roles', RoleController::class)->middleware(['auth', 'permission:role-create|roles-update|role-delete']);
 
-Route::resource('permissions', PermissionController::class)->middleware(['auth', 'permission:permissions-create|permissions-update|permissions-delete']);
+Route::resource('permissions', PermissionController::class)->middleware(['auth', 'permission:permission-create|permissions-update|permission-delete']);
 
 Route::resource('audit-logs', AuditLogController::class)->middleware(['auth', 'permission:auditLogs-view']);
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/users', [UserController::class, 'index'])
         ->name('users.index')
-        ->middleware('can:users-view');
+        ->middleware('can:user-view');
 
-    Route::middleware('can:users-create')->group(function () {
+    Route::middleware('can:user-create')->group(function () {
         Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
         Route::post('/users', [UserController::class, 'store'])->name('users.store');
     });
 
-    Route::middleware('can:users-edit')->group(function () {
+    Route::middleware('can:user-edit')->group(function () {
         Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
         Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
     });
     Route::delete('/users/{user}', [UserController::class, 'destroy'])
         ->name('users.destroy')
-        ->middleware('can:users-delete');
+        ->middleware('can:user-delete');
 });

@@ -17,7 +17,7 @@ class DocumentController extends Controller
 
         $documentsQuery = Document::query();
 
-        if (!auth()->user()->hasPermissionTo('documents-viewAny')) {
+        if (!auth()->user()->hasPermissionTo('document-viewAny')) {
             $documentsQuery->where('user_id', auth()->id());
         }
 
@@ -35,7 +35,7 @@ class DocumentController extends Controller
     public function download(Document $document)
     {
         // Check if the user has permission to download any document or if it's their own document
-        $canDownloadAny = auth()->user()->hasPermissionTo('documents-downloadAny');
+        $canDownloadAny = auth()->user()->hasPermissionTo('document-downloadAny');
         $isOwner = $document->user_id === auth()->id();
 
         if (!$canDownloadAny && !$isOwner) {

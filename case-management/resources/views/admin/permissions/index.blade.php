@@ -27,7 +27,7 @@
                                     <td>
                                         <a href="{{ route('permissions.edit', $permission) }}"
                                             class="btn btn-sm btn-warning">Edit</a>
-                                        @can('permissions-delete')
+                                        @can('permission-delete')
                                             <x-delete-confirmation :route="route('permissions.destroy', $permission)" :item-id="$permission->id"
                                                 message="Are you sure you want to delete this permission?" />
                                         @endcan

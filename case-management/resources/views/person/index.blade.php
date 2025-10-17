@@ -73,7 +73,7 @@
                                 class="text-indigo-600 hover:text-indigo-900">View</a>
                             <a href="{{ route('person.edit', $person) }}"
                                 class="text-yellow-600 hover:text-yellow-900">Edit</a>
-                            @can('persons-delete')
+                            @can('person-delete')
                                 <x-delete-confirmation :route="route('person.destroy', $person)" :item-id="$person->id"
                                     message="Are you sure you want to delete this person?" />
                             @endcan

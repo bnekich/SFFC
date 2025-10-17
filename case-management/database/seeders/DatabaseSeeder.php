@@ -43,6 +43,6 @@ class DatabaseSeeder extends Seeder
         CaseModel::factory()->count(100)->create();
         Course::factory()->count(20)->create();
         CaseNote::factory()->count(100)->create();
-        Volunteer::factory()->create();
+        Volunteer::factory()->count(25)->create();
     }
 }

@@ -29,8 +29,8 @@
                 <label for="first_name" class="block text-sm font-medium text-gray-700 label-required">First
                     Name</label>
                 <input id="first_name" type="text" name="first_name" placeholder="First Name"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm @error('first_name') is-invalid @enderror"
-                    value="{{ old('first_name') }}" required>
+                    class="sffc-text-input @error('first_name') is-invalid @enderror" value="{{ old('first_name') }}"
+                    required>
                 @error('first_name')
                     <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -144,20 +144,21 @@
                     name="org_ids[]" multiple></select>
             </div>
         </div>
-        @can('users-create')
+        @can('user-create')
             <div class="flex items-center">
                 <div class="flex items-center">
                     <input class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" type="checkbox"
                         name="isSystemUser" id="isSystemUser" value="1">
-                    <label class="ml-2 block text-sm text-gray-900" for="isSystemUser">Add as a Case Management
-                        User</label>
+                    <label class="ml-2 block text-sm text-gray-900" for="isSystemUser">Add This Person as a Case
+                        Management
+                        User or Volunteer</label>
                 </div>
             </div>
         @endcan
         <!-- Authorization Roles (Conditional) -->
         <div id="authRolesSection" style="display: none;">
             <select id="personAuthRoles" name="auth_roles[]" multiple data-placeholder="Select Roles">
-                @foreach ($allRoles as $role)
+                @foreach ($authorizedRoles as $role)
                     <option value="{{ $role->id }}" @selected(in_array($role->id, old('your_field_name', [])))>
                         {{ $role->name }}
                     </option>
@@ -175,51 +176,5 @@
                 class="inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Cancel</a>
         </div>
     </form>
-
-    <div x-data="{ open: false }" class="flex justify-center">
-        <!-- Trigger -->
-        <span x-on:click="open = true">
-            <button type="button"
-                class="relative flex items-center justify-center gap-2 whitespace-nowrap rounded-lg border border-gray-200 bg-white px-4 py-2 text-gray-800 shadow-sm hover:border-gray-200 hover:bg-gray-50">
-                Open modal
-            </button>
-        </span>
-
-        <!-- Modal -->
-        <div x-show="open" style="display: none" x-on:keydown.escape.prevent.stop="open = false" role="dialog"
-            aria-modal="true" x-id="['modal-title']" :aria-labelledby="$id('modal-title')"
-            class="fixed inset-0 z-10 overflow-y-auto">
-            <!-- Overlay -->
-            <div x-show="open" x-transition.opacity class="fixed inset-0 bg-black/25"></div>
-
-            <!-- Panel -->
-            <div x-show="open" x-transition x-on:click="open = false"
-                class="relative flex min-h-screen items-center justify-center p-4">
-                <div x-on:click.stop x-trap.noscroll.inert="open"
-                    class="relative min-w-96 max-w-xl rounded-xl bg-white p-6 shadow-lg">
-                    <!-- Title -->
-                    <h2 class="font-medium text-gray-800" :id="$id('modal-title')">Confirm</h2>
-
-                    <!-- Content -->
-                    <p class="mt-2 text-gray-500 max-w-xs">Are you sure you want to learn how to create an awesome
-                        modal?</p>
-
-                    <!-- Buttons -->
-                    <div class="mt-6 flex justify-end space-x-2">
-                        <button type="button" x-on:click="open = false"
-                            class="relative flex items-center justify-center gap-2 whitespace-nowrap rounded-lg border border-transparent bg-transparent px-4 py-2 text-gray-800 hover:bg-gray-800/10">
-                            Cancel
-                        </button>
-
-                        <button type="button" x-on:click="open = false"
-                            class="relative flex items-center justify-center gap-2 whitespace-nowrap rounded-lg border border-transparent bg-gray-800 px-4 py-2 text-white hover:bg-gray-900">
-                            Confirm
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </div>
 @endsection

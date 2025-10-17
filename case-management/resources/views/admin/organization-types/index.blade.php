@@ -11,7 +11,7 @@
 <div class="row mb-3">
     <x-search route="organization-types.index" placeholder="Name" />
     <div class="col-auto align-items-end d-flex justify-content-end">
-        @can('types-create')
+        @can('type-create')
             <a href="{{ route('organization-types.create') }}" class="btn btn-sm btn-primary">Add New Type</a>
         @endcan
     </div>
@@ -20,7 +20,7 @@
     <thead>
         <tr>
             <th>Name</th>
-            @canany(['types-create', 'types-edit', 'types-delete'])
+            @canany(['type-create', 'type-edit', 'type-delete'])
                 <th>Actions</th>
             @endcanany
         </tr>
@@ -29,7 +29,7 @@
         @forelse($types as $type)
             <tr>
                 <td>{{ $type->name }}</td>
-                @canany(['types-create', 'types-edit', 'types-delete'])
+                @canany(['type-create', 'type-edit', 'type-delete'])
                     <td>
                         <a href="{{ route('organization-types.edit', $type) }}" class="btn btn-sm btn-warning">Edit</a>
                         <x-delete-confirmation :route="route('organization-types.destroy', $type)" :item-id="$type->id"

@@ -6,14 +6,14 @@
 @section('header')
     <h3>Relationship Types</h3>
 @endsection
-@can('types-create')
+@can('type-create')
     <a href="{{ route('relationship-types.create') }}" class="btn btn-primary mb-3">Add New Type</a>
 @endcan
 <table class="table table-sm table-striped">
     <thead>
         <tr>
             <th>Name</th>
-            @canany(['types-create', 'types-edit', 'types-delete'])
+            @canany(['type-create', 'type-edit', 'type-delete'])
                 <th>Actions</th>
             @endcanany
         </tr>
@@ -22,10 +22,10 @@
         @forelse($types as $type)
             <tr>
                 <td>{{ $type->name }}</td>
-                @canany(['types-create', 'types-edit', 'types-delete'])
+                @canany(['type-create', 'type-edit', 'type-delete'])
                     <td>
                         <a href="{{ route('relationship-types.edit', $type) }}" class="btn btn-sm btn-warning">Edit</a>
-                        @can('types-delete')
+                        @can('type-delete')
                             <x-delete-confirmation :route="route('relationship-types.destroy', $type)" :item-id="$type->id"
                                 message="Are you sure you want to delete this relationship type?" />
                         @endcan

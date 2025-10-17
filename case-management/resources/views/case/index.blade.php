@@ -36,7 +36,7 @@
         </form>
     </div>
     <div class="col-auto align-items-end d-flex justify-content-end">
-        @can('cases-create')
+        @can('case-create')
             <a href="{{ route('case.create') }}" class="btn btn-sm btn-primary">Add Case</a>
         @endcan
     </div>
@@ -88,13 +88,13 @@
                     </td>
                     <td class="cm-table-description">{{ $case->case_description }}</td>
                     <td class="d-flex flex-wrap gap-1 align-items-center">
-                        @can('cases-view')
+                        @can('case-view')
                             <a href="{{ route('case.show', $case->id) }}" class="btn btn-info btn-sm">View</a>
                         @endcan
-                        @can('cases-edit')
+                        @can('case-edit')
                             <a href="{{ route('case.edit', $case->id) }}" class="btn btn-warning btn-sm">Edit</a>
                         @endcan
-                        @can('cases-delete')
+                        @can('case-delete')
                             <x-delete-confirmation :route="route('case.destroy', $case)" :item-id="$case->id"
                                 message="Are you sure you want to delete this case?" />
                         @endcan
@@ -109,9 +109,4 @@
         </table>
         {{ $cases->withQueryString()->links() }}
     </div>
-@endsection
-
-@section('styles')
-    <!-- Include Font Awesome for sort arrows if not already included -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 @endsection

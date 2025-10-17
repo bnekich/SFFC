@@ -11,7 +11,7 @@
     <div class="row mb-3">
         <x-search route="organization.index" placeholder="Organization or Contact" />
         <div class="col-auto align-items-end d-flex justify-content-end">
-            @can('organizations-create')
+            @can('organization-create')
                 <a href="{{ route('organization.create') }}" class="btn btn-sm btn-primary mb-3">Add Organization</a>
             @endcan
         </div>
@@ -39,7 +39,7 @@
                                 class="btn btn-info btn-sm">View</a>
                             <a href="{{ route('organization.edit', $organization) }}"
                                 class="btn btn-warning btn-sm">Edit</a>
-                            @can('organizations-delete')
+                            @can('organization-delete')
                                 <x-delete-confirmation :route="route('organization.destroy', $organization)" :item-id="$organization->id"
                                     message="Are you sure you want to delete this organization?" />
                             @endcan

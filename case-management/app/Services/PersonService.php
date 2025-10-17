@@ -9,12 +9,14 @@ use App\Mail\TemporaryPasswordEmail;
 use App\Models\Address;
 use App\Models\Person;
 use App\Models\User;
+use App\Models\Volunteer;
 use App\Services\Responses\PersonServiceResponse;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Spatie\Permission\Models\Role;
 
 class PersonService
 {
@@ -23,6 +25,16 @@ class PersonService
         return Person::where('last_name', 'like', "%{$query}%")
             ->orWhere('first_name', 'like', "%{$query}%")
             ->paginate($perPage);
+    }
+
+    public function getAuthorizedRoles()
+    {
+
+        // if (auth()->user()->can('volunteer-create')) {
+        //     return Role::where('name', '=', 'Volunteer')->orWhere('name', '=', 'State Volunteer Coordinator')->get();;
+        // }
+
+        return  Role::all();
     }
 
     public function getPersons(array $filters = [], array $sort = []): LengthAwarePaginator
@@ -113,13 +125,14 @@ class PersonService
         });
     }
 
-    public function createPerson(array $data, PersonFormRequest $request): PersonServiceResponse
+    public function createPerson(array $data, PersonFormRequest $request, bool $isVolunteer): PersonServiceResponse
     {
         $tempPassword = "";
         $person = null;
         $user = null;
+        $volunteer = null;
 
-        DB::transaction(function () use ($data, $request, &$person, &$user, &$tempPassword) {
+        DB::transaction(function () use ($data, $request, &$person, &$user, &$tempPassword, $isVolunteer, &$volunteer) {
             // Create the address if any address fields are provided
             $address = null;
             if (!empty(array_filter([
@@ -177,6 +190,14 @@ class PersonService
                 ]);
                 if (!empty($request->auth_roles)) {
                     $user->assignRole(array_map('intval', $request->auth_roles));
+                    if ($isVolunteer) {
+                        $volunteer = Volunteer::create([
+                            'person_id' => $person->id,
+                            'volunteer_status_id' => 1,
+                            'created_by' => auth()->id(),
+                            'updated_by' => auth()->id(),
+                        ]);
+                    }
                 }
             }
         });
@@ -186,7 +207,7 @@ class PersonService
         //    Mail::to($user->email)->send(new TemporaryPasswordEmail($user, $tempPassword));
         //}
 
-        return new PersonServiceResponse($person, $tempPassword);
+        return new PersonServiceResponse($person, $volunteer, $tempPassword);
     }
 
     public function deletePerson(Person $person): void

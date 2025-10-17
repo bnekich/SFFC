@@ -92,19 +92,23 @@ const chBoxes = document.querySelectorAll(
 // });
 
 document.addEventListener("DOMContentLoaded", function () {
-    const element = document.querySelector("#personAuthRoles"); // Replace with your select's ID
-    const choices = new Choices(element, {
-        removeItemButton: true,
-        allowHTML: false,
-    });
+    const element = document.getElementById("personAuthRoles");
+    if (element && element.tagName === "SELECT") {
+        const choices = new Choices(element, {
+            removeItemButton: true,
+            allowHTML: false,
+        });
+    }
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-    const element = document.querySelector("#userRoles"); // Replace with your select's ID
-    const choices = new Choices(element, {
-        removeItemButton: true,
-        allowHTML: false,
-    });
+    const element = document.getElementById("userRoles");
+    if (element && element.tagName === "SELECT") {
+        const choices = new Choices(element, {
+            removeItemButton: true,
+            allowHTML: false,
+        });
+    }
 });
 
 // debugging code

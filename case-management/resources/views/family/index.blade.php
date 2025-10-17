@@ -13,16 +13,16 @@
     <x-search route="family.index" placeholder="Name" />
 </div>
 
-@can('families-create')
+@can('family-create')
     <a href="{{ route('family.create') }}" class="sffc-btn-primary mb-4">Add Family</a>
 @endcan
 
 <div class="bg-white shadow-md rounded-lg overflow-hidden">
     <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-blue-600">
-            <thead class="bg-blue-600 text-white uppercase text-sm leading50">
+        <table class="sffc-table mb-4">
+            <thead class="sffc-table-header">
                 <tr>
-                    <th scope="col" class="px-6 py-3 text-left text-xs uppercase"> <a
+                    <th scope="col" class="sffc-table-header-cell"> <a
                             href="{{ route('family.index', array_merge(request()->query(), ['sort' => 'family_name', 'direction' => request('sort') === 'family_name' && request('direction') === 'asc' ? 'desc' : 'asc'])) }}">
                             Family Name
                             @if (request('sort') === 'family_name')
@@ -39,15 +39,15 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             {{ $family->family_name }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                            @can('families-view')
+                            @can('family-view')
                                 <a href="{{ route('family.show', $family->id) }}"
                                     class="text-indigo-600 hover:text-indigo-900">View</a>
                             @endcan
-                            @can('families-edit')
+                            @can('family-edit')
                                 <a
                                     href="{{ route('family.edit', $family->id) }}"class="text-yellow-600 hover:text-yellow-900">Edit</a>
                             @endcan
-                            @can('families-delete')
+                            @can('family-delete')
                                 <x-delete-confirmation :route="route('family.destroy', $family)" :item-id="$family->id"
                                     message="Are you sure you want to delete this family?" />
                             @endcan
@@ -65,8 +65,4 @@
 
 {{ $families->withQueryString()->links() }}
 </div>
-@endsection
-
-@section('styles')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 @endsection

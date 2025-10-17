@@ -8,6 +8,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Database\Seeder;
 use App\Models\Person;
+use Spatie\Permission\PermissionRegistrar;
 
 class RolePermissionSeeder extends Seeder
 {
@@ -16,68 +17,73 @@ class RolePermissionSeeder extends Seeder
         $permissions = [
             'admin-view',
             'auditLogs-view',
-            'cases-create',
-            'cases-delete',
-            'cases-edit',
-            'cases-view',
-            'casenotes-create',
-            'casenotes-delete',
-            'casenotes-edit',
-            'casenotes-view',
+            'case-create',
+            'case-delete',
+            'case-edit',
+            'case-view',
+            'casenote-create',
+            'casenote-delete',
+            'casenote-edit',
+            'casenote-view',
             'courses-create',
             'courses-delete',
             'courses-edit',
             'courses-view',
-            'documents-viewAny',
-            'documents-viewMine',
-            'documents-upload',
-            'documents-downloadAny',
-            'documents-downloadMine',
-            'families-create',
-            'families-delete',
-            'families-edit',
-            'families-view',
+            'document-viewAny',
+            'document-viewMine',
+            'document-upload',
+            'document-downloadAny',
+            'document-downloadMine',
+            'family-create',
+            'family-delete',
+            'family-edit',
+            'family-view',
             'intake-create',
             'intake-delete',
             'intake-edit',
             'intake-view',
-            'organizations-create',
-            'organizations-delete',
-            'organizations-edit',
-            'organizations-view',
-            'permissions-create',
-            'permissions-delete',
-            'permissions-edit',
-            'permissions-view',
-            'persons-create',
-            'persons-delete',
-            'persons-edit',
-            'persons-view',
-            'roles-create',
-            'roles-delete',
-            'roles-edit',
-            'roles-view',
-            'tags-create',
-            'tags-delete',
-            'tags-edit',
-            'tags-view',
-            'types-create',
-            'types-delete',
-            'types-edit',
-            'types-view',
-            'users-create',
-            'users-delete',
-            'users-edit',
-            'users-view',
+            'organization-create',
+            'organization-delete',
+            'organization-edit',
+            'organization-view',
+            'permission-create',
+            'permission-delete',
+            'permission-edit',
+            'permission-view',
+            'person-create',
+            'person-delete',
+            'person-edit',
+            'person-view',
+            'role-create',
+            'role-delete',
+            'role-edit',
+            'role-view',
+            'tag-create',
+            'tag-delete',
+            'tag-edit',
+            'tag-view',
+            'type-create',
+            'type-delete',
+            'type-edit',
+            'type-view',
+            'user-create',
+            'user-delete',
+            'user-edit',
+            'user-view',
+            'volunteer-create',
+            'volunteer-edit,',
+            'volunteer-delete',
+            'volunteer-view',
         ];
 
         foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission]);
+            Permission::create(['guard_name' => 'web', 'name' => $permission]);
         }
+
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         $roles = [
             'Administrator',
-            'Client',
             'Director of Development',
             'Donor Administrator',
             'Engagement Coordinator',
@@ -93,6 +99,7 @@ class RolePermissionSeeder extends Seeder
             'Lead Family Coach Supervisor',
             'Ministry Lead',
             'Resource Friend',
+            'Served Family Member',
             'Services Director',
             'State Business Operations',
             'State Director',
@@ -110,6 +117,7 @@ class RolePermissionSeeder extends Seeder
             ]);
         }
 
+
         $adminUser = User::create([
             'lastName' => 'Nekich',
             'firstName' => 'Bruce',
@@ -119,9 +127,54 @@ class RolePermissionSeeder extends Seeder
             'force_password_reset' => false,
         ]);
 
+        // See AppServiceProvider.php
         $adminRole = Role::findByName('Administrator');
-        $adminRole->givePermissionTo(Permission::all());
         $adminUser->assignRole($adminRole);
+
+        $qaUser9 = User::create([
+            'lastName' => 'Hinze',
+            'firstName' => 'Natalie',
+            'email' => 'nhinze@example.com',
+            'phone' => '(262)111-1111',
+            'password' => bcrypt('password'),
+            'force_password_reset' => false,
+        ]);
+
+
+        $stateVolunteerCoordinatorRole = Role::findByName('State Volunteer Coordinator');
+        $stateVolunteerCoordinatorRole->givePermissionTo([
+            'admin-view',
+            'auditLogs-view',
+            'case-view',
+            'casenote-view',
+            'courses-create',
+            'courses-delete',
+            'courses-edit',
+            'courses-view',
+            'document-viewAny',
+            'document-viewMine',
+            'document-upload',
+            'document-downloadAny',
+            'document-downloadMine',
+            'family-view',
+            'intake-view',
+            'organization-create',
+            'organization-edit',
+            'organization-view',
+            'person-create',
+            'person-edit',
+            'person-view',
+            'tag-view',
+            'type-create',
+            'type-edit',
+            'type-view',
+            'volunteer-create',
+            'volunteer-edit,',
+            'volunteer-delete',
+            'volunteer-view',
+        ]);
+
+        $qaUser9->assignRole($stateVolunteerCoordinatorRole);
 
         $qaUser1 = User::create([
             'lastName' => 'Thorngate',
@@ -209,6 +262,7 @@ class RolePermissionSeeder extends Seeder
             'force_password_reset' => false,
         ]);
 
+
         $qaUser8->assignRole($adminRole);
 
 
@@ -237,92 +291,92 @@ class RolePermissionSeeder extends Seeder
             'updated_by' => null
         ]);
 
-        $familyCoachSupervisorUser = User::create([
-            'lastName' => 'Jones',
-            'firstName' => 'Emily',
-            'email' => 'ejones@example.com',
-            'phone' => '(414)999-9999',
-            'password' => bcrypt('password'),
-            'force_password_reset' => false,
-        ]);
+        // $familyCoachSupervisorUser = User::create([
+        //     'lastName' => 'Jones',
+        //     'firstName' => 'Emily',
+        //     'email' => 'ejones@example.com',
+        //     'phone' => '(414)999-9999',
+        //     'password' => bcrypt('password'),
+        //     'force_password_reset' => false,
+        // ]);
 
-        $familyCoachSupervisorRole = Role::findByName('Family Coach Supervisor');
-        $familyCoachSupervisorRole->givePermissionTo([
-            'admin-view',
-            'auditLogs-view',
-            'cases-create',
-            'cases-delete',
-            'cases-edit',
-            'cases-view',
-            'casenotes-create',
-            'casenotes-delete',
-            'casenotes-edit',
-            'casenotes-view',
-            'courses-create',
-            'courses-delete',
-            'courses-edit',
-            'courses-view',
-            'documents-viewAny',
-            'documents-viewMine',
-            'documents-upload',
-            'documents-downloadAny',
-            'documents-downloadMine',
-            'families-create',
-            'families-delete',
-            'families-edit',
-            'families-view',
-            'intake-create',
-            'intake-delete',
-            'intake-edit',
-            'intake-view',
-            'organizations-create',
-            'organizations-delete',
-            'organizations-edit',
-            'organizations-view',
-            'permissions-view',
-            'persons-create',
-            'persons-delete',
-            'persons-edit',
-            'persons-view',
-            'roles-view',
-            'tags-create',
-            'tags-delete',
-            'tags-edit',
-            'tags-view',
-            'types-view',
-            'users-create',
-            'users-view',
-        ]);
-        $familyCoachSupervisorUser->assignRole($familyCoachSupervisorRole);
+        // $familyCoachSupervisorRole = Role::findByName('Family Coach Supervisor');
+        // $familyCoachSupervisorRole->givePermissionTo([
+        //     'admin-view',
+        //     'auditLogs-view',
+        //     'case-create',
+        //     'case-delete',
+        //     'case-edit',
+        //     'case-view',
+        //     'casenote-create',
+        //     'casenote-delete',
+        //     'casenote-edit',
+        //     'casenote-view',
+        //     'courses-create',
+        //     'courses-delete',
+        //     'courses-edit',
+        //     'courses-view',
+        //     'document-viewAny',
+        //     'document-viewMine',
+        //     'document-upload',
+        //     'document-downloadAny',
+        //     'document-downloadMine',
+        //     'family-create',
+        //     'family-delete',
+        //     'family-edit',
+        //     'family-view',
+        //     'intake-create',
+        //     'intake-delete',
+        //     'intake-edit',
+        //     'intake-view',
+        //     'organization-create',
+        //     'organization-delete',
+        //     'organization-edit',
+        //     'organization-view',
+        //     'permission-view',
+        //     'person-create',
+        //     'person-delete',
+        //     'person-edit',
+        //     'person-view',
+        //     'role-view',
+        //     'tag-create',
+        //     'tag-delete',
+        //     'tag-edit',
+        //     'tag-view',
+        //     'type-view',
+        //     'user-create',
+        //     'user-view',
+        // ]);
+        // $familyCoachSupervisorUser->assignRole($familyCoachSupervisorRole);
 
-        Person::create([
-            'first_name' => 'Emily',
-            'middle_name' => 'Ann',
-            'last_name' => 'Jones',
-            'date_of_birth' => '1986-04-11',
-            'gender' => 'F',
-            'email' => 'ejones@example.com',
-            'phone' => '(414)999-9999',
-            'can_text_reminder' => true,
-            'can_email_reminder' => true,
-            'address_id' => $address->id,
-            'created_by' => 1,
-            'updated_by' => 1
-        ]);
+        // Person::create([
+        //     'first_name' => 'Emily',
+        //     'middle_name' => 'Ann',
+        //     'last_name' => 'Jones',
+        //     'date_of_birth' => '1986-04-11',
+        //     'gender' => 'F',
+        //     'email' => 'ejones@example.com',
+        //     'phone' => '(414)999-9999',
+        //     'can_text_reminder' => true,
+        //     'can_email_reminder' => true,
+        //     'address_id' => $address->id,
+        //     'created_by' => 1,
+        //     'updated_by' => 1
+        // ]);
 
 
-        $intakeVolunteerRole = Role::findByName('Intake Volunteer');
-        $intakeVolunteerRole->givePermissionTo([
-            'cases-view',
-            'cases-create',
-            'cases-edit',
-            'persons-view',
-            'persons-create',
-            'persons-edit',
-            'intake-view',
-            'intake-create',
-            'intake-edit',
-        ]);
+        // $intakeVolunteerRole = Role::findByName('Intake Volunteer');
+        // $intakeVolunteerRole->givePermissionTo([
+        //     'case-view',
+        //     'case-create',
+        //     'case-edit',
+        //     'person-view',
+        //     'person-create',
+        //     'person-edit',
+        //     'intake-view',
+        //     'intake-create',
+        //     'intake-edit',
+        // ]);
 
         // $volunteerPerson = Person::create([
         //     'first_name' => 'Kristen',

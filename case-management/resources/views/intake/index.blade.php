@@ -115,8 +115,3 @@
         {{ $intakes->appends(request()->query())->links('') }}
     </div>
 @endsection
-
-@section('styles')
-    <!-- Include Font Awesome for sort arrows if not already included -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-@endsection

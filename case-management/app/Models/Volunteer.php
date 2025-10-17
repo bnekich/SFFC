@@ -13,7 +13,7 @@ class Volunteer extends Model
 
     public function person()
     {
-        return $this->belongsTo(Person::class, 'id');
+        return $this->belongsTo(Person::class, 'person_id');
     }
 
     public function volunteerStatus()
@@ -29,5 +29,14 @@ class Volunteer extends Model
     public function notes()
     {
         return $this->morphToMany(Note::class, 'noteable');
+    }
+
+    /**
+     * Get the church (organization) that the volunteer belongs to.
+     */
+    public function church()
+    {
+        // Note: The foreign key is 'church_id' on the volunteers table.
+        return $this->belongsTo(Organization::class, 'church_id');
     }
 }

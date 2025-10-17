@@ -61,13 +61,13 @@ class PersonController extends Controller
     public function create()
     {
         $this->logAction("Create Person", "create", "Person");
-        $allRoles = Role::all();
+        $authorizedRoles = $this->personService->getAuthorizedRoles();
         $genders = Gender::cases();
         $states = USState::cases();
         $address = new Address();
         $ethnicities = Ethnicity::cases();
 
-        return view('person.create', compact('allRoles', 'genders', 'states', 'address', 'ethnicities'));
+        return view('person.create', compact('authorizedRoles', 'genders', 'states', 'address', 'ethnicities'));
     }
 
     public function store(PersonFormRequest $request)
@@ -76,7 +76,15 @@ class PersonController extends Controller
         $validatedData = $request->validated();
 
         try {
-            $response = $this->personService->createPerson($validatedData, $request);
+            $isVolunteer = false;
+
+            $selectedRoleIds = $request->input('auth_roles');
+            if (!empty($selectedRoleIds)) {
+                $selectedRoleNames = Role::whereIn('id', $selectedRoleIds)->pluck('name');
+                $isVolunteer = $selectedRoleNames->contains('Volunteer');
+            }
+
+            $response = $this->personService->createPerson($validatedData, $request, $isVolunteer);
             $this->logAction("Created Person", "store", "Person", $response->person->id);
 
             if (!empty($response->tempPassword)) {
@@ -84,6 +92,10 @@ class PersonController extends Controller
             } else {
                 $successMessage = "Person created successfully.";
             }
+            if ($isVolunteer) {
+                return redirect()->route('volunteer.edit', $response->volunteer)->with('success', $successMessage);
+            }
+
             return redirect()->route('person.show', $response->person)->with('success', $successMessage);
         } catch (\DomainException $e) {
             return back()->withInput()->with('error', 'Failed to create person: ' . $e->getMessage());
@@ -103,10 +115,11 @@ class PersonController extends Controller
     {
         $this->logAction("Edit Person", "edit", "Person", $person->id);
         $states = USState::cases();
-        $allRoles = Role::all();
+        //$allRoles = Role::all();
+        $authorizedRoles = $this->personService->getAuthorizedRoles();
         $genders = Gender::cases();
 
-        return view('person.edit', compact('person', 'states', 'allRoles', 'genders'));
+        return view('person.edit', compact('person', 'states', 'authorizedRoles', 'genders'));
     }
 
     public function update(PersonFormRequest $request, Person $person)

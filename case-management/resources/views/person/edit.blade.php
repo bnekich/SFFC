@@ -129,6 +129,30 @@
                     </select>
                 </div>
             </div>
+            @can('user-create')
+                <div class="flex items-center">
+                    <div class="flex items-center">
+                        <input class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" type="checkbox"
+                            name="isSystemUser" id="isSystemUser" value="1">
+                        <label class="ml-2 block text-sm text-gray-900" for="isSystemUser">Update Roles</label>
+                    </div>
+                </div>
+            @endcan
+
+            <!-- Authorization Roles (Conditional) -->
+            <div id="authRolesSection" style="display: none;">
+                <select id="personAuthRoles" name="auth_roles[]" multiple data-placeholder="Select Roles">
+                    @foreach ($authorizedRoles as $role)
+                        <option value="{{ $role->id }}" @selected(in_array($role->id, old('your_field_name', [])))>
+                            {{ $role->name }}
+                        </option>
+                    @endforeach
+                </select>
+
+                @error('auth_roles')
+                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
 
             <div class="flex items-center gap-4">
                 @canany(['user-create', 'user-edit'])

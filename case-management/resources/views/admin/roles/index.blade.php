@@ -6,7 +6,7 @@
         <h3>Manage Roles</h3>
     @endsection
     <div class="row mb-3">
-        @can('roles-create')
+        @can('role-create')
             <a href="{{ route('roles.create') }}" class="btn btn-primary mb-3">Create New Role</a>
         @endcan
         <table class="table">
@@ -15,7 +15,7 @@
                     <th>Name</th>
                     <th>Role Type</th>
                     <th>Permissions</th>
-                    @canany(['roles-create', 'roles-edit', 'roles-delete'])
+                    @canany(['role-create', 'role-edit', 'role-delete'])
                         <th>Actions</th>
                     @endcanany
                 </tr>
@@ -30,10 +30,10 @@
                                 <span class="badge bg-primary">{{ $permission->name }}</span>
                             @endforeach
                         </td>
-                        @canany(['roles-create', 'roles-edit', 'roles-delete'])
+                        @canany(['role-create', 'role-edit', 'role-delete'])
                             <td>
                                 <a href="{{ route('roles.edit', $role) }}" class="btn btn-sm btn-warning">Edit</a>
-                                @can('roles-delete')
+                                @can('role-delete')
                                     <x-delete-confirmation :route="route('roles.destroy', $role)" :item-id="$role->id"
                                         message="Are you sure you want to delete this role?" />
                                 @endcan

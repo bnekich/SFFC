@@ -6,7 +6,7 @@
 
     <ul class="flex flex-col space-y-1 p-4">
         @foreach ($links as $link)
-            <x-menu-item :item="$link" />
+            <x-menu-item :link=$link />
         @endforeach
     </ul>
 </nav>

@@ -19,23 +19,26 @@ class NavMenu extends Component
     {
         $userName = Auth::user()->firstName . ' ' . Auth::user()->lastName;
         $this->links = [
-            ['name' => 'Cases', 'url' => route('case.index')],
-            ['name' => 'Intake', 'url' => route('intake.index')],
-            ['name' => 'Families', 'url' => route('family.index')],
-            ['name' => 'People', 'url' => route('person.index')],
-            ['name' => 'Organizations', 'url' => route('organization.index')],
-            ['name' => 'Documents', 'url' => route('document.index')],
-            ['name' => 'Notes', 'url' => route('note.index')],
+            ['name' => 'Cases', 'url' => route('case.index'), 'permission' => 'case-view'],
+            ['name' => 'Intake', 'url' => route('intake.index'), 'permission' => 'intake-view'],
+            ['name' => 'Families', 'url' => route('family.index'), 'permission' => 'family-view'],
+            ['name' => 'People', 'url' => '#', 'submenu' => [
+                ['name' => 'People', 'url' => route('person.index'), 'permission' => 'person-view'],
+                ['name' => 'Volunteers', 'url' => route('volunteer.index'), 'permission' => 'volunteer-view']
+            ], 'permission' => 'person-view'],
+            ['name' => 'Organizations', 'url' => route('organization.index'), 'permission' => 'organization-view'],
+            ['name' => 'Documents', 'url' => route('document.index'), 'permission' => 'document-view'],
+            ['name' => 'Notes', 'url' => route('note.index'), 'permission' => 'note-view'],
             ['name' => 'Admin', 'url' => '#', 'submenu' => [
-                ['name' => 'Users', 'url' => route('users.index')],
-                ['name' => 'Roles', 'url' => route('roles.index')],
-                ['name' => 'Permissions', 'url' => route('permissions.index')],
-                ['name' => 'Audit Logs', 'url' => route('audit-logs.index')],
-                ['name' => 'Organization Types', 'url' => route('organization-types.index')],
-                ['name' => 'Tags', 'url' => route('tag.index')],
-                ['name' => 'Case Statuses', 'url' => route('case-statuses.index')],
-                ['name' => 'Volunteer Statuses', 'url' => route('volunteer-statuses.index')],
-            ]],
+                ['name' => 'Users', 'url' => route('users.index'), 'permission' => 'user-view'],
+                ['name' => 'Roles', 'url' => route('roles.index'), 'permission' => 'role-view'],
+                ['name' => 'Permissions', 'url' => route('permissions.index'), 'permission' => 'permission-view'],
+                ['name' => 'Audit Logs', 'url' => route('audit-logs.index'), 'permission' => 'audit-log-view'],
+                ['name' => 'Organization Types', 'url' => route('organization-types.index'), 'permission' => 'organization-type-view'],
+                ['name' => 'Tags', 'url' => route('tag.index'), 'permission' => 'tag-view'],
+                ['name' => 'Case Statuses', 'url' => route('case-statuses.index'), 'permission' => 'case-status-view'],
+                ['name' => 'Volunteer Statuses', 'url' => route('volunteer-statuses.index'), 'permission' => 'volunteer-status-view'],
+            ], 'permission' => 'admin-view'],
             ['name' => $userName, 'url' => '#', 'submenu' => [
                 ['name' => 'Logout', 'action' => 'logout'],
                 ['name' => 'Dashboard Settings', 'url' => route('dashboard.settings')]

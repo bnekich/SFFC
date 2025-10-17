@@ -8,12 +8,13 @@ use Illuminate\View\Component;
 
 class MenuItem extends Component
 {
+    public $link;
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct($link)
     {
-        //
+        $this->link = $link;
     }
 
     /**
