@@ -56,7 +56,6 @@ class CaseModel extends Model
         return $this->morphToMany(Note::class, 'noteable');
     }
 
-
     public function caseNotes()
     {
         return $this->hasMany(CaseNote::class, 'case_id');

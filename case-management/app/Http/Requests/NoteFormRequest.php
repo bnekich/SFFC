@@ -28,9 +28,9 @@ class NoteFormRequest extends FormRequest
             'note_status_id' => 'nullable|integer',
             'approved' => 'nullable|boolean',
             'cases' => 'nullable|array',
-            'cases.*' => 'integer|exists:cases,id',
+            'cases.*' => 'nullable|exists:cases,id',
             'volunteers' => 'nullable|array',
-            'volunteers.*' => 'integer|exists:volunteers,person_id',
+            'volunteers.*' => 'nullable|exists:volunteers,id',
         ];
     }
 }

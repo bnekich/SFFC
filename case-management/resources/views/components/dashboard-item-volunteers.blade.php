@@ -1,6 +1,6 @@
 <div class="max-w-sm bg-white border rounded-lg shadow-sm p-7 border-neutral-200/60">
     <a href="#_" class="block mb-3">
-        <h5 class="text-xl font-bold leading-none tracking-tight text-neutral-900">{{ $newVolunteersCount }} New
+        <h5 class="font-bold leading-none tracking-tight text-neutral-900">{{ $newVolunteersCount }} New
             Volunteers</h5>
     </a>
     <a class="sffc-btn-primary" href="{{ route('volunteer.index', 'volunteer_status_id=1') }}">View

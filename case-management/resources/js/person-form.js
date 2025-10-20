@@ -27,34 +27,34 @@ const chBoxes = document.querySelectorAll(
 //     });
 // });
 
-$(document).ready(function () {
-    $(".family-select").select2({
-        placeholder: "Search for families...",
-        allowClear: true,
-        minimumInputLength: 1,
-        ajax: {
-            url: "/search",
-            dataType: "json",
-            delay: 250,
-            data: function (params) {
-                return {
-                    q: params.term,
-                    page: params.page || 1,
-                };
-            },
-            processResults: function (data) {
-                return {
-                    results: data.items.map(function (item) {
-                        return {
-                            id: item.id,
-                            text: item.family_name,
-                        };
-                    }),
-                    pagination: {
-                        more: data.current_page < data.last_page,
-                    },
-                };
-            },
-        },
-    });
-});
+// $(document).ready(function () {
+//     $(".family-select").select2({
+//         placeholder: "Search for families...",
+//         allowClear: true,
+//         minimumInputLength: 1,
+//         ajax: {
+//             url: "/search",
+//             dataType: "json",
+//             delay: 250,
+//             data: function (params) {
+//                 return {
+//                     q: params.term,
+//                     page: params.page || 1,
+//                 };
+//             },
+//             processResults: function (data) {
+//                 return {
+//                     results: data.items.map(function (item) {
+//                         return {
+//                             id: item.id,
+//                             text: item.family_name,
+//                         };
+//                     }),
+//                     pagination: {
+//                         more: data.current_page < data.last_page,
+//                     },
+//                 };
+//             },
+//         },
+//     });
+// });

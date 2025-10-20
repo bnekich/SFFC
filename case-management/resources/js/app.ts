@@ -4,6 +4,7 @@ import "./select2";
 //import Alpine from "alpinejs";
 import focus from "@alpinejs/focus";
 import Choices from "choices.js";
+import { initializeChoicesSelects } from "./choices";
 
 //window.Alpine = Alpine;
 Alpine.plugin(focus);
@@ -75,6 +76,10 @@ const chBoxes = document.querySelectorAll(
     '.dropdown-menu input[type="checkbox"]'
 );
 
+document.addEventListener("DOMContentLoaded", () => {
+    initializeChoicesSelects();
+});
+
 // const roleDropDown = document.getElementById("authorizationRoleDropDown");
 // let selectedRoles = [];
 // chBoxes.forEach((checkbox) => {
@@ -110,6 +115,16 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+
+// document.addEventListener("DOMContentLoaded", function () {
+//     const element = document.getElementById("family-select");
+//     if (element && element.tagName === "SELECT") {
+//         const choices = new Choices(element, {
+//             removeItemButton: true,
+//             allowHTML: false,
+//         });
+//     }
+// });
 
 // debugging code
 

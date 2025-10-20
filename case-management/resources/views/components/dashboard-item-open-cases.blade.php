@@ -1,6 +1,6 @@
 <div class="max-w-sm bg-white border rounded-lg shadow-sm p-7 border-neutral-200/60">
     <a href="#_" class="block mb-3">
-        <h5 class="text-xl font-bold leading-none tracking-tight text-neutral-900">{{ $openCasesCount }} Open Cases</h5>
+        <h5 class="font-bold leading-none tracking-tight text-neutral-900">{{ $openCasesCount }} Open Cases</h5>
     </a>
     <a class="sffc-btn-primary" href="{{ route('case.index', 'case_status_id=1') }}">View
         <svg class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">

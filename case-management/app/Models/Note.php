@@ -63,8 +63,8 @@ class Note extends Model
     // Add similar methods for Intake, etc.
 
     // Optional: A method to get all attached noteables (mixed types)
-    public function noteables()
-    {
-        return $this->morphToMany('noteable', 'noteable'); // But typically, you'd query via specific relations
-    }
+    // public function noteables()
+    // {
+    //     return $this->morphToMany('noteable', 'noteable'); // But typically, you'd query via specific relations
+    // }
 }

@@ -5,25 +5,24 @@
 @endsection
 
 @section('content')
-    <div class="container">
-    @section('header')
-        <h3>Notes</h3>
-    @endsection
+@section('header')
+    <h3 text-2xl font-bold>Notes</h3>
+@endsection
 
+<div class="flex justify-between items-center mb-4">
     <x-search route="note.index" placeholder="Search by Title or Content" />
-    <div class="row mb-3">
-        <div class="col-auto align-items-end d-flex justify-content-end">
-            @can('notes-create')
-                <a href="{{ route('note.create') }}" class="btn btn-sm btn-primary">Add Note</a>
-            @endcan
-        </div>
-    </div>
+</div>
 
-    <div class="table-responsive">
-        <table class="table table-sm table-hover mt-3">
-            <thead>
+@can('notes-create')
+    <a href="{{ route('note.create') }}" class="sffc-btn-primary mb-4">Add Note</a>
+@endcan
+
+<div class="bg-white shadow-md rounded-lg overflow-hidden">
+    <div class="overflow-auto">
+        <table class="sffc-table mb-4">
+            <thead class="sffc-table-header">
                 <tr>
-                    <th scope="col">
+                    <th scope="col" class="sffc-table-header-cell">
                         <a
                             href="{{ route('note.index', array_merge(request()->query(), ['sort' => 'title', 'direction' => request('sort') === 'title' && request('direction') === 'asc' ? 'desc' : 'asc'])) }}">
                             Title
@@ -32,18 +31,18 @@
                             @endif
                         </a>
                     </th>
-                    <th scope="col">Content</th>
-                    <th scope="col">Attached To</th>
-                    <th scope="col">Status</th>
-                    <th scope="col" class="text-nowrap">Actions</th>
+                    <th scope="col" class="sffc-table-header-cell">Content</th>
+                    <th scope="col" class="sffc-table-header-cell">Attached To</th>
+                    <th scope="col" class="sffc-table-header-cell">Status</th>
+                    <th scope="col" class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($notes as $note)
-                    <tr>
-                        <td>{{ $note->title }}</td>
-                        <td class="cm-table-description">{{ Str::limit($note->note, 100) }}</td>
-                        <td>
+                    <tr class="hover:bg-gray-50">
+                        <td class="sffc-table-body-cell-primary">{{ $note->title }}</td>
+                        <td class="sffc-table-body-cell">{{ Str::limit($note->note, 100) }}</td>
+                        <td class="sffc-table-body-cell">
                             @if ($note->cases->isNotEmpty())
                                 Cases: {{ $note->cases->pluck('case_identifier')->implode(', ') }}
                             @endif
@@ -51,19 +50,20 @@
                                 <br>Volunteers: {{ $note->volunteers->pluck('name')->implode(', ') }}
                             @endif
                         </td>
-                        <td>
-                            <!-- Placeholder: Replace with NoteStatus model -->
+                        <td class="sffc-table-body-cell">
                             <span
                                 class="badge bg-{{ $note->note_status_id == 1 ? 'secondary' : ($note->note_status_id == 2 ? 'warning' : 'success') }}">
                                 {{ $note->note_status_id == 1 ? 'Draft' : ($note->note_status_id == 2 ? 'Pending' : 'Approved') }}
                             </span>
                         </td>
-                        <td class="d-flex flex-wrap gap-1 align-items-center">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                             @can('notes-view')
-                                <a href="{{ route('note.show', $note->id) }}" class="btn btn-info btn-sm">View</a>
+                                <a href="{{ route('note.show', $note->id) }}"
+                                    class="text-indigo-600 hover:text-indigo-900">View</a>
                             @endcan
                             @can('notes-edit')
-                                <a href="{{ route('note.edit', $note->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                <a href="{{ route('note.edit', $note->id) }}"
+                                    class="text-indigo-600 hover:text-yellow-900">Edit</a>
                             @endcan
                             @can('notes-delete')
                                 <x-delete-confirmation :route="route('note.destroy', $note)" :item-id="$note->id"

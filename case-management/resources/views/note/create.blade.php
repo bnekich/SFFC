@@ -8,7 +8,12 @@
     <div class="container">
     @section('header')
         <div class="row g-3">
-            <h3>Add Note</h3>
+            @if (isset($preselectedVolunteer))
+                <h3>Add Note {{ $preselectedVolunteer->person->first_name }} {{ $preselectedVolunteer->person->last_name }}
+                </h3>
+            @else
+                <h3>Add Note</h3>
+            @endif
         </div>
     @endsection
     <form class="row g-3 align-items-center" action="{{ route('note.store') }}" method="POST">
@@ -16,8 +21,7 @@
         <div class="col-12">
             <label for="title" class="form-label label-required">Note Title</label>
             <input id="title" type="text" name="title" placeholder="Note Title"
-                class="form-control-sm @error('title') is-invalid @enderror"
-                value="{{ old('title') }}" required>
+                class="form-control-sm @error('title') is-invalid @enderror" value="{{ old('title') }}" required>
             @error('title')
                 <span class="invalid-feedback">{{ $message }}</span>
             @enderror
@@ -51,7 +55,8 @@
         </div>
         <div class="col-12">
             <label for="note_status_id" class="form-label">Note Status</label>
-            <select id="note_status_id" name="note_status_id" class="form-select-sm @error('note_status_id') is-invalid @enderror">
+            <select id="note_status_id" name="note_status_id"
+                class="form-select-sm @error('note_status_id') is-invalid @enderror">
                 <option value=""> (Select)</option>
                 <!-- Placeholder: Replace with NoteStatus model options -->
                 <option value="1" {{ old('note_status_id') == 1 ? 'selected' : '' }}>Draft</option>
@@ -64,7 +69,8 @@
         </div>
         <div class="col-12">
             <div class="form-check">
-                <input id="approved" type="checkbox" name="approved" value="1" class="form-check-input" {{ old('approved') ? 'checked' : '' }}>
+                <input id="approved" type="checkbox" name="approved" value="1" class="form-check-input"
+                    {{ old('approved') ? 'checked' : '' }}>
                 <label for="approved" class="form-check-label">Approved</label>
                 @error('approved')
                     <span class="invalid-feedback">{{ $message }}</span>
@@ -72,26 +78,28 @@
             </div>
         </div>
         <div class="col-12">
-            <label for="cases" class="form-label">Attach to Cases</label>
-            <select id="cases" name="cases[]" class="form-select case-select" multiple>
-                @foreach (old('cases', []) as $caseId)
-                    <option value="{{ $caseId }}" selected>{{ \App\Models\CaseModel::find($caseId)->case_identifier ?? 'Case #' . $caseId }}</option>
-                @endforeach
-            </select>
-            @error('cases')
-                <span class="invalid-feedback d-block">{{ $message }}</span>
-            @enderror
-        </div>
-        <div class="col-12">
-            <label for="volunteers" class="form-label">Attach to Volunteers</label>
+            <x-choices-select id="cases" name="cases[]" label="Attach to Cases" url="/api/noteables/"
+                multiple="true" placeholder="Search for Cases..." labelKey="case_identifier" noteType="cases" />
+            <x-choices-select id="volunteers" name="volunteers[]" label="Attach to Volunteers" url="/api/noteables/"
+                multiple="true" placeholder="Search for Volunteers..." noteType="volunteers" />
+
+            {{-- <label for="volunteers" class="form-label">Attach to Volunteers</label>
             <select id="volunteers" name="volunteers[]" class="form-select volunteer-select" multiple>
-                @foreach (old('volunteers', []) as $volunteerId)
-                    <option value="{{ $volunteerId }}" selected>{{ \App\Models\Volunteer::find($volunteerId)->name ?? 'Volunteer #' . $volunteerId }}</option>
+                {{-- @foreach (old('volunteers', []) as $volunteerId)
+                    <option value="{{ $volunteerId }}" selected>
+                        {{ \App\Models\Volunteer::find($volunteerId)->person->last_name ?? 'Volunteer #' . $volunteerId }}
+                    </option>
                 @endforeach
+            @if (isset($preselectedVolunteer) && !in_array($preselectedVolunteer->id, old('volunteers', [])))
+                <option value="{{ $preselectedVolunteer->person->id }}" selected>
+                    {{ $preselectedVolunteer->person->first_name }} {{ $preselectedVolunteer->person->last_name }}
+                    {{-- {{ \App\Models\Volunteer::find($volunteerId)->name ?? 'Volunteer #' . $volunteerId }}
+                </option>
+            @endif
             </select>
             @error('volunteers')
                 <span class="invalid-feedback d-block">{{ $message }}</span>
-            @enderror
+            @enderror --}}
         </div>
         <div class="row g-3">
             <div class="col-auto">
@@ -100,5 +108,5 @@
             </div>
         </div>
     </form>
-    </div>
+</div>
 @endsection

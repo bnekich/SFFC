@@ -22,7 +22,7 @@
                 <x-dashboard-item-pending-appointments />
             </div>
         @endif
-        @if ($item === 'volunteers')
+        @if ($item === 'new_volunteers')
             <div class="col-md-4">
                 <x-dashboard-item-volunteers />
             </div>

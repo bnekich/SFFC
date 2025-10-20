@@ -58,6 +58,8 @@
                             {{ $volunteer->volunteerStatus->name ?? 'N/A' }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                            <a href="{{ route('note.create', ['person_id' => $volunteer->person->id]) }}"
+                                class="text-indigo-600 hover:text-indigo-900">Add Note</a>
                             <a href="{{ route('volunteer.show', $volunteer) }}"
                                 class="text-indigo-600 hover:text-indigo-900">View</a>
                             <a href="{{ route('volunteer.edit', $volunteer) }}"

@@ -35,10 +35,18 @@ class NoteController extends Controller
         return view('note.index', compact('notes'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $this->logAction("Create Note", "create", "Note");
-        return view('note.create');
+        $preselectedVolunteer = null;
+
+        if ($request->input('person_id')) {
+            $volunteer = Volunteer::where('person_id', $request->input('person_id'))->with('person')->first();
+            if ($volunteer) {
+                $preselectedVolunteer = $volunteer;
+            }
+        }
+        return view('note.create', compact('preselectedVolunteer'));
     }
 
     public function store(NoteFormRequest $request)
@@ -46,29 +54,45 @@ class NoteController extends Controller
         $this->logAction("Store Note", "store", "Note");
         $validated = $request->validated();
 
-        try {
-            $note = Note::create([
-                'title' => $validated['title'],
-                'note' => $validated['note'],
-                'comments' => $validated['comments'] ?? null,
-                'privacy_id' => $validated['privacy_id'] ?? null,
-                'note_status_id' => $validated['note_status_id'] ?? null,
-                'approved' => $validated['approved'] ?? false,
-                'created_by' => auth()->id(),
-                'updated_by' => auth()->id(),
-            ]);
+        $note = Note::create([
+            'title' => $validated['title'],
+            'note' => $validated['note'],
+            'comments' => $validated['comments'] ?? null,
+            'privacy_id' => $validated['privacy_id'] ?? null,
+            'note_status_id' => $validated['note_status_id'] ?? null,
+            'approved' => $validated['approved'] ?? false,
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
+        ]);
 
-            if (!empty($validated['cases'])) {
-                $note->cases()->attach($validated['cases']);
+        // Attach the note to the selected volunteers
+        if (!empty($validated['cases'])) {
+            $cases = \App\Models\CaseModel::find($validated['cases']); // Returns a Collection
+            foreach ($cases as $case) {
+                $case->notes()->attach($note->id);
             }
-            if (!empty($validated['volunteers'])) {
-                $note->volunteers()->attach($validated['volunteers']);
-            }
-
-            return redirect()->route('note.index')->with('success', 'Note created successfully!');
-        } catch (\Exception $e) {
-            return back()->withInput()->with('error', 'Failed to create note: ' . $e->getMessage());
         }
+
+        // Attach the note to the selected volunteers
+        if (!empty($validated['volunteers'])) {
+            $volunteers = \App\Models\Volunteer::find($validated['volunteers']); // Returns a Collection
+            foreach ($volunteers as $volunteer) {
+                $volunteer->notes()->attach($note->id);
+            }
+        }
+        // if (!empty($validated['cases'])) {
+        //     $note->cases()->attach($validated['cases']);
+        // }
+        // if (!empty($validated['volunteers'])) {
+        //     $note->volunteers()->attach($validated['volunteers']);
+        // }
+
+        return redirect()->route('note.index')->with('success', 'Note created successfully!');
+        // try {
+
+        //} catch (\Exception $e) {
+        //    return back()->withInput()->with('error', 'Failed to create note: ' . $e->getMessage());
+        //}
     }
 
     public function show(Note $note)
@@ -123,7 +147,7 @@ class NoteController extends Controller
     {
         $this->logAction("Fetch Noteables", "apiNoteables", "Note");
 
-        $type = $request->query('type');
+        $type = $request->query('noteType');
         $search = $request->query('q', '');
         $page = $request->query('page', 1);
         $perPage = $request->query('per_page', 10);
@@ -142,17 +166,6 @@ class NoteController extends Controller
                 'current_page' => $cases->currentPage(),
                 'last_page' => $cases->lastPage()
             ]);
-
-            // return response()->json([
-            //     'items' => $cases->items()->map(function ($case) {
-            //         return [
-            //             'id' => $case->id,
-            //             'case_identifier' => $case->case_identifier,
-            //         ];
-            //     })->toArray(),
-            //     'current_page' => $cases->currentPage(),
-            //     'last_page' => $cases->lastPage(),
-            // ]);
         }
 
         if ($type === 'volunteers') {
@@ -162,20 +175,34 @@ class NoteController extends Controller
                     $q->where('persons.first_name', 'like', '%' . $search . '%')
                         ->orWhere('persons.last_name', 'like', '%' . $search . '%');
                 })
-                ->select('volunteers.person_id', 'persons.first_name', 'persons.last_name')
+                ->select('volunteers.id', 'persons.first_name', 'persons.last_name')
                 ->orderBy('persons.last_name')
                 ->orderBy('persons.first_name');
             $volunteers = $query->paginate($perPage, ['*'], 'page', $page);
+
             return response()->json([
-                'items' => $volunteers->items()->map(function ($volunteer) {
+                //'items' => $volunteers->items(),
+                'items' => $volunteers->map(function ($volunteer) {
                     return [
-                        'id' => $volunteer->person_id,
-                        'name' => $volunteer->first_name . ' ' . $volunteer->last_name,
+                        'id' => $volunteer->id,
+                        'name' => $volunteer->first_name . ' ' . $volunteer->last_name
                     ];
-                })->toArray(),
+                }),
+
                 'current_page' => $volunteers->currentPage(),
-                'last_page' => $volunteers->lastPage(),
+                'last_page' => $volunteers->lastPage()
             ]);
+
+            // return response()->json([
+            //     'items' => $volunteers->items()->map(function ($volunteer) {
+            //         return [
+            //             'id' => $volunteer->person_id,
+            //             'name' => $volunteer->first_name . ' ' . $volunteer->last_name,
+            //         ];
+            //     })->toArray(),
+            //     'current_page' => $volunteers->currentPage(),
+            //     'last_page' => $volunteers->lastPage(),
+            // ]);
         }
 
         return response()->json(['error' => 'Invalid type'], 400);
