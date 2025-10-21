@@ -7,7 +7,7 @@
 @section('content')
 
 @section('header')
-    <h3>Volunteer Statuses</h3>
+    Volunteer Statuses
 @endsection
 <div class="row mb-3">
     <div class="col-auto align-items-end d-flex justify-content-end">

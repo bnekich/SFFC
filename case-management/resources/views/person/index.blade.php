@@ -6,7 +6,7 @@
 
 @section('content')
 @section('header')
-    <h3 class="text-2xl font-bold">People</h3>
+    People
 @endsection
 
 <div class="flex justify-between items-center mb-4">
@@ -32,42 +32,41 @@
 @endcan
 <div class="bg-white shadow-md rounded-lg overflow-hidden">
     <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-blue-600">
+        <table class="table-fixed w-full">
             <thead class="bg-blue-600 text-white uppercase text-sm leading50">
                 <tr>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium  uppercase ">
-                        First
-                        Name</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium  uppercase ">
+                    <th scope="col" class="sffc-table-header-cell w-1/12">
                         Last
                         Name</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase ">
+                    <th scope="col" class="sffc-table-header-cell w-1/12">
+                        First
+                        Name</th>
+                    <th scope="col" class="sffc-table-header-cell w-3/12">
                         Email
                     </th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase ">
+                    <th scope="col" class="sffc-table-header-cell w-3/12">
                         Organization</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase ">
+                    <th scope="col" class="sffc-table-header-cell w-2/12">
                         Phone
                     </th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase ">
+                    <th scope="col" class="sffc-table-header-cell w-2/12">
                         Actions</th>
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
                 @forelse ($persons as $person)
                     <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                            {{ $person->first_name }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $person->last_name }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $person->email }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td class="sffc-table-body-cell">{{ $person->last_name }}</td>
+                        <td class="sffc-table-body-cell">{{ $person->first_name }}</td>
+                        <td class="sffc-table-body-cell">{{ $person->email }}</td>
+                        <td class="sffc-table-body-cell max-w-xs overflow-hidden text-ellipsis whitespace-nowrap">
                             @if ($person->organizations->isNotEmpty())
                                 {{ $person->organizations->pluck('name')->join(', ') }}
                             @else
                                 N/A
                             @endif
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $person->phone }}</td>
+                        <td class="sffc-table-body-cell">{{ $person->phone }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                             <a href="{{ route('person.show', $person) }}"
                                 class="text-indigo-600 hover:text-indigo-900">View</a>

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('header')
-    <h3 class="text-2xl font-bold">Edit {{ $person->first_name }} {{ $person->last_name }}</h3>
+    Edit {{ $person->first_name }} {{ $person->last_name }}
 @endsection
 
 @section('content')
@@ -106,29 +106,16 @@
             </div>
 
             <x-address-form :address="$person->address" :states="$states" />
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <label for="family_ids" class="block text-sm font-medium text-gray-700">Family Connections</label>
-                    <select id="family_ids"
-                        class="family-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        name="family_ids[]" multiple>
-                        @foreach ($person->families as $family)
-                            <option value="{{ $family->id }}" selected>{{ $family->family_name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div>
-                    <label for="org_ids" class="block text-sm font-medium text-gray-700">Organizations</label>
-                    <select id="org_ids"
-                        class="org-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        name="org_ids[]" multiple>
-                        @foreach ($person->organizations as $organization)
-                            <option value="{{ $organization->id }}" selected>{{ $organization->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
+                <x-choices-select id="family_ids" name="family_ids[]" label="Family Connections" url="/familySearch"
+                    multiple="true" placeholder="Search for families..." labelKey="family_name" :options="$person->families"
+                    :selected="$person->families->pluck('id')->toArray()" />
+
+                <x-choices-select id="org_ids" name="org_ids[]" label="Organization Connections" url="/orgSearch"
+                    multiple="true" placeholder="Search for Organizations..." labelKey="name" :options="$person->organizations"
+                    :selected="$person->organizations->pluck('id')->toArray()" />
             </div>
+
             @can('user-create')
                 <div class="flex items-center">
                     <div class="flex items-center">

@@ -7,7 +7,7 @@
 @section('content')
     <div class="container">
     @section('header')
-        <h3>Documents</h3>
+        Documents
     @endsection
     <div class="row mb-3">
         <livewire:upload-document />

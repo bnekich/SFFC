@@ -7,9 +7,7 @@
 @section('content')
     <div class="container mx-auto p-4">
     @section('header')
-        <div class="mb-4">
-            <h3 class="text-2xl font-bold">Edit {{ $volunteer->person->first_name }} {{ $volunteer->person->last_name }}</h3>
-        </div>
+        Edit {{ $volunteer->person->first_name }} {{ $volunteer->person->last_name }}
     @endsection
 
     <form class="space-y-6" action="{{ route('volunteer.update', $volunteer) }}" method="POST">

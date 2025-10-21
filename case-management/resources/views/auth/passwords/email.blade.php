@@ -6,11 +6,9 @@
 
 @section('content')
 @section('header')
-    <div class="place-items-center text-center">
-        <img src="/images/sffc_logo.jpg" alt="Safe Families for Children Logo" class="max-w-md mb-8 rounded-lg shadow-md ">
-        <p class="uppercase">Please enter your email address. You will receive an email with a link to reset your password.
-        </p>
-    </div>
+    <img src="/images/sffc_logo.jpg" alt="Safe Families for Children Logo" class="max-w-md mb-8 rounded-lg shadow-md ">
+    <p class="uppercase">Please enter your email address. You will receive an email with a link to reset your password.
+    </p>
 @endsection
 
 <form class="p-4 space-y-6" method="POST" action="{{ route('password.email') }}">

@@ -9,9 +9,8 @@
 @endsection
 
 @section('content')
-
 @section('header')
-    <h3>Cases</h3>
+    Cases
 @endsection
 
 <x-search route="case.index" placeholder="Identifier or Description" />

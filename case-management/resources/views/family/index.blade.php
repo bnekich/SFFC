@@ -6,7 +6,7 @@
 
 @section('content')
 @section('header')
-    <h3 text-2xl font-bold>Families</h3>
+    Families
 @endsection
 
 <div class="flex justify-between items-center mb-4">

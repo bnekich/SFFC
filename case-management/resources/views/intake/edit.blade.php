@@ -7,9 +7,7 @@
 @section('content')
     <div class="container">
     @section('header')
-        <div class="row g-3">
-            <h3>Edit Intake</h3>
-        </div>
+        Edit Intake
     @endsection
     <form class="rowg3 align-items-center" action="{{ route('intake.update', $intake->id) }}" method="POST">
         @csrf

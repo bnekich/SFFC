@@ -11,7 +11,7 @@
 @section('content')
 
 @section('header')
-    <h3>Intake</h3>
+    Intake
 @endsection
 
 <x-search route="intake.index" placeholder="Name or Summary" />

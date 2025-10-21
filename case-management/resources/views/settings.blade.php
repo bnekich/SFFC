@@ -2,7 +2,7 @@
 
 @section('content')
 @section('header')
-    <h3>{{ 'Dashboard Settings' }}</h3>
+    {{ 'Dashboard Settings' }}
 @endsection
 <form method="POST" action="{{ route('dashboard.settings') }}">
     @csrf

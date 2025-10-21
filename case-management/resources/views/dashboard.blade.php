@@ -5,9 +5,7 @@
 @endsection
 @section('content')
 @section('header')
-    <h3>
-        <p>{{ Auth::user()->firstName }} {{ Auth::user()->lastName }}, Welcome To Your Dashboard</p>
-    </h3>
+    {{ Auth::user()->firstName }} {{ Auth::user()->lastName }}, Welcome To Your Dashboard
 @endsection
 <div class="row">
     @foreach (auth()->user()->dashboard_preferences ?? ['open_cases', 'pending_appointments', 'volunteers'] as $item)

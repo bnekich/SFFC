@@ -18,9 +18,7 @@
 @section('content')
     <div class="container mx-auto p-4">
     @section('header')
-        <div class="mb-4">
-            <h3 class="text-2xl font-bold">Add Volunteer</h3>
-        </div>
+        Add Volunteer
     @endsection
 
     <form class="space-y-6" action="{{ route('volunteer.store') }}" method="POST">

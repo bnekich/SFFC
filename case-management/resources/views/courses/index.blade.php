@@ -6,7 +6,7 @@
 @section('content')
     <div class="container">
     @section('header')
-        <h3>Training Courses</h3>
+        Training Courses
     @endsection
     <div class="row mb-3">"
         <x-search route="course.index" placeholder="Title or Instructor" />

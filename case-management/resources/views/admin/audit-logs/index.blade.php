@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
     @section('header')
-        <h3>Audit Logs</h3>
+        Audit Logs
     @endsection
     <div class="table-responsive">
         <table class="table table=light table-striped table-bordered" style="width: 100%">

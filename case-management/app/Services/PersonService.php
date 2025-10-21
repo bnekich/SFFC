@@ -10,6 +10,8 @@ use App\Models\Address;
 use App\Models\Person;
 use App\Models\User;
 use App\Models\Volunteer;
+use App\Models\Family;
+use App\Models\Organization;
 use App\Services\Responses\PersonServiceResponse;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
@@ -168,16 +170,22 @@ class PersonService
                 'updated_by' => auth()->id(),
             ]);
 
-            if ($request->has('family_ids')) {
-                $person->families()->sync($request->input('family_ids'));
+            if (!empty($data['family_ids'])) {
+                $families = Family::find($data['family_ids']);
+                foreach ($families as $family) {
+                    $family->persons()->attach($person->id);
+                }
             }
 
-            if ($request->has('org_ids')) {
-                $person->organizations()->sync($request->input('org_ids'));
+            if (!empty($data['org_ids'])) {
+                $organizations = Organization::find($data['org_ids']);
+                foreach ($organizations as $organization) {
+                    $organization->persons()->attach($person->id);
+                }
             }
 
             if ($request->input('isSystemUser', 0)) {
-                // TODO change when deployed to production
+                // TODO uncomment generation of temp password and change where password is sent  when deployed to production
                 //$tempPassword = Str::random(12);
                 $tempPassword = "tmp-password";
                 $user = User::create([
@@ -188,6 +196,7 @@ class PersonService
                     'password' => Hash::make($tempPassword),
                     'force_password_reset' => true,
                 ]);
+
                 if (!empty($request->auth_roles)) {
                     $user->assignRole(array_map('intval', $request->auth_roles));
                     if ($isVolunteer) {

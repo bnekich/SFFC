@@ -2,7 +2,7 @@
 
 @section('header')
     <div class="row g3">
-        <h3>Edit Organization: {{ $organization->name }}</h3>
+        Edit Organization: {{ $organization->name }}
     </div>
 @endsection
 

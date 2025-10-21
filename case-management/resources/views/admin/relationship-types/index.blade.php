@@ -4,7 +4,7 @@
 
 @section('content')
 @section('header')
-    <h3>Relationship Types</h3>
+    Relationship Types
 @endsection
 @can('type-create')
     <a href="{{ route('relationship-types.create') }}" class="btn btn-primary mb-3">Add New Type</a>

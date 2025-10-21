@@ -2,9 +2,7 @@
 @extends('layouts.app')
 
 @section('header')
-    <div class="row g-3">
-        <h3>Edit Case</h3>
-    </div>
+    Edit Case
 @endsection
 
 @section('content')

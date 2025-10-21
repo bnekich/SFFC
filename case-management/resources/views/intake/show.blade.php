@@ -6,7 +6,7 @@
 @section('content')
 
 @section('header')
-    <h3>Intake Detail</h3>
+    Intake Detail
 @endsection
 
 <p><strong>SFFC Fit?</strong>: {{ $intake->is_a_sffc_fit ? 'Yes' : 'No' }}</p>

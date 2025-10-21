@@ -1,8 +1,6 @@
 @extends('layouts.app')
 @section('header')
-    <div class="row g3">
-        <h3>Update {{ $family->family_name }}</h3>
-    </div>
+    Update {{ $family->family_name }}
 @endsection
 
 @section('content')

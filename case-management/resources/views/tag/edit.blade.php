@@ -5,7 +5,7 @@
 @endsection
 
 @section('header')
-    <h3>Edit {{ $tag->name }}</h3>
+    Edit {{ $tag->name }}
 @endsection
 
 @section('content')

@@ -7,7 +7,7 @@
 @section('content')
     <div class="container">
     @section('header')
-        <h3>Edit Status - {{ $caseStatus->name }}</h3>
+        Edit Status - {{ $caseStatus->name }}
     @endsection
     <form class="row g-3 align-items-center" action="{{ route('case-statuses.update', $caseStatus) }}" method="POST">
         @csrf

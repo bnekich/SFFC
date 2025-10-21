@@ -7,9 +7,7 @@
 @section('content')
     <div class="container">
     @section('header')
-        <div class="row g-3">
-            <h3>Edit Note</h3>
-        </div>
+        Edit Note
     @endsection
     <form class="row g-3 align-items-center" action="{{ route('note.update', $note) }}" method="POST">
         @csrf

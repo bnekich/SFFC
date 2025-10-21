@@ -4,7 +4,7 @@
 
 @section('content')
 @section('header')
-    <h3>Reminder Types</h3>
+    Reminder Types
 @endsection
 @can('type-create')
     <a href="{{ route('reminder-types.create') }}" class="btn btn-primary mb-3">Add New Type</a>

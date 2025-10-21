@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('header')
-    <h3 class="text-2xl font-bold">Edit {{ $user->firstName }} {{ $user->lastName }}</h3>
+    Edit {{ $user->firstName }} {{ $user->lastName }}
 @endsection
 
 @section('content')

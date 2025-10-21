@@ -49,8 +49,10 @@
     @endauth
 
     <!-- Full-width header -->
-    <header class="col-span-1 md:col-span-2 bg-blue-600 text-white p-2 text-center">
-        @yield('header')
+    <header class="col-span-1 md:col-span-2 bg-blue-600 text-white p-2 text-center font-bold">
+        <h3>
+            @yield('header')
+        </h3>
     </header>
 
     <!-- Side navigation menu (desktop) -->

@@ -7,9 +7,7 @@
 @section('content')
     <div class="container">
     @section('header')
-        <div class="row g3">
-            <h3>Add Case</h3>
-        </div>
+        Add Case
     @endsection
     <form class="row g-3 align-items-center" action="{{ route('case.store') }}" method="POST">
         @csrf

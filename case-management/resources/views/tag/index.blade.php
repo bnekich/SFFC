@@ -6,7 +6,7 @@
 
 @section('content')
 @section('header')
-    <h3>Tags</h3>
+    Tags
 @endsection
 <div class="row mb-3">
     <x-search route="tag.index" placeholder="Name" />

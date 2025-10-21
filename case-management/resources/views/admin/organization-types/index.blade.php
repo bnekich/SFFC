@@ -6,7 +6,7 @@
 
 @section('content')
 @section('header')
-    <h3>Organization Types</h3>
+    Organization Types
 @endsection
 <div class="row mb-3">
     <x-search route="organization-types.index" placeholder="Name" />

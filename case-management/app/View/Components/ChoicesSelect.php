@@ -14,8 +14,9 @@ class ChoicesSelect extends Component
     public $placeholder;
     public $labelKey;
     public $noteType;
+    public $options;
 
-    public function __construct($id, $name, $label, $url, $multiple = false, $placeholder = 'Search...', $labelKey = null, $noteType = null)
+    public function __construct($id, $name, $label, $url, $multiple = false, $placeholder = 'Search...', $labelKey = null, $noteType = null, $options = [])
     {
         $this->id = $id;
         $this->name = $name;
@@ -25,6 +26,7 @@ class ChoicesSelect extends Component
         $this->placeholder = $placeholder;
         $this->labelKey = $labelKey;
         $this->noteType = $noteType;
+        $this->options = $options;
     }
 
     public function render()

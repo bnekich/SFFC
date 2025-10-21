@@ -5,7 +5,7 @@
 @endsection
 
 @section('header')
-    <h3>Create Tag</h3>
+    Create Tag
 @endsection
 
 @section('content')

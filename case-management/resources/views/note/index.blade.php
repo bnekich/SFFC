@@ -6,7 +6,7 @@
 
 @section('content')
 @section('header')
-    <h3 text-2xl font-bold>Notes</h3>
+    Notes
 @endsection
 
 <div class="flex justify-between items-center mb-4">

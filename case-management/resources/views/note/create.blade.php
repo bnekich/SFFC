@@ -7,14 +7,11 @@
 @section('content')
     <div class="container">
     @section('header')
-        <div class="row g-3">
-            @if (isset($preselectedVolunteer))
-                <h3>Add Note {{ $preselectedVolunteer->person->first_name }} {{ $preselectedVolunteer->person->last_name }}
-                </h3>
-            @else
-                <h3>Add Note</h3>
-            @endif
-        </div>
+        @if (isset($preselectedVolunteer))
+            Add Note {{ $preselectedVolunteer->person->first_name }} {{ $preselectedVolunteer->person->last_name }}
+        @else
+            Add Note
+        @endif
     @endsection
     <form class="row g-3 align-items-center" action="{{ route('note.store') }}" method="POST">
         @csrf

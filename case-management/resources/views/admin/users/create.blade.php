@@ -7,7 +7,7 @@
 @section('content')
 
 @section('header')
-    <h3>Add User</h3>
+    Add User
 @endsection
 
 <div class="grid grid-cols-1 grid-rows-2 gap-4">

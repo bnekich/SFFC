@@ -2,10 +2,8 @@
 
 @section('content')
 @section('header')
-    <div class="place-items-center text-center">
-        <img src="/images/sffc_logo.jpg" alt="Safe Families for Children Logo" class="max-w-md mb-8 rounded-lg shadow-md ">
-        <p class="uppercase">Get A Verification Code To Complete The Login Process</p>
-    </div>
+    <img src="/images/sffc_logo.jpg" alt="Safe Families for Children Logo" class="max-w-md mb-8 rounded-lg shadow-md ">
+    Get A Verification Code To Complete The Login Process
 @endsection
 
 @if (!$codeSent)

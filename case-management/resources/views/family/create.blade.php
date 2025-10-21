@@ -1,8 +1,6 @@
 @extends('layouts.app')
 @section('header')
-    <div class="row g3">
-        <h3>Add Family</h3>
-    </div>
+    Add Family
 @endsection
 
 @section('content')

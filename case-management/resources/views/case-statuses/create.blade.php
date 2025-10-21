@@ -7,7 +7,7 @@
 @section('content')
 
 @section('header')
-    <h3>Add Case Status</h3>
+    Add Case Status
 @endsection
 
 <div class="container">

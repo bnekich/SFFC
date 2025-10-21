@@ -6,7 +6,7 @@
 
 @section('content')
 @section('header')
-    <h3 class="text-2xl font-bold">Volunteers</h3>
+    Volunteers
 @endsection
 
 <div class="flex justify-between items-center mb-4">

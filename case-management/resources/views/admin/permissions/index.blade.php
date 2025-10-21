@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-12">
             @section('header')
-                <h3 class="mb-4">Manage Permissions</h3>
+                Manage Permissions
             @endsection
             <x-search route="permissions.index" placeholder="Name" />
 

@@ -7,9 +7,7 @@
 @section('content')
     <div class="container mx-auto p-4">
     @section('header')
-        <div class="mb-4">
-            <h3 class="text-2xl font-bold">Volunteer Details</h3>
-        </div>
+        Volunteer Details
     @endsection
 
     <div class="bg-white shadow-md rounded-lg p-6">

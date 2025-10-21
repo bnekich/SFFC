@@ -5,7 +5,7 @@
 @section('content')
     <div class="container">
     @section('header')
-        <h3>Case Detail</h3>
+        Case Detail
     @endsection
 
     <p><strong>Case Identifier:</strong> {{ $case->case_identifier }}</p>

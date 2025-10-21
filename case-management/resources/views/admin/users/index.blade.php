@@ -6,7 +6,7 @@
 
 @section('content')
 @section('header')
-    <h3 class="text-2xl font-bold">Users</h3>
+    Users
 @endsection
 <div class="flex justify-between items-center mb-4">
     <x-search route="users.index" placeholder="Name or Email" />

@@ -7,7 +7,7 @@
 @section('content')
 
 @section('header')
-    <h3>Add Volunteer Status</h3>
+    Add Volunteer Status
 @endsection
 
 <div class="container">

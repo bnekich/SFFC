@@ -6,9 +6,7 @@
 
 @section('content')
 @section('header')
-    <div class="row g3">
-        <h3>Add Organization</h3>
-    </div>
+    Add Organization
 @endsection
 <form class="row g-3 align-items-center" action="{{ route('organization.store') }}" method="POST">
     @csrf

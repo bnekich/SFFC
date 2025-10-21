@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
     @section('header')
-        <h3>Manage Roles</h3>
+        Manage Roles
     @endsection
     <div class="row mb-3">
         @can('role-create')

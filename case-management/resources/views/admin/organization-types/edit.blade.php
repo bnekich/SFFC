@@ -7,7 +7,7 @@
 @section('content')
     <div class="container">
     @section('header')
-        <h3>Edit {{ $organizationType->name }}</h3>
+        Edit {{ $organizationType->name }}
     @endsection
     <form class="row g-3 align-items-center" action="{{ route('organization-types.update', $organizationType) }}"
         method="POST">

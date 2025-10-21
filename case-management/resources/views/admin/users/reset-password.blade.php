@@ -1,8 +1,6 @@
 @extends('layouts.app')
 @section('header')
-    <div class="row g3">
-        <h3>Reset Password</h3>
-    </div>
+    Reset Password
 @endsection
 @section('content')
     <div class="container">
