@@ -14,6 +14,7 @@ function debounce(func, wait) {
 
 export function initializeChoicesSelects() {
     const elements = document.querySelectorAll(".choices-select");
+    
     elements.forEach((el) => {
         const url = el.dataset.url;
         const labelKey = el.dataset.labelKey || "name"; // Default to 'name'

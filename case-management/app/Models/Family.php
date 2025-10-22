@@ -14,7 +14,7 @@ class Family extends Model
 
     public function persons()
     {
-        return $this->belongsToMany(Person::class, 'persons_families', 'family_id', 'person_id');
+        return $this->belongsToMany(Person::class, 'persons_families', 'person_id', 'family_id');
     }
 
     public function address()

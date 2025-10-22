@@ -80,19 +80,8 @@ class NoteController extends Controller
                 $volunteer->notes()->attach($note->id);
             }
         }
-        // if (!empty($validated['cases'])) {
-        //     $note->cases()->attach($validated['cases']);
-        // }
-        // if (!empty($validated['volunteers'])) {
-        //     $note->volunteers()->attach($validated['volunteers']);
-        // }
 
         return redirect()->route('note.index')->with('success', 'Note created successfully!');
-        // try {
-
-        //} catch (\Exception $e) {
-        //    return back()->withInput()->with('error', 'Failed to create note: ' . $e->getMessage());
-        //}
     }
 
     public function show(Note $note)
@@ -192,17 +181,6 @@ class NoteController extends Controller
                 'current_page' => $volunteers->currentPage(),
                 'last_page' => $volunteers->lastPage()
             ]);
-
-            // return response()->json([
-            //     'items' => $volunteers->items()->map(function ($volunteer) {
-            //         return [
-            //             'id' => $volunteer->person_id,
-            //             'name' => $volunteer->first_name . ' ' . $volunteer->last_name,
-            //         ];
-            //     })->toArray(),
-            //     'current_page' => $volunteers->currentPage(),
-            //     'last_page' => $volunteers->lastPage(),
-            // ]);
         }
 
         return response()->json(['error' => 'Invalid type'], 400);

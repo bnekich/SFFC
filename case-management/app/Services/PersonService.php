@@ -111,19 +111,10 @@ class PersonService
                 }
             }
 
-            if ($request->has('family_ids')) {
-                $person->families()->sync($request->input('family_ids'));
-            }
+            $person->families()->sync($data['family_ids'] ?? []);
+            $person->organizations()->sync($data['org_ids'] ?? []);
 
-            if ($request->has('org_ids')) {
-                $person->organizations()->sync($request->input('org_ids'));
-            }
-
-            // if (isset($request['auth_roles'])) {
-            //     $person->user->roles()->sync($request['auth_roles']);
-            // }
-
-            return new PersonServiceResponse($person);
+            return new PersonServiceResponse($person, null, '');
         });
     }
 
@@ -170,19 +161,6 @@ class PersonService
                 'updated_by' => auth()->id(),
             ]);
 
-            if (!empty($data['family_ids'])) {
-                $families = Family::find($data['family_ids']);
-                foreach ($families as $family) {
-                    $family->persons()->attach($person->id);
-                }
-            }
-
-            if (!empty($data['org_ids'])) {
-                $organizations = Organization::find($data['org_ids']);
-                foreach ($organizations as $organization) {
-                    $organization->persons()->attach($person->id);
-                }
-            }
 
             if ($request->input('isSystemUser', 0)) {
                 // TODO uncomment generation of temp password and change where password is sent  when deployed to production
@@ -209,7 +187,15 @@ class PersonService
                     }
                 }
             }
+
+            //$familyIds = $data['family_ids'] ?? [];
+            $person->families()->sync($data['family_ids'] ?? []);
+
+            //$orgIds = $data['org_ids'] ?? [];
+            $person->organizations()->sync($data['org_ids'] ?? []);
         });
+
+
 
         // TODO uncomment before production deployment
         //if ($request->input('isSystemUser', 0) && $user) {
