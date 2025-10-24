@@ -19,16 +19,17 @@ class Note extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'note', 'comments', 'privacy_id', 'note_status_id', 'approved', 'created_by', 'updated_by'];
+    protected $fillable = ['title', 'note', 'comments', 'note_privacy_id', 'note_status_id', 'approved', 'created_by', 'updated_by'];
 
-    // public function privacy()
-    // {
-    //     return $this->belongsTo(Privacy::class);
-    // }
-    // public function noteStatus()
-    // {
-    //     return $this->belongsTo(NoteStatus::class);
-    // }
+    public function status()
+    {
+        return $this->belongsTo(NoteStatus::class, 'note_status_id');
+    }
+
+    public function privacy()
+    {
+        return $this->belongsTo(NotePrivacy::class, 'note_privacy_id');
+    }
 
     public function createdBy()
     {

@@ -3,14 +3,12 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Status;
+use App\Models\NoteStatus;
 
-class StatusFactory extends Factory
+class NoteStatusFactory extends Factory
 {
     public function definition(): array
     {
-        return [
-            'name' => "Open"
-        ];
+        return [];
     }
 }

@@ -11,6 +11,10 @@ class Volunteer extends Model
 
     protected $fillable = ['person_id', 'county', 'church_id', 'volunteer_status_id', 'created_by', 'updated_by'];
 
+    public function getFullNameAttribute()
+    {
+        return trim("{$this->person->first_name} {$this->person->last_name}");
+    }
     public function person()
     {
         return $this->belongsTo(Person::class, 'person_id');

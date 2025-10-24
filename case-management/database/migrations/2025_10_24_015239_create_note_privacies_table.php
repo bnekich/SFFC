@@ -4,11 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStatusesTable extends Migration
+return new class extends Migration
 {
-    public function up()
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
     {
-        Schema::create('statuses', function (Blueprint $table) {
+        Schema::create('note_privacies', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255)->nullable();
             $table->timestamps();
@@ -16,8 +19,11 @@ class CreateStatusesTable extends Migration
         });
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
-        Schema::dropIfExists('statuses');
+        Schema::dropIfExists('note_privacies');
     }
-}
+};

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Status;
-use App\Http\Requests\StatusFormRequest;
-use App\Http\Requests\UpdateStatusRequest;
+use App\Models\NotePrivacy;
+use App\Http\Requests\StoreNotePrivacyRequest;
+use App\Http\Requests\UpdateNotePrivacyRequest;
+use App\Http\Requests\NotePrivacyFormRequest;
 
-class StatusController extends Controller
+
+class NotePrivacyController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +29,7 @@ class StatusController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StatusFormRequest $request)
+    public function store(NotePrivacyFormRequest $request)
     {
         //
     }
@@ -35,7 +37,7 @@ class StatusController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Status $status)
+    public function show(NotePrivacy $notePrivacy)
     {
         //
     }
@@ -43,7 +45,7 @@ class StatusController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Status $status)
+    public function edit(NotePrivacy $notePrivacy)
     {
         //
     }
@@ -51,7 +53,7 @@ class StatusController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateStatusRequest $request, Status $status)
+    public function update(NotePrivacyFormRequest $request, NotePrivacy $notePrivacy)
     {
         //
     }
@@ -59,7 +61,7 @@ class StatusController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Status $status)
+    public function destroy(NotePrivacy $notePrivacy)
     {
         //
     }

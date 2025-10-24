@@ -9,6 +9,9 @@ use App\Models\Note;
 use App\Models\CaseModel;
 use App\Models\Volunteer;
 use Illuminate\Http\Request;
+use App\Models\Person;
+use App\Models\NoteStatus;
+use App\Models\NotePrivacy;
 
 class NoteController extends Controller
 {
@@ -24,7 +27,7 @@ class NoteController extends Controller
             'direction' => $request->get('direction', 'desc')
         ];
 
-        $query = Note::query()->with(['cases', 'volunteers.person']);
+        $query = Note::query()->with(['cases', 'volunteers.person', 'status']);
         if ($filters['search']) {
             $query->where('title', 'ilike', '%' . $filters['search'] . '%')
                 ->orWhere('note', 'ilike', '%' . $filters['search'] . '%');
@@ -38,15 +41,23 @@ class NoteController extends Controller
     public function create(Request $request)
     {
         $this->logAction("Create Note", "create", "Note");
-        $preselectedVolunteer = null;
+        $noteStatuses = NoteStatus::all()->sortBy('name');
+        $notePrivacies = NotePrivacy::all()->sortBy('name');
+        $preselectedVolunteer = collect(); // Collection of Volunteer models
 
         if ($request->input('person_id')) {
-            $volunteer = Volunteer::where('person_id', $request->input('person_id'))->with('person')->first();
+            $volunteer = Volunteer::where('person_id', $request->input('person_id'))
+                ->with('person')
+                ->first();
+
             if ($volunteer) {
-                $preselectedVolunteer = $volunteer;
+                $preselectedVolunteer = collect([$volunteer]);
             }
         }
-        return view('note.create', compact('preselectedVolunteer'));
+
+        $preselectedVolunteerIds = $preselectedVolunteer->pluck('id')->toArray();
+
+        return view('note.create', compact('preselectedVolunteer', 'preselectedVolunteerIds', 'noteStatuses', 'notePrivacies'));
     }
 
     public function store(NoteFormRequest $request)
@@ -54,11 +65,12 @@ class NoteController extends Controller
         $this->logAction("Store Note", "store", "Note");
         $validated = $request->validated();
 
+
         $note = Note::create([
             'title' => $validated['title'],
             'note' => $validated['note'],
             'comments' => $validated['comments'] ?? null,
-            'privacy_id' => $validated['privacy_id'] ?? null,
+            'note_privacy_id' => $validated['note_privacy_id'] ?? null,
             'note_status_id' => $validated['note_status_id'] ?? null,
             'approved' => $validated['approved'] ?? false,
             'created_by' => auth()->id(),
@@ -93,7 +105,10 @@ class NoteController extends Controller
     public function edit(Note $note)
     {
         $this->logAction("Edit Note", "edit", "Note", $note->id);
-        return view('note.edit', compact('note'));
+        $noteStatuses = NoteStatus::all()->sortBy('name');
+        $notePrivacies = NotePrivacy::all()->sortBy('name');
+
+        return view('note.edit', compact('note', 'noteStatuses', 'notePrivacies'));
     }
 
     public function update(NoteFormRequest $request, Note $note)
@@ -106,7 +121,7 @@ class NoteController extends Controller
                 'title' => $validated['title'],
                 'note' => $validated['note'],
                 'comments' => $validated['comments'] ?? null,
-                'privacy_id' => $validated['privacy_id'] ?? null,
+                'note_privacy_id' => $validated['note_privacy_id'] ?? null,
                 'note_status_id' => $validated['note_status_id'] ?? null,
                 'approved' => $validated['approved'] ?? false,
                 'updated_by' => auth()->id(),

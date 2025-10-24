@@ -46,15 +46,15 @@
                             @if ($note->cases->isNotEmpty())
                                 Cases: {{ $note->cases->pluck('case_identifier')->implode(', ') }}
                             @endif
-                            @if ($note->volunteers->isNotEmpty())
-                                <br>Volunteers: {{ $note->volunteers->pluck('name')->implode(', ') }}
-                            @endif
+                            @foreach ($note->volunteers as $volunteer)
+                                <br />Volunteers: {{ $volunteer->person->first_name }}
+                                {{ $volunteer->person->last_name }}
+                            @endforeach
                         </td>
                         <td class="sffc-table-body-cell">
-                            <span
-                                class="badge bg-{{ $note->note_status_id == 1 ? 'secondary' : ($note->note_status_id == 2 ? 'warning' : 'success') }}">
-                                {{ $note->note_status_id == 1 ? 'Draft' : ($note->note_status_id == 2 ? 'Pending' : 'Approved') }}
-                            </span>
+                            <button class="sffc-btn-badge-primary" type="button">
+                                {{ $note->status->name }}
+                            </button>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                             @can('notes-view')

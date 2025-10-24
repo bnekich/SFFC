@@ -7,13 +7,14 @@ use App\Models\ReminderType;
 use App\Models\CaseModel;
 use App\Models\Course;
 use App\Models\Family;
-use App\Models\Status;
+use App\Models\NoteStatus;
 use App\Models\FormModel;
 use App\Models\Field;
 use App\Models\Intake;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\CaseNote;
+use App\Models\NotePrivacy;
 use App\Models\PersonsOrganizations;
 use App\Models\Volunteer;
 use App\Models\VolunteerStatus;
@@ -25,7 +26,6 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
-        Status::factory()->create();
         RelationshipType::factory()->create();
         ReminderType::factory()->create();
         $this->call([
@@ -38,6 +38,8 @@ class DatabaseSeeder extends Seeder
             IntakeStatusSeeder::class,
             IntakeOutcomeSeeder::class,
             VolunteerStatusSeeder::class,
+            NoteStatusSeeder::class,
+            NotePrivacySeeder::class,
         ]);
         Intake::factory()->count(100)->create();
         Family::factory()->count(100)->create();

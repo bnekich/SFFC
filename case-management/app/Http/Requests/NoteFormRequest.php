@@ -24,7 +24,7 @@ class NoteFormRequest extends FormRequest
             'title' => 'required|string|max:255',
             'note' => 'required|string',
             'comments' => 'nullable|string',
-            'privacy_id' => 'nullable|integer',
+            'note_privacy_id' => 'nullable|integer',
             'note_status_id' => 'nullable|integer',
             'approved' => 'nullable|boolean',
             'cases' => 'nullable|array',

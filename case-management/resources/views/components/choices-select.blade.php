@@ -8,7 +8,7 @@
         data-label-key="{{ $labelKey ?? 'name' }}" {{ $multiple ? 'multiple' : '' }}>
         @foreach ($options as $option)
             <option value="{{ $option->id }}" @selected(in_array($option->id, old(str_replace('[]', '', $name), $selected)))>
-                {{ $option->$labelKey }}
+                {{ data_get($option, $labelKey) }}
             </option>
         @endforeach
     </select>

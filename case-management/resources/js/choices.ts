@@ -12,12 +12,24 @@ function debounce(func, wait) {
     };
 }
 
+// Helper for dot notation (e.g., "person.full_name")
+function getNestedValue(obj, path, defaultValue = "Unknown") {
+    return path
+        .split(".")
+        .reduce(
+            (acc, part) =>
+                acc && acc[part] !== undefined ? acc[part] : defaultValue,
+            obj
+        );
+}
+
 export function initializeChoicesSelects() {
     const elements = document.querySelectorAll(".choices-select");
-    
+
     elements.forEach((el) => {
+        console.log(el);
         const url = el.dataset.url;
-        const labelKey = el.dataset.labelKey || "name"; // Default to 'name'
+        const labelKey = el.dataset.labelKey || "name";
         const isMultiple = el.hasAttribute("multiple");
         const placeholder = el.getAttribute("placeholder") || "Search...";
         const noteType = el.dataset.noteType;
@@ -65,11 +77,14 @@ export function initializeChoicesSelects() {
                     )}`
                 );
                 const data = await response.json();
-                console.log("API Response:", data); // Debug: Log the full response
+
                 const newChoices = data.items.map((item) => ({
                     value: item.id,
                     label:
-                        item[labelKey] || item.name || item.title || "Unknown", // Extended fallback chain
+                        getNestedValue(item, labelKey) ||
+                        item.name ||
+                        item.title ||
+                        "Unknown",
                 }));
 
                 choices.setChoices(

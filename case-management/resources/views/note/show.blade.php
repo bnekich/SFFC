@@ -39,14 +39,11 @@
             @endif
             <div class="mb-3">
                 <strong>Privacy Level:</strong>
-                <span>{{ $note->privacy_id ? ($note->privacy_id == 1 ? 'Public' : ($note->privacy_id == 2 ? 'Team Only' : 'Private')) : 'Not Set' }}</span>
+                <span>{{ $note->privacy->name }}</span>
             </div>
             <div class="mb-3">
                 <strong>Status:</strong>
-                <span
-                    class="badge bg-{{ $note->note_status_id == 1 ? 'secondary' : ($note->note_status_id == 2 ? 'warning' : 'success') }}">
-                    {{ $note->note_status_id == 1 ? 'Draft' : ($note->note_status_id == 2 ? 'Pending' : 'Approved') }}
-                </span>
+                <span> {{ $note->status->name }} </span>
             </div>
             <div class="mb-3">
                 <strong>Approved:</strong>
@@ -69,7 +66,7 @@
                 @if ($note->volunteers->isNotEmpty())
                     <ul>
                         @foreach ($note->volunteers as $volunteer)
-                            <li>{{ $volunteer->name }}</li>
+                            <li>{{ $volunteer->person->first_name }} {{ $volunteer->person->last_name }}</li>
                         @endforeach
                     </ul>
                 @else

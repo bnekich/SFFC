@@ -115,7 +115,6 @@ class PersonController extends Controller
     {
         $this->logAction("Edit Person", "edit", "Person", $person->id);
         $states = USState::cases();
-        //$allRoles = Role::all();
         $authorizedRoles = $this->personService->getAuthorizedRoles();
         $genders = Gender::cases();
 

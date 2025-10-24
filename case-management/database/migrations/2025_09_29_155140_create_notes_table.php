@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title', 255);
             $table->text('note');
             $table->text('comments');
-            $table->bigInteger('privacy_id')->nullable();
+            $table->bigInteger('note_privacy_id')->nullable();
             $table->bigInteger('note_status_id')->nullable();
             $table->boolean('approved');
             $table->bigInteger('created_by')->nullable();

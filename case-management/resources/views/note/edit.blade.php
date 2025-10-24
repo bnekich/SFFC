@@ -36,17 +36,18 @@
             @enderror
         </div>
         <div class="col-12">
-            <label for="privacy_id" class="form-label">Privacy Level</label>
-            <select id="privacy_id" name="privacy_id" class="form-select-sm @error('privacy_id') is-invalid @enderror">
+            <label for="note_privacy_id" class="form-label">Privacy Level</label>
+            <select id="note_privacy_id" name="note_privacy_id"
+                class="form-select-sm @error('note_privacy_id') is-invalid @enderror">
                 <option value=""> (Select)</option>
-                <!-- Placeholder: Replace with Privacy model options -->
-                <option value="1" {{ old('privacy_id', $note->privacy_id) == 1 ? 'selected' : '' }}>Public</option>
-                <option value="2" {{ old('privacy_id', $note->privacy_id) == 2 ? 'selected' : '' }}>Team Only
-                </option>
-                <option value="3" {{ old('privacy_id', $note->privacy_id) == 3 ? 'selected' : '' }}>Private
+                @foreach ($notePrivacies as $notePrivacy)
+                    <option value="{{ $notePrivacy->id }}"
+                        {{ old('note_privacy_id') == $notePrivacy->id ? 'selected' : '' }}>
+                        {{ $notePrivacy->name }}</option>
+                @endforeach
                 </option>
             </select>
-            @error('privacy_id')
+            @error('note_privacy_id')
                 <span class="invalid-feedback">{{ $message }}</span>
             @enderror
         </div>
@@ -78,46 +79,19 @@
             </div>
         </div>
         <div class="col-12">
-            <label for="cases" class="form-label">Attach to Cases</label>
-            <select id="cases" name="cases[]" class="form-select case-select" multiple>
-                @foreach ($note->cases as $case)
-                    <option value="{{ $case->id }}" selected>{{ $case->case_identifier }}</option>
-                @endforeach
-                @foreach (old('cases', []) as $caseId)
-                    @if (!$note->cases->contains('id', $caseId))
-                        <option value="{{ $caseId }}" selected>
-                            {{ \App\Models\CaseModel::find($caseId)->case_identifier ?? 'Case #' . $caseId }}</option>
-                    @endif
-                @endforeach
-            </select>
-            @error('cases')
-                <span class="invalid-feedback d-block">{{ $message }}</span>
-            @enderror
+            <x-choices-select id="cases" name="cases[]" label="Attach to Cases" url="/api/noteables/"
+                multiple="true" placeholder="Search for Cases..." labelKey="case_identifier" noteType="cases" />
+
         </div>
         <div class="col-12">
-            <label for="volunteers" class="form-label">Attach to Volunteers</label>
-            <select id="volunteers" name="volunteers[]" class="form-select volunteer-select" multiple>
-                @foreach ($note->volunteers as $volunteer)
-                    <option value="{{ $volunteer->person_id }}" selected>{{ $volunteer->name }}</option>
-                @endforeach
-                @foreach (old('volunteers', []) as $volunteerId)
-                    @if (!$note->volunteers->contains('person_id', $volunteerId))
-                        <option value="{{ $volunteerId }}" selected>
-                            {{ \App\Models\Volunteer::find($volunteerId)->name ?? 'Volunteer #' . $volunteerId }}
-                        </option>
-                    @endif
-                @endforeach
-            </select>
-            @error('volunteers')
-                <span class="invalid-feedback d-block">{{ $message }}</span>
-            @enderror
-        </div>
-        <div class="row g-3">
-            <div class="col-auto">
-                <button type="submit" class="btn btn-primary mt-3">Save</button>
-                <a href="{{ route('note.show', $note) }}" class="btn btn-secondary mt-3">Cancel</a>
+            <x-choices-select id="volunteers" name="volunteers[]" label="Attach to Volunteers" url="/api/noteables/"
+                multiple="true" placeholder="Search for Volunteers..." noteType="volunteers" />
+            <div class="row g-3">
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary mt-3">Save</button>
+                    <a href="{{ route('note.show', $note) }}" class="btn btn-secondary mt-3">Cancel</a>
+                </div>
             </div>
-        </div>
     </form>
 </div>
 @endsection
