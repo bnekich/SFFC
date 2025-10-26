@@ -49,8 +49,8 @@ class PersonController extends Controller
             'organization' => $request->organization,
         ];
         $sort = [
-            'field' => $request->get('sort', 'last_name'),
-            'direction' => $request->get('direction', 'asc')
+            'field' => $request->input('sort'),
+            'direction' => $request->input('direction')
         ];
 
         $persons = $this->personService->getPersons($filters, $sort);

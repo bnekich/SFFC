@@ -21,22 +21,27 @@ class CaseModelController extends Controller
     public function index(CaseModelFormRequest $request)
     {
         $this->logAction("Viewed Cases", "index", "CaseModel");
+        // TODO hook up to dashboard instead of all 'open cases' they should be 'open cases' for the logged in user. Also, 
+        // make this dynamic to the user's role. Some users can see all cases
+        $user_id = $request->user_id ?? auth()->id();
 
         $filters = [
             'search' => $request->search,
             'status' => $request->status,
-            'assigned_staff_id' => $request->user_id,
+            'assigned_staff_id' => $user_id,
         ];
         $sort = [
-            'field' => $request->get('sort', 'case_identifier'),
-            'direction' => $request->get('direction', 'asc')
+            // 'field' => $request->get('sort', 'case_identifier'),
+            // 'direction' => $request->get('direction', 'asc')
+            'field' => $request->input('sort'),
+            'direction' => $request->input('direction')
         ];
 
         $cases = $this->caseService->getCases($filters, $sort);
         $statuses = CaseStatus::all();
 
 
-        return view('case.index', compact('cases', 'statuses'));
+        return view('case.index', compact('cases', 'statuses', 'user_id'));
     }
 
     public function create()

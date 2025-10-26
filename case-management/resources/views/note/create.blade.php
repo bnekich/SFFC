@@ -8,7 +8,9 @@
     <div class="container">
     @section('header')
         @if ($preselectedVolunteer->count() > 0)
-            Add Note to Volunteer ( {{ $preselectedVolunteer[0]['full_name'] }}
+            Add Note to Volunteer ( {{ $preselectedVolunteer[0]['full_name'] }} )
+        @elseif ($preselectedCase->count() > 0)
+            Add Note to Case ( {{ $preselectedCase[0]['case_identifier'] }} )
         @else
             Add Note
         @endif
@@ -80,8 +82,16 @@
             </div>
         </div>
         <div class="col-12">
-            <x-choices-select id="cases" name="cases[]" label="Attach to Cases" url="/api/noteables/"
-                multiple="true" placeholder="Search for Cases..." labelKey="case_identifier" noteType="cases" />
+            @if ($preselectedCase->count() > 0)
+                <x-choices-select id="cases" name="cases[]" label="Attach to Cases" url="/api/noteables/"
+                    multiple="true" placeholder="Search for Cases..." labelKey="case_identifier" noteType="cases"
+                    :options="$preselectedCase" :selected="$preselectedCaseIds" />
+            @else
+                <x-choices-select id="cases" name="cases[]" label="Attach to Cases" url="/api/noteables/"
+                    multiple="true" placeholder="Search for Cases..." labelKey="case_identifier" noteType="cases" />
+            @endif
+        </div>
+        <div class="col-12">
 
             @if ($preselectedVolunteer->count() > 0)
                 <x-choices-select id="volunteers" name="volunteers[]" label="Attach to Volunteers" url="/api/noteables/"

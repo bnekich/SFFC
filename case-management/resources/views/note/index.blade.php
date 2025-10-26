@@ -10,12 +10,12 @@
 @endsection
 
 <div class="flex justify-between items-center mb-4">
-    <x-search route="note.index" placeholder="Search by Title or Content" />
-</div>
+    <x-search :route="route('note.index')" placeholder="Search by Title or Content" />
 
-@can('notes-create')
-    <a href="{{ route('note.create') }}" class="sffc-btn-primary mb-4">Add Note</a>
-@endcan
+    @can('notes-create')
+        <a href="{{ route('note.create') }}" class="sffc-btn-primary mb-4">Add Note</a>
+    @endcan
+</div>
 
 <div class="bg-white shadow-md rounded-lg overflow-hidden">
     <div class="overflow-auto">
@@ -52,18 +52,14 @@
                             @endforeach
                         </td>
                         <td class="sffc-table-body-cell">
-                            <button class="sffc-btn-badge-primary" type="button">
-                                {{ $note->status->name }}
-                            </button>
+                            {{ $note->status->name }}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                        <td class="sffc-table-body-cell-actions">
                             @can('notes-view')
-                                <a href="{{ route('note.show', $note->id) }}"
-                                    class="text-indigo-600 hover:text-indigo-900">View</a>
+                                <a href="{{ route('note.show', $note->id) }}" class="sffc-link-view">View</a>
                             @endcan
                             @can('notes-edit')
-                                <a href="{{ route('note.edit', $note->id) }}"
-                                    class="text-indigo-600 hover:text-yellow-900">Edit</a>
+                                <a href="{{ route('note.edit', $note->id) }}" class="sffc-link-edit">Edit</a>
                             @endcan
                             @can('notes-delete')
                                 <x-delete-confirmation :route="route('note.destroy', $note)" :item-id="$note->id"

@@ -20,6 +20,13 @@
     .sffc-label {
         @apply block text-sm font-medium text-gray-700;
     }
+    .sffc-checkbox-label {
+        @apply text-sm font-medium text-gray-700;
+    }
+    .sffc-checkbox {
+        @apply;
+    }
+
     .sffc-table {
         @apply min-w-full divide-y divide-blue-600;
     }
@@ -27,15 +34,38 @@
         @apply bg-blue-600 text-white uppercase text-sm;
     }
     .sffc-table-header-cell {
-        @apply px-3 py-2 text-left uppercase text-sm;
+        @apply px-4 py-3 text-left uppercase text-sm;
     }
     .sffc-table-body-cell-primary {
-        @apply px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900;
+        @apply px-4 py-3 text-sm font-medium text-gray-900;
     }
     .sffc-table-body-cell {
-        @apply px-4 py-3 whitespace-nowrap text-sm space-x-2;
+        @apply px-4 py-3  text-sm space-x-2;
     }
-    .sffc-btn-badge-primary {
-        @apply rounded-md bg-slate-800 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none;
+    .sffc-table-body-cell-actions {
+        @apply px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2;
     }
+    .sffc-table-body-cell-clipped {
+        @apply px-4 py-3 text-sm max-w-xs overflow-hidden text-ellipsis whitespace-nowrap;
+    }
+
+    // links /////
+    .sffc-link-view {
+        @apply text-green-600 hover:text-green-900;
+    }
+    .sffc-link-edit {
+        @apply text-yellow-600 hover:text-yellow-900;
+    }
+    .sffc-link-delete {
+        @apply text-red-600 hover:text-red-900;
+    }
+    // .sffc-btn-badge-primary {
+    //     @apply rounded-md bg-green-600 py-2 px-2 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-500 focus:shadow-none active:bg-green-500 hover:bg-green-500 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none;
+    // }
+    // .sffc-btn-badge-warn {
+    //     @apply rounded-md bg-yellow-400 py-2 px-2 border border-transparent text-center text-sm text-black transition-all shadow-md hover:shadow-lg focus:bg-slate-500 focus:shadow-none active:bg-yellow-500 hover:bg-yellow-500 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none;
+    // }
+    // .sffc-btn-badge-danger {
+    //     @apply rounded-md bg-red-600 py-2 px-2 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-500 focus:shadow-none active:bg-red-500 hover:bg-red-500 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none;
+    // }
 }

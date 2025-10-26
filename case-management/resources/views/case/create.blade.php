@@ -45,24 +45,14 @@
             <label for="case_description" class="form-label label-required">Case Description</label>
             <textarea id="case_description" name="case_description" class="form-control" required>{{ old('case_description') }}</textarea>
         </div>
-        <div class="col-2">
-            <label for="assigned_staff_id" class="form-label">Case Manager</label>
-            <select id="assigned_staff_id" class="form-select person-select" name="assigned_staff_id">
-                <option value=""></option>
-            </select>
-        </div>
-        <div class="col-2">
-            <label for="client_id" class="form-label">Client Family</label>
-            <select id="client_family_id" class="family-select form-select" name="client_family_id">
-                <option value=""></option>
-            </select>
-        </div>
-        <div class="col-2">
-            <label for="host_family_id" class="form-label">Host Family</label>
-            <select id="host_family_id" class="family-select form-select" name="host_family_id">
-                <option value=""></option>
-            </select>
-        </div>
+        <x-choices-select id="assigned_staff_id" name="assigned_staff_id" label="Case Manager" url="/peopleSearch"
+            labelKey="last_name" :selected="old('assigned_staff_id')" />
+
+        <x-choices-select id="host_family_id" name="host_family_id" label="Host Family" url="/familySearch"
+            labelKey="family_name" :selected="old('host_family_id')" />
+
+        <x-choices-select id="client_id" name="client_id" label="Client Family" url="/familySearch"
+            labelKey="family_name" :selected="old('client_id')" />
 
         <div class="row g-3">
             <div class="col-auto">

@@ -9,7 +9,7 @@
         Training Courses
     @endsection
     <div class="row mb-3">"
-        <x-search route="course.index" placeholder="Title or Instructor" />
+        <x-search :route="route('course.index')" placeholder="Title or Instructor" />
         {{-- <div class="col-8">
                 <form id="searchForm" method="GET" action="{{ route('course.index') }}">
                     <input id="searchBox" type="text" name="search" class="form-control-sm"

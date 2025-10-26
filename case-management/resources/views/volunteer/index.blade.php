@@ -10,13 +10,12 @@
 @endsection
 
 <div class="flex justify-between items-center mb-4">
-    <x-search route="volunteer.index" placeholder="Search Volunteers by Name" />
+    <x-search :route="route('volunteer.index')" placeholder="Search Volunteers by Name" />
 </div>
 
 <form class="mb-4" id="filterForm" method="GET" action="{{ route('volunteer.index') }}">
     <label for="volunteer_status" class="sr-only">Filter by Status</label>
-    <select name="volunteer_status" id="volunteer_status"
-        class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+    <select name="volunteer_status" id="volunteer_status" class="sffc-text-input"
         onchange="document.getElementById('filterForm').submit()">
         <option value="">-- Filter by Status --</option>
         @foreach ($volunteerStatuses as $status)
@@ -34,27 +33,27 @@
 <div class="bg-white shadow-md rounded-lg overflow-hidden">
     <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-blue-600">
-            <thead class="bg-blue-600 text-white uppercase text-sm leading-50">
+            <thead class="sffc-table-header">
                 <tr>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase">Name</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase">County</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase">Church</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase">Status</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase">Actions</th>
+                    <th scope="col" class="sffc-table-header-cell">Name</th>
+                    <th scope="col" class="sffc-table-header-cell">County</th>
+                    <th scope="col" class="sffc-table-header-cell">Church</th>
+                    <th scope="col" class="sffc-table-header-cell">Status</th>
+                    <th scope="col" class="sffc-table-header-cell">Actions</th>
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
                 @forelse ($volunteers as $volunteer)
                     <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        <td class="sffc-table-body-cell-primary">
                             {{ $volunteer->person->first_name }} {{ $volunteer->person->last_name }}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $volunteer->county ?? 'N/A' }}
+                        <td class="sffc-table-body-cell">{{ $volunteer->county ?? 'N/A' }}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td class="sffc-table-body-cell">
                             {{ $volunteer->church->name ?? 'N/A' }}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td class="sffc-table-body-cell">
                             {{ $volunteer->volunteerStatus->name ?? 'N/A' }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">

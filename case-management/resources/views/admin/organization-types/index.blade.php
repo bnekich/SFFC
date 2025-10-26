@@ -8,8 +8,9 @@
 @section('header')
     Organization Types
 @endsection
-<div class="row mb-3">
-    <x-search route="organization-types.index" placeholder="Name" />
+
+<div class="flex justify-between items-center mb-4">
+    <x-search :route="route('organization-types.index')" placeholder="Name" />
     <div class="col-auto align-items-end d-flex justify-content-end">
         @can('type-create')
             <a href="{{ route('organization-types.create') }}" class="btn btn-sm btn-primary">Add New Type</a>

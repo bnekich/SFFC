@@ -7,7 +7,7 @@
             @section('header')
                 Manage Permissions
             @endsection
-            <x-search route="permissions.index" placeholder="Name" />
+            <x-search :route="route('permissions.index')" placeholder="Name" />
 
             <a href="{{ route('permissions.create') }}" class="btn btn-primary mb-3">Create New Permission</a>
 

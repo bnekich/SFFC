@@ -10,46 +10,53 @@
 @endsection
 
 <div class="flex justify-between items-center mb-4">
-    <x-search route="person.index" placeholder="First Name or Last Name" />
+    <x-search :route="route('person.index', ['direction' => 'asc', 'sort' => 'last_name'])" placeholder="First Name or Last Name" />
+    <form class="mb-4" id="filterForm" method="GET" action="{{ route('person.index') }}">
+        <label for="organization" class="sr-only">Filter by Organization</label>
+        <select name="organization" id="organization"
+            class="block rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            onchange="document.getElementById('filterForm').submit()">
+            <option value="">-- Filter by Organization --</option>
+            @foreach ($organizations as $organization)
+                <option value="{{ $organization->id }}"
+                    {{ request('organization') == $organization->id ? 'selected' : '' }}>
+                    {{ $organization->name }}
+                </option>
+            @endforeach
+        </select>
+    </form>
+    @can('person-create')
+        <a href="{{ route('person.create') }}" class="sffc-btn-primary">Add
+            Person</a>
+    @endcan
 </div>
-<form class="mb-4" id="filterForm" method="GET" action="{{ route('person.index') }}">
-    <label for="organization" class="sr-only">Filter by Organization</label>
-    <select name="organization" id="organization"
-        class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-        onchange="document.getElementById('filterForm').submit()">
-        <option value="">-- Filter by Organization --</option>
-        @foreach ($organizations as $organization)
-            <option value="{{ $organization->id }}"
-                {{ request('organization') == $organization->id ? 'selected' : '' }}>
-                {{ $organization->name }}
-            </option>
-        @endforeach
-    </select>
-</form>
-@can('person-create')
-    <a href="{{ route('person.create') }}" class="mb-4 inline-flex sffc-btn-primary">Add
-        Person</a>
-@endcan
 <div class="bg-white shadow-md rounded-lg overflow-hidden">
     <div class="overflow-x-auto">
-        <table class="table-fixed w-full">
+        <table class="table-auto w-full">
             <thead class="bg-blue-600 text-white uppercase text-sm leading50">
                 <tr>
-                    <th scope="col" class="sffc-table-header-cell w-1/12">
-                        Last
-                        Name</th>
-                    <th scope="col" class="sffc-table-header-cell w-1/12">
+                    <th scope="col" class="sffc-table-header-cell">
+                        <a
+                            href="{{ route('person.index', array_merge(request()->query(), ['sort' => 'last_name', 'direction' => request('sort') === 'last_name' && request('direction') === 'asc' ? 'desc' : 'asc'])) }}">
+                            Last Name
+                            @if (request('sort') === 'last_name')
+                                <i
+                                    class="fas fa-arrow-{{ request('direction') === 'asc' || request('direction') === null ? 'up' : 'down' }}"></i>
+                            @endif
+                        </a>
+                    </th>
+                    <th scope="col" class="sffc-table-header-cell">
                         First
                         Name</th>
-                    <th scope="col" class="sffc-table-header-cell w-3/12">
+                    <th scope="col" class="sffc-table-header-cell">
                         Email
                     </th>
-                    <th scope="col" class="sffc-table-header-cell w-3/12">
+                    <th scope="col" class="sffc-table-header-cell">
                         Organization</th>
-                    <th scope="col" class="sffc-table-header-cell w-2/12">
+                    <th scope="col" class="sffc-table-header-cell">
                         Phone
                     </th>
-                    <th scope="col" class="sffc-table-header-cell w-2/12">
+                    <th scope="col" class="sffc-table-header-cell">
                         Actions</th>
                 </tr>
             </thead>

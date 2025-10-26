@@ -54,6 +54,19 @@
             <label for="case_description" class="form-label label-required">Case Description</label>
             <textarea name="case_description" class="form-control-sm" placeholder="Case Description" required>{{ old('case_description', $case->case_description) }}</textarea>
         </div>
+
+        {{-- <x-choices-select id="assigned_staff_id" name="assigned_staff_id" label="Case Manager" url="/peopleSearch"
+            labelKey="last_name" :selected="old('assigned_staff_id')" 
+            :options="$case->assignedStaff" 
+            :selected="$case->$case->assignedStaff->id->toArray()" 
+            /> --}}
+
+        {{-- <x-choices-select id="host_family_id" name="host_family_id" label="Host Family" url="/familySearch"
+            labelKey="family_name" :selected="old('host_family_id')" />
+
+        <x-choices-select id="client_id" name="client_id" label="Client Family" url="/familySearch"
+            labelKey="family_name" :selected="old('client_id')" /> --}}
+
         <div class="row g-3 align-items-center">
             <div class="col-6">
                 <input type="hidden" name="assigned_staff_id" value="">

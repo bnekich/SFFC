@@ -9,7 +9,7 @@
     Users
 @endsection
 <div class="flex justify-between items-center mb-4">
-    <x-search route="users.index" placeholder="Name or Email" />
+    <x-search :route="route('users.index')" placeholder="Name or Email" />
 </div>
 
 @can('user-create')

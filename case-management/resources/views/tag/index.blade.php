@@ -9,7 +9,7 @@
     Tags
 @endsection
 <div class="row mb-3">
-    <x-search route="tag.index" placeholder="Name" />
+    <x-search :route="route('tag.index')" placeholder="Name" />
     @can('tag-create')
         <div class="col-auto align-items-end d-flex justify-content-end">
             <a href="{{ route('tag.create') }}" class="btn btn-sm btn-primary">Create New Tag</a>

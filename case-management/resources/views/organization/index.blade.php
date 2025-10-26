@@ -1,44 +1,43 @@
 @extends('layouts.app')
+
 @section('title')
     - Organizations
 @endsection
 
 @section('content')
-    <div class="container">
-    @section('header')
-        Organizations
-    @endsection
-    <div class="row mb-3">
-        <x-search route="organization.index" placeholder="Organization or Contact" />
-        <div class="col-auto align-items-end d-flex justify-content-end">
-            @can('organization-create')
-                <a href="{{ route('organization.create') }}" class="btn btn-sm btn-primary mb-3">Add Organization</a>
-            @endcan
-        </div>
+@section('header')
+    Organizations
+@endsection
+<div class="flex justify-between items-center mb-4">
+    <x-search :route="route('organization.index')" placeholder="Organization or Contact" />
+    <div class="col-auto align-items-end d-flex justify-content-end">
+        @can('organization-create')
+            <a href="{{ route('organization.create') }}" class="sffc-btn-primary">Add Organization</a>
+        @endcan
     </div>
-    <div class="table-responsive">
-        <table class="table table-sm table-hover mt-3">
-            <thead>
+</div>
+<div class="bg-white shadow-md rounded-lg overflow-hidden">
+    <div class="overflow-x-auto">
+        <table class="sffc-table">
+            <thead class="sffc-table-header">
                 <tr>
-                    <th>Name</th>
-                    <th>Contact</th>
-                    <th>Title</th>
-                    <th>Phone</th>
-                    <th>Actions</th>
+                    <th scope="col" class="sffc-table-header-cell">Name</th>
+                    <th scope="col" class="sffc-table-header-cell">Contact</th>
+                    <th scope="col" class="sffc-table-header-cell">Title</th>
+                    <th scope="col" class="sffc-table-header-cell">Phone</th>
+                    <th scope="col" class="sffc-table-header-cell">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($organizations as $organization)
-                    <tr>
-                        <td>{{ $organization->name }} </td>
-                        <td>{{ $organization->contact_person_name }}</td>
+                    <tr class="hover:bg-gray-50">
+                        <td class="sffc-table-body-cell-primary">{{ $organization->name }} </td>
+                        <td class="sffc-table-bocy-cell">{{ $organization->contact_person_name }}</td>
                         <td class="cm-table-description">{{ $organization->contact_person_title }}</td>
-                        <td>{{ $organization->contact_person_phone }}</td>
-                        <td>
-                            <a href="{{ route('organization.show', $organization) }}"
-                                class="btn btn-info btn-sm">View</a>
-                            <a href="{{ route('organization.edit', $organization) }}"
-                                class="btn btn-warning btn-sm">Edit</a>
+                        <td class="sffc-table-body-cell">{{ $organization->contact_person_phone }}</td>
+                        <td class="sffc-table-body-cell-actions">
+                            <a href="{{ route('organization.show', $organization) }}" class="sffc-link-view">View</a>
+                            <a href="{{ route('organization.edit', $organization) }}" class="sffc-link-edit">Edit</a>
                             @can('organization-delete')
                                 <x-delete-confirmation :route="route('organization.destroy', $organization)" :item-id="$organization->id"
                                     message="Are you sure you want to delete this organization?" />
@@ -49,6 +48,6 @@
             </tbody>
         </table>
     </div>
-    {{ $organizations->withQueryString()->links() }}
 </div>
+{{ $organizations->withQueryString()->links() }}
 @endsection

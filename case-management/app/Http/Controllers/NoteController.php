@@ -44,6 +44,7 @@ class NoteController extends Controller
         $noteStatuses = NoteStatus::all()->sortBy('name');
         $notePrivacies = NotePrivacy::all()->sortBy('name');
         $preselectedVolunteer = collect(); // Collection of Volunteer models
+        $preselectedCase = collect();
 
         if ($request->input('person_id')) {
             $volunteer = Volunteer::where('person_id', $request->input('person_id'))
@@ -55,9 +56,18 @@ class NoteController extends Controller
             }
         }
 
-        $preselectedVolunteerIds = $preselectedVolunteer->pluck('id')->toArray();
+        if ($request->input('case_id')) {
+            $case = CaseModel::where('id', $request->input('case_id'))
+                ->first();
 
-        return view('note.create', compact('preselectedVolunteer', 'preselectedVolunteerIds', 'noteStatuses', 'notePrivacies'));
+            if ($case) {
+                $preselectedCase = collect([$case]);
+            }
+        }
+        $preselectedVolunteerIds = $preselectedVolunteer->pluck('id')->toArray();
+        $preselectedCaseIds = $preselectedCase->pluck('id')->toArray();
+
+        return view('note.create', compact('preselectedCase', 'preselectedCaseIds', 'preselectedVolunteer', 'preselectedVolunteerIds', 'noteStatuses', 'notePrivacies'));
     }
 
     public function store(NoteFormRequest $request)

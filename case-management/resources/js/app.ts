@@ -1,13 +1,12 @@
 import "bootstrap";
 import Inputmask from "inputmask";
-import "./select2";
 //import Alpine from "alpinejs";
-import focus from "@alpinejs/focus";
+//import focus from "@alpinejs/focus";
 import Choices from "choices.js";
 import { initializeChoicesSelects } from "./choices";
 
 //window.Alpine = Alpine;
-Alpine.plugin(focus);
+//Alpine.plugin(focus);
 //Alpine.start();
 
 // Interface for modal form response
@@ -32,7 +31,6 @@ if (isSystemUser) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Select the input element(s) you want to mask
     const phoneInputs = document.querySelectorAll(
         ".phone-input:not([type='file'])"
     );
@@ -43,17 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 placeholder: "_",
             }).mask(phoneInputs);
         });
-    }
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-    const emailInput = document.querySelector(".email-input:not([type='file']");
-    if (emailInput) {
-        Inputmask({
-            alias: "email",
-            placeholder: "_", // Optional: Placeholder for empty spots
-            showMaskOnHover: false, // Optional: Customize behavior
-        }).mask(emailInput);
     }
 });
 

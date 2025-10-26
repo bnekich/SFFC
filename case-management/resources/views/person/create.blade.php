@@ -55,7 +55,7 @@
             <div>
                 <label for="email" class="sffc-label">Email<span class=" text-red-500">*</span></label>
                 <input id="email" type="email" name="email" placeholder="Email"
-                    class="sffc-text-input @error('email') border-red-500 @enderror" value="{{ old('email') }}"
+                    class=" sffc-text-input @error('email') border-red-500 @enderror" value="{{ old('email') }}"
                     required>
                 @error('email')
                     <p class="mt-2 text-sm text-red-600">{{ $message }}</p>

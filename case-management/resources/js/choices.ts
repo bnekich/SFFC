@@ -1,8 +1,27 @@
 import Choices from "choices.js";
 
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
+// Interface for a single item from the API response
+interface ApiItem {
+    id: number | string;
+    name?: string;
+    title?: string;
+    [key: string]: any; // Allows for other dynamic properties
+}
+
+// Interface for the paginated API response structure
+interface PaginatedApiResponse {
+    items: ApiItem[];
+    current_page: number;
+    last_page: number;
+}
+
+function debounce<T extends (...args: any[]) => any>(
+    func: T,
+    wait: number
+): (...args: Parameters<T>) => void {
+    let timeout: ReturnType<typeof setTimeout>;
+
+    return function executedFunction(...args: Parameters<T>): void {
         const later = () => {
             clearTimeout(timeout);
             func(...args);
@@ -13,7 +32,11 @@ function debounce(func, wait) {
 }
 
 // Helper for dot notation (e.g., "person.full_name")
-function getNestedValue(obj, path, defaultValue = "Unknown") {
+function getNestedValue(
+    obj: Record<string, any>,
+    path: string,
+    defaultValue: any = "Unknown"
+): any {
     return path
         .split(".")
         .reduce(
@@ -27,12 +50,13 @@ export function initializeChoicesSelects() {
     const elements = document.querySelectorAll(".choices-select");
 
     elements.forEach((el) => {
-        console.log(el);
-        const url = el.dataset.url;
-        const labelKey = el.dataset.labelKey || "name";
-        const isMultiple = el.hasAttribute("multiple");
-        const placeholder = el.getAttribute("placeholder") || "Search...";
-        const noteType = el.dataset.noteType;
+        const htmlElement = el as HTMLElement;
+        const url = htmlElement.dataset.url;
+        const labelKey = htmlElement.dataset.labelKey || "name";
+        const isMultiple = htmlElement.hasAttribute("multiple");
+        const placeholder =
+            htmlElement.getAttribute("placeholder") || "Search...";
+        const noteType = htmlElement.dataset.noteType;
 
         const choices = new Choices(el, {
             removeItemButton: true,
@@ -76,9 +100,10 @@ export function initializeChoicesSelects() {
                         noteType
                     )}`
                 );
-                const data = await response.json();
+                const data: PaginatedApiResponse = await response.json();
+                console.log(data);
 
-                const newChoices = data.items.map((item) => ({
+                const newChoices = data.items.map((item: ApiItem) => ({
                     value: item.id,
                     label:
                         getNestedValue(item, labelKey) ||
@@ -122,7 +147,7 @@ export function initializeChoicesSelects() {
             loadPage();
         }, 250);
 
-        el.addEventListener("search", (event) => {
+        htmlElement.addEventListener("search", (event) => {
             const { value } = event.detail;
             if (value.length >= 1) {
                 debouncedSearch(value);

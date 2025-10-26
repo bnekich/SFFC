@@ -10,12 +10,12 @@
 @endsection
 
 <div class="flex justify-between items-center mb-4">
-    <x-search route="family.index" placeholder="Name" />
-</div>
+    <x-search :route="route('family.index')" placeholder="Name" />
 
-@can('family-create')
-    <a href="{{ route('family.create') }}" class="sffc-btn-primary mb-4">Add Family</a>
-@endcan
+    @can('family-create')
+        <a href="{{ route('family.create') }}" class="sffc-btn-primary">Add Family</a>
+    @endcan
+</div>
 
 <div class="bg-white shadow-md rounded-lg overflow-hidden">
     <div class="overflow-x-auto">
