@@ -9,7 +9,7 @@ use App\Models\Note;
 use App\Models\CaseModel;
 use App\Models\Volunteer;
 use Illuminate\Http\Request;
-use App\Models\Person;
+use App\Models\Tag;
 use App\Models\NoteStatus;
 use App\Models\NotePrivacy;
 
@@ -87,9 +87,16 @@ class NoteController extends Controller
             'updated_by' => auth()->id(),
         ]);
 
+        if (!empty($validated['tags'])) {
+            $tags = Tag::find($validated['tags']); // Returns a Collection
+            foreach ($tags as $tag) {
+                $note->tags()->attach($tag->id);
+            }
+        }
+
         // Attach the note to the selected volunteers
         if (!empty($validated['cases'])) {
-            $cases = \App\Models\CaseModel::find($validated['cases']); // Returns a Collection
+            $cases = CaseModel::find($validated['cases']); // Returns a Collection
             foreach ($cases as $case) {
                 $case->notes()->attach($note->id);
             }
@@ -97,7 +104,7 @@ class NoteController extends Controller
 
         // Attach the note to the selected volunteers
         if (!empty($validated['volunteers'])) {
-            $volunteers = \App\Models\Volunteer::find($validated['volunteers']); // Returns a Collection
+            $volunteers = Volunteer::find($validated['volunteers']); // Returns a Collection
             foreach ($volunteers as $volunteer) {
                 $volunteer->notes()->attach($note->id);
             }
@@ -139,6 +146,8 @@ class NoteController extends Controller
 
             $note->cases()->sync($validated['cases'] ?? []);
             $note->volunteers()->sync($validated['volunteers'] ?? []);
+            $note->tags()->sync($validated['tags'] ?? []);
+
 
             return redirect()->route('note.show', $note)->with('success', 'Note updated successfully!');
         } catch (\Exception $e) {

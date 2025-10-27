@@ -10,8 +10,8 @@ class Tag extends Model
 {
     protected $fillable = ['name'];
 
-    public function caseNotes()
+    public function notes()
     {
-        return $this->belongsToMany(CaseNote::class, 'case_note_tag', 'tag_id', 'case_note_id');
+        return $this->belongsToMany(Note::class, 'notes_tags', 'tag_id', 'note_id');
     }
 }

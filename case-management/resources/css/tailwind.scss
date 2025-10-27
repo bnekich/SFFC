@@ -17,6 +17,10 @@
     .sffc-text-input {
         @apply py-2 px-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm;
     }
+    .sffc-text-input-error {
+        @apply mt-2 text-sm text-red-600;
+    }
+
     .sffc-label {
         @apply block text-sm font-medium text-gray-700;
     }
@@ -24,7 +28,7 @@
         @apply text-sm font-medium text-gray-700;
     }
     .sffc-checkbox {
-        @apply;
+        @apply h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500;
     }
 
     .sffc-table {

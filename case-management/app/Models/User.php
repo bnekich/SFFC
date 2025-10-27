@@ -48,4 +48,9 @@ class User extends Authenticatable
     {
         return $this->email;
     }
+
+    public function fullName(): string
+    {
+        return $this->firstName . ' ' . $this->lastName;
+    }
 }

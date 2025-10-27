@@ -9,6 +9,19 @@ use App\Http\Requests\TagFormRequest;
 
 class TagController extends Controller
 {
+
+    public function search(Request $request)
+    {
+        $query = $request->input('q');
+        $page = (int) $request->input('page', 1);
+        $perPage = (int) $request->input('per_page', 10);
+        $tags = Tag::query()->where('name', 'like', '%' . $query . '%')->paginate($perPage, ['id', 'name'], 'page', $page);
+        return response()->json([
+            'items' => $tags->items(),
+            'current_page' => $tags->currentPage(),
+            'last_page' => $tags->lastPage()
+        ]);
+    }
     public function index(TagFormRequest $request)
     {
         $this->logAction("Viewed Tags", "index", "Tag");
@@ -29,17 +42,11 @@ class TagController extends Controller
         return view('tag.index', compact('tags'));
     }
 
-    /**
-     * Show the form for creating a new tag.
-     */
     public function create()
     {
         return view('tag.create');
     }
 
-    /**
-     * Store a newly created tag in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -55,17 +62,11 @@ class TagController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified tag.
-     */
     public function edit(Tag $tag)
     {
         return view('tag.edit', compact('tag'));
     }
 
-    /**
-     * Update the specified tag in storage.
-     */
     public function update(Request $request, Tag $tag)
     {
         $validated = $request->validate([
@@ -81,9 +82,6 @@ class TagController extends Controller
         }
     }
 
-    /**
-     * Remove the specified tag from storage.
-     */
     public function destroy(Tag $tag)
     {
         try {

@@ -27,6 +27,8 @@ class NoteFormRequest extends FormRequest
             'note_privacy_id' => 'nullable|integer',
             'note_status_id' => 'nullable|integer',
             'approved' => 'nullable|boolean',
+            'tags' => 'nullable|array',
+            'tags.*' => 'nullable|exists:tags,id',
             'cases' => 'nullable|array',
             'cases.*' => 'nullable|exists:cases,id',
             'volunteers' => 'nullable|array',

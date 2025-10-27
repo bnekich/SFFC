@@ -19,7 +19,12 @@ class Note extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'note', 'comments', 'note_privacy_id', 'note_status_id', 'approved', 'created_by', 'updated_by'];
+    protected $fillable = ['title', 'note', 'comments', 'tag_id', 'note_privacy_id', 'note_status_id', 'approved', 'created_by', 'updated_by'];
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'notes_tags');
+    }
 
     public function status()
     {
@@ -35,6 +40,7 @@ class Note extends Model
     {
         return $this->belongsTo(User::class);
     }
+
     public function updatedBy()
     {
         return $this->belongsTo(User::class);

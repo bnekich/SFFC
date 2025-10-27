@@ -13,6 +13,11 @@ class AddForeignKeysToTables extends Migration
             $table->foreign('note_privacy_id')->references('id')->on('note_privacies')->onDelete('set null');
         });
 
+        Schema::table('notes_tags', function (Blueprint $table) {
+            $table->foreign('note_id')->references('id')->on('notes')->onDelete('set null');
+            $table->foreign('tag_id')->references('id')->on('tags')->onDelete('set null');
+        });
+
         Schema::table('addresses', function (Blueprint $table) {
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null');
