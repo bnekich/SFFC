@@ -51,12 +51,21 @@ export function initializeChoicesSelects() {
 
     elements.forEach((el) => {
         const htmlElement = el as HTMLElement;
-        const url = htmlElement.dataset.url;
+        let url = htmlElement.dataset.url;
         const labelKey = htmlElement.dataset.labelKey || "name";
         const isMultiple = htmlElement.hasAttribute("multiple");
         const placeholder =
             htmlElement.getAttribute("placeholder") || "Search...";
         const noteType = htmlElement.dataset.noteType;
+
+        // Ensure the URL uses HTTPS
+        if (url && !url.startsWith("http")) {
+            // If URL is relative (e.g., "/familySearch"), keep it relative to inherit HTTPS
+            url = url.startsWith("/") ? url : `/${url}`;
+        } else if (url && url.startsWith("http://")) {
+            // Force HTTPS if HTTP is explicitly used
+            url = url.replace("http://", "https://");
+        }
 
         const choices = new Choices(el, {
             removeItemButton: true,
@@ -97,7 +106,7 @@ export function initializeChoicesSelects() {
                     `${url}?q=${encodeURIComponent(
                         searchTerm
                     )}&page=${currentPage}&noteType=${encodeURIComponent(
-                        noteType
+                        noteType || ""
                     )}`
                 );
                 const data: PaginatedApiResponse = await response.json();
