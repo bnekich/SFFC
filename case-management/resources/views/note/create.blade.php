@@ -83,22 +83,22 @@
         </div>
         <div class="col-12">
             @if ($preselectedCase->count() > 0)
-                <x-choices-select id="cases" name="cases[]" label="Attach to Cases" url="/api/noteables/"
+                <x-choices-select id="cases" name="cases[]" label="Attach to Cases" url="/api/noteables"
                     multiple="true" placeholder="Search for Cases..." labelKey="case_identifier" noteType="cases"
                     :options="$preselectedCase" :selected="$preselectedCaseIds" />
             @else
-                <x-choices-select id="cases" name="cases[]" label="Attach to Cases" url="/api/noteables/"
+                <x-choices-select id="cases" name="cases[]" label="Attach to Cases" url="/api/noteables"
                     multiple="true" placeholder="Search for Cases..." labelKey="case_identifier" noteType="cases" />
             @endif
         </div>
         <div class="col-12">
 
             @if ($preselectedVolunteer->count() > 0)
-                <x-choices-select id="volunteers" name="volunteers[]" label="Attach to Volunteers" url="/api/noteables/"
+                <x-choices-select id="volunteers" name="volunteers[]" label="Attach to Volunteers" url="/api/noteables"
                     multiple="true" placeholder="Search for Volunteers..." noteType="volunteers" :options="$preselectedVolunteer"
                     :selected="$preselectedVolunteerIds" labelKey="full_name" />
             @else
-                <x-choices-select id="volunteers" name="volunteers[]" label="Attach to Volunteers" url="/api/noteables/"
+                <x-choices-select id="volunteers" name="volunteers[]" label="Attach to Volunteers" url="/api/noteables"
                     multiple="true" placeholder="Search for Volunteers..." noteType="volunteers" />
             @endif
         </div>

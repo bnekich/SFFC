@@ -66,7 +66,7 @@ export function initializeChoicesSelects() {
             // Force HTTPS if HTTP is explicitly used
             url = url.replace("http://", "https://");
         }
-
+        console.log(url);
         const choices = new Choices(el, {
             removeItemButton: true,
             searchEnabled: true,

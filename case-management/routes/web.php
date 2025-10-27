@@ -39,7 +39,7 @@ Route::get('/document/{document}/download', [DocumentController::class, 'downloa
 Route::get('/familySearch', [FamilyController::class, 'search'])->middleware('auth');
 Route::get('/orgSearch', [OrganizationController::class, 'search'])->middleware('auth');
 Route::get('/peopleSearch', [PersonController::class, 'search'])->middleware('auth');
-Route::get('api/noteables', [NoteController::class, 'apiNoteables'])->middleware(['auth'])->name('note.apiNoteables');
+Route::get('/api/noteables', [NoteController::class, 'apiNoteables'])->middleware(['auth']);
 
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::resource('organization-types', OrganizationTypeController::class);
