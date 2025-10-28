@@ -1,7 +1,3 @@
-@php
-    use App\Enums\Statuses\IntakeStatus as Status;
-@endphp
-
 @extends('layouts.app')
 
 @section('title')
@@ -20,23 +16,20 @@
     <form class="mb-4" id="filterForm" method="GET" action="{{ route('intake.index') }}">
         <div>
             <label for="status" class="sr-only">Filter by Status</label>
-            <select name="status" id="status"
-                class="block  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                onchange="document.getElementById('filterForm').submit()">
+            <select name="status" id="status" onchange="document.getElementById('filterForm').submit()">
                 <option value="">-- Filter by Status --</option>
                 @foreach ($statuses as $status)
-                    <option value="{{ $status->value }}" {{ request('status') == $status->value ? 'selected' : '' }}>
-                        {{ $status->label() }}
+                    <option value="{{ $status->id }}" {{ request('status') == $status->id ? 'selected' : '' }}>
+                        {{ $status->name }}
                     </option>
                 @endforeach
             </select>
         </div>
     </form>
-    <div class="mb-4 inline-flex sffc-btn-primary">
-        @can('intake-create')
-            <a href="{{ route('intake.create') }}" class="sffc-btn-primary">Add Intake</a>
-        @endcan
-    </div>
+    @can('intake-create')
+        <a href="{{ route('intake.create') }}" class="sffc-btn-primary">Add Intake</a>
+    @endcan
+
 </div>
 <div class="bg-white shadow-md rounded-lg overflow-hidden">
     <div class="overflow-x-auto">
@@ -61,7 +54,7 @@
                 @forelse ($intakes as $intake)
                     <tr>
                         <td class="sffc-table-body-cell-primary">{{ $intake->parent_name }}</td>
-                        <td class="sffc-table-body-cell">{{ $intake->intake_status }}</td>
+                        <td class="sffc-table-body-cell">{{ $intake->status->name }}</td>
                         <td class="sffc-table-body-cell-clipped">{{ $intake->case_summary }}</td>
                         <td class="sffc-table-body-cell-actions">
                             @can('intake-view')

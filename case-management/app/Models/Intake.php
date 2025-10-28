@@ -31,10 +31,15 @@ class Intake extends Model
         'emotional_behavioral_medical_concerns',
         'is_a_sffc_fit',
         'resources_provided',
-        'intake_status',
+        'intake_status_id',
         'created_by',
         'updated_by',
     ];
+
+    public function status()
+    {
+        return $this->belongsTo(IntakeStatus::class, 'intake_status_id');
+    }
 
     public function person()
     {

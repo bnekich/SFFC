@@ -30,7 +30,7 @@ class IntakeFactory extends Factory
             'resources_provided' => '',
             'created_by' => 1,
             'updated_by' => 1,
-            'intake_status' => fake()->randomElement(['F', 'S', 'T', 'I', 'C', 'X', 'O']),
+            'intake_status_id' => fake()->numberBetween(1, 7),
 
         ];
     }

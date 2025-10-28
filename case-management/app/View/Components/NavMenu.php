@@ -36,9 +36,13 @@ class NavMenu extends Component
                 ['name' => 'Audit Logs', 'url' => route('audit-logs.index'), 'permission' => 'audit-log-view'],
                 ['name' => 'Organization Types', 'url' => route('organization-types.index'), 'permission' => 'organization-type-view'],
                 ['name' => 'Tags', 'url' => route('tag.index'), 'permission' => 'tag-view'],
+            ], 'permission' => 'admin-view'],
+            ['name' => 'Status Tables', 'url' => '#', 'submenu' => [
                 ['name' => 'Case Statuses', 'url' => route('case-statuses.index'), 'permission' => 'case-status-view'],
                 ['name' => 'Volunteer Statuses', 'url' => route('volunteer-statuses.index'), 'permission' => 'volunteer-status-view'],
-            ], 'permission' => 'admin-view'],
+                ['name' => 'Intake Statuses', 'url' => route('intake-statuses.index'), 'permission' => 'intake-status-view'],
+
+            ]],
             ['name' => $userName, 'url' => '#', 'submenu' => [
                 ['name' => 'Logout', 'action' => 'logout'],
                 ['name' => 'Dashboard Settings', 'url' => route('dashboard.settings')]

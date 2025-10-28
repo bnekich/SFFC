@@ -42,12 +42,12 @@
             </div>
             <div class="col-auto">
                 <label class="form-label label-required">Intake Status</label>
-                <select name="intake_status" class="form-select-sm @error('intake_status') is-invalid @enderror"
+                <select name="intake_status_id" class="form-select-sm @error('intake_status') is-invalid @enderror"
                     required>
                     @foreach ($intakeStatuses as $status)
-                        <option value="{{ $status->value }}"
-                            {{ $status->value === $intake->intake_status ? 'selected' : '' }}">
-                            {{ $status->label() }}
+                        <option value="{{ $status->id }}"
+                            {{ $status->id === $intake->intake_status_id ? 'selected' : '' }}>
+                            {{ $status->name }}
                         </option>
                     @endforeach
                 </select>

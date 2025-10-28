@@ -29,7 +29,7 @@ return new class extends Migration
             $table->text('emotional_behavioral_medical_concerns')->nullable();
             $table->boolean('is_a_sffc_fit')->nullable();
             $table->text('resources_provided')->nullable();
-            $table->string('intake_status', 2)->nullable();
+            $table->foreignId('intake_status_id')->constrained('intake_statuses')->onDelete('cascade');
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('updated_by')->constrained('users')->onDelete('cascade');
             $table->softDeletes();

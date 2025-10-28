@@ -27,6 +27,7 @@ use App\Http\Controllers\CaseStatusController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\VolunteerStatusController;
 use App\Http\Controllers\VolunteerController;
+use App\Http\Controllers\IntakeStatusController;
 
 Route::get('/2fa/challenge', [TwoFactorController::class, 'showChallenge'])->name('2fa.challenge');
 Route::post('/2fa/challenge', [TwoFactorController::class, 'sendCode'])->name('2fa.challenge');
@@ -42,6 +43,7 @@ Route::get('/peopleSearch', [PersonController::class, 'search'])->middleware('au
 Route::get('/api/noteables', [NoteController::class, 'apiNoteables'])->middleware('auth');
 Route::get('/tagSearch', [TagController::class, 'search'])->middleware('auth');
 
+
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::resource('organization-types', OrganizationTypeController::class);
     Route::resource('relationship-types', RelationshipTypeController::class);
@@ -50,6 +52,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
 Route::resource('case', CaseModelController::class)->middleware('auth');
 Route::resource('intake', IntakeController::class)->middleware('auth');
+Route::resource('intake-statuses', IntakeStatusController::class)->middleware('auth');
 Route::resource('person', PersonController::class)->middleware('auth');
 Route::resource('family', FamilyController::class)->middleware('auth');
 Route::resource('organization', OrganizationController::class)->middleware('auth');

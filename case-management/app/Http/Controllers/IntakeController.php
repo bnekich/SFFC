@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\IntakeFormRequest;
-use App\Enums\Statuses\IntakeStatus;
+//use App\Enums\Statuses\IntakeStatus;
 use App\Models\Intake;
 use App\Models\Document;
 use App\Services\IntakeService;
+use App\Models\IntakeStatus;
+
 
 class IntakeController extends Controller
 {
@@ -33,7 +35,7 @@ class IntakeController extends Controller
         ];
 
         $intakes = $this->intakeService->getIntakes($filters, $sort);
-        $statuses = IntakeStatus::cases();
+        $statuses = IntakeStatus::all();
 
         return view('intake.index', compact('intakes', 'statuses'));
     }
@@ -41,7 +43,7 @@ class IntakeController extends Controller
     public function create()
     {
         $this->logAction("Create Intake", "create", "Intake");
-        $intakeStatuses = IntakeStatus::cases();
+        $intakeStatuses = IntakeStatus::all();
         return view('intake.create', compact('intakeStatuses'));
     }
 
@@ -67,7 +69,7 @@ class IntakeController extends Controller
     public function edit(Intake $intake)
     {
         $this->logAction("Edit Intake", "edit", "Intake", $intake->id);
-        $intakeStatuses = IntakeStatus::cases();
+        $intakeStatuses = IntakeStatus::all();
         return view('intake.edit', compact('intake', 'intakeStatuses'));
     }
 

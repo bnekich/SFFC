@@ -32,7 +32,7 @@
     {{ $intake->emotional_behavioral_medical_concerns }}
 </p>
 <p><strong>Resources Provided</strong>: {{ $intake->resources_provided }}</p>
-<p><strong>Intake Status</strong>: {{ $intake->intake_status ? Status::from($intake->intake_status)->label() : 'N/A' }}
+<p><strong>Intake Status</strong>: {{ $intake->status->name }}
 </p>
 <p><strong>Intake Agent</strong>: {{ $intake->created_by }}</p>
 <a href="{{ route('intake.index') }}" class="btn btn-secondary">Back to Intakes</a>

@@ -26,7 +26,7 @@ class IntakeService
         }
 
         if (!empty($filters['status'])) {
-            $query->where('intake_status', $filters['status']);
+            $query->where('intake_status_id', $filters['status']);
         }
 
         $sort['field'] = $sort['field'] ?? 'id';
@@ -50,7 +50,7 @@ class IntakeService
                 'requesting_host_family' => $data['requesting_host_family'],
                 'requesting_family_friend' => $data['requesting_family_friend'],
                 'requesting_resource_friend' => $data['requesting_resource_friend'],
-                'intake_status' => $data['intake_status'],
+                'intake_status_id' => $data['intake_status_id'],
                 'created_by' => auth()->id(),
                 'updated_by' => auth()->id(),
             ]);
@@ -70,7 +70,7 @@ class IntakeService
                 'requesting_host_family' => $data['requesting_host_family'],
                 'requesting_family_friend' => $data['requesting_family_friend'],
                 'requesting_resource_friend' => $data['requesting_resource_friend'],
-                'intake_status' => $data['intake_status'],
+                'intake_status_id' => $data['intake_status_id'],
                 'updated_by' => auth()->id(),
             ]);
 

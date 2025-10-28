@@ -41,6 +41,7 @@ class RolePermissionSeeder extends Seeder
             'intake-create',
             'intake-delete',
             'intake-edit',
+            'intake-status-view',
             'intake-view',
             'organization-create',
             'organization-delete',
