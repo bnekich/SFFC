@@ -61,8 +61,12 @@ class OrganizationController extends Controller
         $address = new Address();
         $persons = [];
         $orgTypes = OrganizationType::all();
+        //$orgStatuses = OrganizationStatus::all();
+        $orgStatuses = [];
 
-        return view('organization.create', compact('states', 'address', 'persons', 'orgTypes'));
+
+
+        return view('organization.create', compact('states', 'address', 'persons', 'orgTypes', 'orgStatuses'));
     }
 
     public function store(OrganizationFormRequest $request)
@@ -93,6 +97,11 @@ class OrganizationController extends Controller
             'name' => $validatedData['name'],
             'organization_type_id' => $validatedData['organization_type_id'],
             'address_id' => $address ? $address->id : null,
+            'county' => $validatedData['county'] ?? null,
+            'organization_status_id' => $validatedData['organization_status_id'] ?? null,
+            'organization_phone' => $validatedData['organization_phone'] ?? null,
+            'is_referring_agency' => $validatedData['is_referring_agency'] ?? false,
+            'is_community_partner' => $validatedData['is_community_partner'] ?? false,
             'contact_person_name' => $validatedData['contact_person_name'] ?? null,
             'contact_person_title' => $validatedData['contact_person_title'] ?? null,
             'contact_person_email' => $validatedData['contact_person_email'] ?? null,
@@ -116,8 +125,9 @@ class OrganizationController extends Controller
     {
         $orgTypes = OrganizationType::all();
         $states = USState::cases();
+        $orgStatuses = [];
 
-        return view('organization.edit', compact('organization', 'orgTypes', 'states'));
+        return view('organization.edit', compact('organization', 'orgTypes', 'states', 'orgStatuses'));
     }
 
     // Update an existing organization
@@ -133,7 +143,11 @@ class OrganizationController extends Controller
             'contact_person_email' => $validatedData['contact_person_email'] ?? null,
             'contact_person_phone' => $validatedData['contact_person_phone'] ?? null,
             'contact_person_mobile' => $validatedData['contact_person_mobile'] ?? null,
-            'notes' => $validatedData['notes'] ?? null,
+            'county' => $validatedData['county'] ?? null,
+            'organization_status_id' => $validatedData['organization_status_id'] ?? null,
+            'organization_phone' => $validatedData['organization_phone'] ?? null,
+            'is_referring_agency' => $validatedData['is_referring_agency'] ?? false,
+            'is_community_partner' => $validatedData['is_community_partner'] ?? false,
             'updated_by' => auth()->id(),
         ]);
         if (!empty(array_filter([

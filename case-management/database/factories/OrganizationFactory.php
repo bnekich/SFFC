@@ -12,13 +12,13 @@ class OrganizationFactory extends Factory
         return [
             'name' => fake()->company(),
             'address_id' => Address::factory(),
-            'organization_type_id' => fake()->numberBetween(1, 5), // Assuming you have 5 organization types
+            'organization_type_id' => fake()->numberBetween(1, 34), // Assuming you have 5 organization types
             'contact_person_name' => fake()->name(),
             'contact_person_title' => fake()->jobTitle(),
             'contact_person_email' => fake()->unique()->safeEmail(),
             'contact_person_phone' => fake()->phoneNumber(),
             'contact_person_mobile' => fake()->phoneNumber(),
-            'notes' => fake()->paragraph(),
+            'organization_phone' => fake()->phoneNumber(),
             'created_by' => $this->faker->numberBetween(1, 10),
             'updated_by' => $this->faker->numberBetween(1, 10)
         ];

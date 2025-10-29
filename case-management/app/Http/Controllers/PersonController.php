@@ -34,7 +34,12 @@ class PersonController extends Controller
         $persons = $this->personService->searchPersons($query, $page, $perPage);
 
         return response()->json([
-            'items' => $persons->items(),
+            'items' => $persons->map(function ($person) {
+                return [
+                    'id' => $person->id,
+                    'name' => $person->first_name . ' ' . $person->last_name
+                ];
+            }),
             'current_page' => $persons->currentPage(),
             'last_page' => $persons->lastPage()
         ]);

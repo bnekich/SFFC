@@ -11,7 +11,6 @@ class OrganizationTypeFactory extends Factory
     {
         return [
             'name' => 'Test Organization Type',
-            'description' => 'This is a test organization type.'
         ];
     }
 }

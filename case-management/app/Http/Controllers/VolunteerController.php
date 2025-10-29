@@ -59,7 +59,7 @@ class VolunteerController extends Controller
 
     public function create()
     {
-        $orgTypeId = OrganizationType::where('name', '=', 'Church Partner')->pluck('id');
+        $orgTypeId = OrganizationType::where('name', '=', 'Church')->pluck('id');
         $this->logAction("Create Volunteer", "create", "Volunteer");
         $persons = Person::all()->sortBy('last_name');
         $churches = Organization::where('organization_type_id', '=', $orgTypeId)->get()->sortBy('name');

@@ -86,14 +86,6 @@ class AddForeignKeysToTables extends Migration
             $table->foreign('volunteer_id')->references('id')->on('volunteers')->onDelete('cascade');
         });
 
-        // Organizations
-        Schema::table('organizations', function (Blueprint $table) {
-            $table->foreign('address_id')->references('id')->on('addresses')->onDelete('set null');
-            $table->foreign('organization_type_id')->references('id')->on('organization_types')->onDelete('set null');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null');
-        });
-
         Schema::table('appointments', function (Blueprint $table) {
             $table->foreign('case_id')->references('id')->on('cases')->onDelete('set null');
             //$table->foreign('status_id')->references('id')->on('statuses')->onDelete('set null');
@@ -176,13 +168,6 @@ class AddForeignKeysToTables extends Migration
         Schema::table('appointments', function (Blueprint $table) {
             $table->dropForeign(['case_id']);
             //$table->dropForeign(['status_id']);
-            $table->dropForeign(['created_by']);
-            $table->dropForeign(['updated_by']);
-        });
-
-        Schema::table('organizations', function (Blueprint $table) {
-            $table->dropForeign(['address_id']);
-            $table->dropForeign(['organization_type_id']);
             $table->dropForeign(['created_by']);
             $table->dropForeign(['updated_by']);
         });

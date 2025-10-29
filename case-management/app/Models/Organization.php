@@ -16,12 +16,16 @@ class Organization extends Model
         'name',
         'organization_type_id',
         'address_id',
+        'organization_phone',
         'contact_person_name',
         'contact_person_title',
         'contact_person_email',
         'contact_person_phone',
         'contact_person_mobile',
-        'notes',
+        'county',
+        'organization_status_id',
+        'is_referring_agency',
+        'is_community_partner',
         'created_by',
         'updated_by'
     ];

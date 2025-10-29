@@ -17,7 +17,7 @@
                 class="sffc-text-input @error('first_name') border-red-500 @enderror" value="{{ old('first_name') }}"
                 required>
             @error('first_name')
-                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                <p class="sffc-text-input-error">{{ $message }}</p>
             @enderror
         </div>
         <div>
@@ -25,7 +25,7 @@
             <input id="middle_name" type="text" name="middle_name" placeholder="Middle Name"
                 class="sffc-text-input @error('middle_name') border-red-500 @enderror" value="{{ old('middle_name') }}">
             @error('middle_name')
-                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                <p class="sffc-text-input-error">{{ $message }}</p>
             @enderror
         </div>
         <div>
@@ -34,7 +34,7 @@
                 class="sffc-text-input @error('last_name') border-red-500 @enderror" value="{{ old('last_name') }}"
                 required>
             @error('last_name')
-                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                <p class="sffc-text-input-error">{{ $message }}</p>
             @enderror
         </div>
     </div>
@@ -44,7 +44,7 @@
             <input id="email" type="email" name="email" placeholder="Email"
                 class=" sffc-text-input @error('email') border-red-500 @enderror" value="{{ old('email') }}" required>
             @error('email')
-                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                <p class="sffc-text-input-error">{{ $message }}</p>
             @enderror
         </div>
         <div>
@@ -54,7 +54,7 @@
                 class="phone-input sffc-text-input @error('phone') border-red-500 @enderror" value="{{ old('phone') }}"
                 required>
             @error('phone')
-                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                <p class="sffc-text-input-error">{{ $message }}</p>
             @enderror
         </div>
     </div>
@@ -65,7 +65,7 @@
                 class="sffc-text-input @error('date_of_birth') border-red-500 @enderror"
                 value="{{ old('date_of_birth') }}">
             @error('date_of_birth')
-                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                <p class="sffc-text-input-error">{{ $message }}</p>
             @enderror
         </div>
         <div>
@@ -79,7 +79,7 @@
                 @endforeach
             </select>
             @error('gender')
-                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                <p class="sffc-text-input-error">{{ $message }}</p>
             @enderror
         </div>
         <div>
@@ -95,7 +95,7 @@
                 @endforeach
             </select>
             @error('ethnicity')
-                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                <p class="sffc-text-input-error">{{ $message }}</p>
             @enderror
         </div>
     </div>
@@ -143,7 +143,7 @@
         </select>
 
         @error('auth_roles')
-            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+            <p class="sffc-text-input-error">{{ $message }}</p>
         @enderror
     </div>
     <div class="flex items-center gap-4">

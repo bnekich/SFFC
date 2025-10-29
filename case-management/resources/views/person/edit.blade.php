@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    - Edit Person
+@endsection
+
 @section('header')
     Edit {{ $person->first_name }} {{ $person->last_name }}
 @endsection
@@ -17,7 +21,7 @@
                         class="sffc-text-input @error('first_name') border-red-500 @enderror"
                         value="{{ old('first_name', $person->first_name) }}">
                     @error('first_name')
-                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                        <p class="sffc-text-input-error">{{ $message }}</p>
                     @enderror
                 </div>
                 <div>
@@ -26,7 +30,7 @@
                         class="sffc-text-input @error('middle_name') border-red-500 @enderror"
                         value="{{ old('middle_name', $person->middle_name) }}">
                     @error('middle_name')
-                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                        <p class="sffc-text-input-error">{{ $message }}</p>
                     @enderror
                 </div>
                 <div>
@@ -35,7 +39,7 @@
                         class="sffc-text-input @error('last_name') border-red-500 @enderror"
                         value="{{ old('last_name', $person->last_name) }}">
                     @error('last_name')
-                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                        <p class="sffc-text-input-error">{{ $message }}</p>
                     @enderror
                 </div>
             </div>
@@ -47,7 +51,7 @@
                         class="sffc-text-input @error('email') border-red-500 @enderror"
                         value="{{ old('email', $person->email) }}">
                     @error('email')
-                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                        <p class="sffc-text-input-error">{{ $message }}</p>
                     @enderror
                 </div>
                 <div>
@@ -56,7 +60,7 @@
                         class="phone-input sffc-text-input @error('phone') border-red-500 @enderror"
                         value="{{ old('phone', $person->phone) }}">
                     @error('phone')
-                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                        <p class="sffc-text-input-error">{{ $message }}</p>
                     @enderror
                 </div>
             </div>
@@ -68,7 +72,7 @@
                         class="sffc-text-input @error('date_of_birth') border-red-500 @enderror"
                         value="{{ old('date_of_birth', $person->date_of_birth ? \Carbon\Carbon::parse($person->date_of_birth)->format('Y-m-d') : '') }}">
                     @error('date_of_birth')
-                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                        <p class="sffc-text-input-error">{{ $message }}</p>
                     @enderror
                 </div>
                 <div>
@@ -82,7 +86,7 @@
                         @endforeach
                     </select>
                     @error('gender')
-                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                        <p class="sffc-text-input-error">{{ $message }}</p>
                     @enderror
                 </div>
             </div>
