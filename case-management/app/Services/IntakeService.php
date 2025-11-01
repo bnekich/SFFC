@@ -10,6 +10,7 @@ use App\Http\Requests\IntakeFormRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class IntakeService
 {
@@ -38,7 +39,11 @@ class IntakeService
 
     public function createIntake(array $data): Intake
     {
-        return DB::transaction(function () use ($data) {
+        $userId = 1; //default system id
+        if (Auth::check()) {
+            $userId = auth()->id();
+        }
+        return DB::transaction(function () use ($data, $userId) {
             return Intake::create([
                 'completed_by_id' => auth()->id(),
                 'parent_name' => $data['parent_name'],
@@ -51,8 +56,8 @@ class IntakeService
                 'requesting_family_friend' => $data['requesting_family_friend'],
                 'requesting_resource_friend' => $data['requesting_resource_friend'],
                 'intake_status_id' => $data['intake_status_id'],
-                'created_by' => auth()->id(),
-                'updated_by' => auth()->id(),
+                'created_by' => $userId,
+                'updated_by' => $userId,
             ]);
         });
     }

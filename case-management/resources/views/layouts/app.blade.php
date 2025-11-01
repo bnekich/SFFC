@@ -56,11 +56,11 @@
     </header>
 
     <!-- Side navigation menu (desktop) -->
-    @auth
-        <aside class="col-span-1 row-start-2 row-end-3 bg-blue-600 text-white hidden md:block">
-            <x-nav-menu />
-        </aside>
-    @endauth
+    {{-- @auth --}}
+    <aside class="col-span-1 row-start-2 row-end-3 bg-blue-600 text-white hidden md:block">
+        <x-nav-menu />
+    </aside>
+    {{-- @endauth --}}
 
     <!-- Main content area -->
     <main class="col-span-2 row-start-2 row-end-3 p-8 md:p-8">

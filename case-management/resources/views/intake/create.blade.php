@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('title')
-    - Add Intake
+    - Referral
 @endsection
 
 @section('content')
     <div class="container">
     @section('header')
-        Add Intake
+        Referral
     @endsection
 
     <form class="row g-3 align-items-center" action="{{ route('intake.store') }}" method="POST">
@@ -104,7 +104,11 @@
         <div class="row g-3">
             <div class="col-auto">
                 <button type="submit" class="btn btn-primary mt-3">Save</button>
-                <a href="{{ route('intake.index') }}" class="btn btn-secondary mt-3">Cancel</a>
+                @auth
+                    <a href="{{ route('intake.index') }}" class="btn btn-secondary mt-3">Cancel</a>
+                @else
+                    <a href="{{ route('home') }}" class="btn btn-secondary mt-3">Cancel</a>
+                @endauth
             </div>
         </div>
     </form>

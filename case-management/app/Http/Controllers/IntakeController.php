@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\IntakeFormRequest;
-//use App\Enums\Statuses\IntakeStatus;
 use App\Models\Intake;
-use App\Models\Document;
 use App\Services\IntakeService;
 use App\Models\IntakeStatus;
-
+use Illuminate\Support\Facades\Auth;
 
 class IntakeController extends Controller
 {
@@ -54,7 +52,11 @@ class IntakeController extends Controller
 
         try {
             $intake = $this->intakeService->createIntake($validatedData);
-            return redirect()->route('intake.show', $intake->id)->with('success', 'Intake created successfully.');
+            if (Auth::check()) {
+                return redirect()->route('intake.show', $intake->id)->with('success', 'Referral created successfully.');
+            } else {
+                return redirect()->route('intake.thankyou')->with('success', 'Referral created successfully.');
+            }
         } catch (\Exception $e) {
             return back()->withInput()->with('error', 'Failed to create intake: ' . $e->getMessage());
         }

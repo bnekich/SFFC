@@ -50,8 +50,13 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::resource('reminder-types', ReminderTypeController::class);
 });
 
+// Publicly accessible intake routes for "Get Help"
+Route::resource('intake', IntakeController::class)->only(['create', 'store']);
+Route::get('intake/thank-you', fn() => view('intake.thankyou'))->name('intake.thankyou');
+
+// Authenticated intake routes
 Route::resource('case', CaseModelController::class)->middleware('auth');
-Route::resource('intake', IntakeController::class)->middleware('auth');
+Route::resource('intake', IntakeController::class)->except(['create', 'store'])->middleware('auth');
 Route::resource('intake-statuses', IntakeStatusController::class)->middleware('auth');
 Route::resource('person', PersonController::class)->middleware('auth');
 Route::resource('family', FamilyController::class)->middleware('auth');
@@ -69,12 +74,6 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard')->middleware('auth');
 Route::get('/dashboard/settings', [HomeController::class, 'settings'])->name('dashboard.settings');
 Route::post('/dashboard/settings', [HomeController::class, 'updateSettings']);
-
-/*
- * We comment this out because it registers default authentication routes pointing to LoginController.
- * Your custom 2FA logic, however, is located in AuthController, so we need to define the routes manually.
- */
-// Auth::routes();
 
 Route::get('login', [AuthController::class, 'showLogin'])->name('show.login');
 Route::post('login', [AuthController::class, 'login'])->name('login');
