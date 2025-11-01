@@ -3,28 +3,26 @@
 @section('title')
     - Dashboard
 @endsection
+
 @section('content')
+
 @section('header')
     {{ Auth::user()->firstName }} {{ Auth::user()->lastName }}, Welcome To Your Dashboard
 @endsection
-<div class="row">
-    @foreach (auth()->user()->dashboard_preferences ?? ['open_cases', 'pending_appointments', 'volunteers'] as $item)
-        @if ($item === 'open_cases')
-            <div class="col-md-4">
-                <x-dashboard-item-open-cases />
-                {{-- :user_id={{ auth()->user()->id }} /> --}}
-            </div>
-        @endif
-        @if ($item === 'pending_appointments')
-            <div class="col-md-4">
-                <x-dashboard-item-pending-appointments />
-            </div>
-        @endif
-        @if ($item === 'new_volunteers')
-            <div class="col-md-4">
-                <x-dashboard-item-volunteers />
-            </div>
-        @endif
-    @endforeach
-</div>
+
+@forelse (auth()->user()->dashboard_preferences ?? [] as $item)
+    @if ($item === 'open_cases')
+        <x-dashboard-item-open-cases />
+        {{-- :user_id={{ auth()->user()->id }} /> --}}
+    @endif
+    @if ($item === 'pending_appointments')
+        <x-dashboard-item-pending-appointments />
+    @endif
+    @if ($item === 'new_volunteers')
+        <x-dashboard-item-volunteers />
+    @endif
+@empty
+    No Dashboard Items Set
+@endforelse
+
 @endsection

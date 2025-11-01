@@ -1,4 +1,4 @@
-<div class="max-w-sm bg-white border rounded-lg shadow-sm p-7 border-neutral-200/60">
+<div class="max-w-sm bg-white border rounded shadow m-4 p-3 border-neutral-200/60">
     <a href="#_" class="block mb-3">
         <h5 class="font-bold leading-none tracking-tight text-neutral-900">{{ $newVolunteersCount }} New
             Volunteers</h5>

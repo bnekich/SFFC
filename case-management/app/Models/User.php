@@ -23,7 +23,8 @@ class User extends Authenticatable
         'phone',
         'email_verified_at',
         'password',
-        'force_password_reset'
+        'force_password_reset',
+        'dashboard_preferences',
     ];
 
     protected $hidden = [

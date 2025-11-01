@@ -119,6 +119,7 @@ class RolePermissionSeeder extends Seeder
         }
 
 
+
         $adminUser = User::create([
             'lastName' => 'Nekich',
             'firstName' => 'Bruce',
@@ -126,6 +127,8 @@ class RolePermissionSeeder extends Seeder
             'phone' => '(414)303-4050',
             'password' => bcrypt('password'),
             'force_password_reset' => false,
+            'dashboard_preferences' => ['open_cases', 'pending_appointments', 'new_volunteers']
+
         ]);
 
         // See AppServiceProvider.php
