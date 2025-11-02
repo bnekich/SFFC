@@ -9,6 +9,12 @@ use App\Models\Intake;
 use App\Services\IntakeService;
 use App\Models\IntakeStatus;
 use Illuminate\Support\Facades\Auth;
+use App\Enums\Ethnicity;
+use App\Enums\Gender;
+use App\Enums\USState;
+use App\Models\Address;
+use App\Models\OrganizationType;
+use App\Models\Organization;
 
 class IntakeController extends Controller
 {
@@ -41,8 +47,20 @@ class IntakeController extends Controller
     public function create()
     {
         $this->logAction("Create Intake", "create", "Intake");
-        $intakeStatuses = IntakeStatus::all();
-        return view('intake.create', compact('intakeStatuses'));
+
+        $intakeStatuses = IntakeStatus::where('name', 'New')->get();
+        $ethnicities = Ethnicity::cases();
+        $genders = Gender::cases();
+        $states = USState::cases();
+        $address = new Address();
+        $organizations = Organization::whereHas('organizationType', function ($query) {
+            $query->where('name', 'like', '%Safe Families%');
+        })->get();
+        $urgencies = ['Urgent', 'Within The Next Week', 'Within The Next Month'];
+
+        $orgTypes = OrganizationType::all();
+
+        return view('intake.create', compact('intakeStatuses', 'ethnicities', 'genders', 'states', 'address', 'organizations', 'orgTypes', 'urgencies'));
     }
 
     public function store(IntakeFormRequest $request)

@@ -27,7 +27,7 @@ class NavMenu extends Component
             $userName = Auth::user()->firstName . ' ' . Auth::user()->lastName;
             $this->links = [
                 ['name' => 'Cases', 'url' => route('case.index', ['direction' => 'asc', 'sort' => 'case_identifier']), 'permission' => 'case-view'],
-                ['name' => 'Intake', 'url' => route('intake.index', ['direction' => 'asc', 'sort' => 'parent_name']), 'permission' => 'intake-view'],
+                ['name' => 'Intake', 'url' => route('intake.index', ['direction' => 'asc', 'sort' => 'last_name']), 'permission' => 'intake-view'],
                 ['name' => 'Families', 'url' => route('family.index'), 'permission' => 'family-view'],
                 ['name' => 'People', 'url' => '#', 'submenu' => [
                     ['name' => 'People', 'url' => route('person.index', ['direction' => 'asc', 'sort' => 'last_name']), 'permission' => 'person-view'],

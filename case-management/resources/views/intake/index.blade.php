@@ -11,7 +11,7 @@
 @endsection
 
 <div class="flex justify-between items-center mb-4">
-    <x-search :route="route('intake.index')" placeholder="Name or Summary" />
+    <x-search :route="route('intake.index')" placeholder="Name or Reason" />
 
     <form class="mb-4" id="filterForm" method="GET" action="{{ route('intake.index') }}">
         <div>
@@ -38,24 +38,25 @@
                 <tr>
                     <th scope="col" class="sffc-table-header-cell">
                         <a
-                            href="{{ route('intake.index', array_merge(request()->query(), ['sort' => 'parent_name', 'direction' => request('sort') === 'parent_name' && request('direction') === 'asc' ? 'desc' : 'asc'])) }}">
+                            href="{{ route('intake.index', array_merge(request()->query(), ['sort' => 'last_name', 'direction' => request('sort') === 'last_name' && request('direction') === 'asc' ? 'desc' : 'asc'])) }}">
                             Parent Name
-                            @if (request('sort') === 'parent_name')
+                            @if (request('sort') === 'last_name')
                                 <i class="fas fa-arrow-{{ request('direction') === 'asc' ? 'up' : 'down' }}"></i>
                             @endif
                         </a>
                     </th>
                     <th scope="col" class="sffc-table-header-cell">Status</th>
-                    <th scope="col" class="sffc-table-header-cell">Case Summary</th>
+                    <th scope="col" class="sffc-table-header-cell">Reason</th>
                     <th scope="col" class="sffc-table-header-cell">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($intakes as $intake)
                     <tr>
-                        <td class="sffc-table-body-cell-primary">{{ $intake->parent_name }}</td>
+                        <td class="sffc-table-body-cell-primary">{{ $intake->last_name . ', ' . $intake->first_name }}
+                        </td>
                         <td class="sffc-table-body-cell">{{ $intake->status->name }}</td>
-                        <td class="sffc-table-body-cell-clipped">{{ $intake->case_summary }}</td>
+                        <td class="sffc-table-body-cell-clipped">{{ $intake->reason_for_assistance }}</td>
                         <td class="sffc-table-body-cell-actions">
                             @can('intake-view')
                                 <a href="{{ route('intake.show', $intake->id) }}" class="sffc-link-view">View</a>

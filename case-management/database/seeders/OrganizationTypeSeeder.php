@@ -39,6 +39,7 @@ class OrganizationTypeSeeder extends Seeder
       ['name' => 'Private Child Welfare Agency'],
       ['name' => 'Public Child Welfare Agency'],
       ['name' => 'Recreational Center'],
+      ['name' => 'Safe Families for Children'],
       ['name' => 'School'],
       ['name' => 'Social Service/Ministry'],
       ['name' => 'Teen Parenting Services'],

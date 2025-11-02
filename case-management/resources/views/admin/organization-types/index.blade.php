@@ -45,4 +45,8 @@
         @endforelse
     </tbody>
 </table>
+<div class="p-4">
+    {{ $types->withQueryString()->links() }}
+</div>
+
 @endsection
