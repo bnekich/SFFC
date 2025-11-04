@@ -8,10 +8,12 @@ use App\Models\Intake;
 use App\Models\Document;
 use App\Http\Requests\IntakeFormRequest;
 use App\Models\IntakeStatus;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Address;
 
 class IntakeService
 {
@@ -31,6 +33,7 @@ class IntakeService
             $query->where('intake_status_id', $filters['status']);
         }
 
+
         $sort['field'] = $sort['field'] ?? 'id';
         $sort['direction'] = $sort['direction'] ?? 'asc';
         $query->orderBy($sort['field'], $sort['direction']);
@@ -43,12 +46,19 @@ class IntakeService
         $userId = 1; //default system id
         if (Auth::check()) {
             $userId = auth()->id();
+            // TODO add to create/edit intake form
+            $data['child_protective_services_experience'] = null;
+            $data['emotional_behavioral_medical_concerns'] = null;
+            $data['expected_support_duration'] = null;
+            $data['known_risks'] = null;
+            $data['family_preference'] = null;
+            $data['is_a_sffc_fit'] = null;
+            $data['resources_provided'] = null;
         } else {
             $status = IntakeStatus::where('name', 'New')->get()->first();
             $data['intake_status_id'] = $status->id;
             $data['child_protective_services_experience'] = null;
             $data['do_not_share_list'] = null;
-            $data['referral_date'] = null;
             $data['hasSFFCHistory'] = null;
             $data['requesting_resource_friend'] = null;
             $data['do_not_share_list'] = null;
@@ -58,7 +68,6 @@ class IntakeService
             $data['family_preference'] = null;
             $data['is_a_sffc_fit'] = null;
             $data['resources_provided'] = null;
-            $data['urgency'] = "Urgent";
         }
 
         $supportChoices = [
@@ -77,21 +86,40 @@ class IntakeService
             'requesting_host_family' => null,
             'requesting_family_friend' => null,
         ];
+
         match ($data['requested_service']) {
             'host'  => $serviceChoices['requesting_host_family'] = true,
-            'family'    => $serviceChoices['requesting_family_friend'] = true,
+            'friend'    => $serviceChoices['requesting_family_friend'] = true,
         };
 
-        return DB::transaction(function () use ($data, $userId, $supportChoices, $serviceChoices) {
-            return Intake::create([
+
+        $intake = DB::transaction(function () use ($data, $userId, $supportChoices, $serviceChoices) {
+            $address = null;
+            if (!empty(array_filter([
+                $data['address_line_1'] ?? null,
+                $data['address_line_2'] ?? null,
+                $data['city'] ?? null,
+                $data['state'] ?? null,
+                $data['zip'] ?? null,
+            ]))) {
+                $address = Address::create([
+                    'address_line_1' => $data['address_line_1'] ?? null,
+                    'address_line_2' => $data['address_line_2'] ?? null,
+                    'city' => $data['city'] ?? null,
+                    'state' => $data['state'] ?? null,
+                    'zip' => $data['zip'] ?? null,
+                    'created_by' => $userId,
+                    'updated_by' => $userId,
+                ]);
+            }
+
+            $intake = Intake::create([
+                'address_id' => $address ? $address->id : null,
                 'first_name' => $data['first_name'],
                 'last_name' => $data['last_name'],
-                'address_line_1' => $data['address_line_1'],
-                'address_line_2' => $data['address_line_2'],
                 'can_text_reminder' => $data['can_text_reminder'],
                 'can_email_reminder' => $data['can_email_reminder'],
                 'child_protective_services_experience' => $data['child_protective_services_experience'],
-                'city' => $data['city'],
                 'completed_by_id' => $userId,
                 'created_by' => $userId,
                 'date_of_birth' => $data['date_of_birth'],
@@ -120,7 +148,6 @@ class IntakeService
                 'primary_language_spoken' => $data['primary_language_spoken'],
                 'reason_for_assistance' => $data['reason_for_assistance'],
                 'referral_contact' => $data['referral_contact'],
-                //'referral_date' => $data['referral_date'],
                 'referral_organization' => $data['referral_organization'],
                 'referral_organization_email' => $data['referral_organization_email'],
                 'referral_organization_phone' => $data['referral_organization_phone'],
@@ -128,16 +155,27 @@ class IntakeService
                 'requesting_host_family' => $serviceChoices['requesting_host_family'],
                 'requesting_resource_friend' => $data['requesting_resource_friend'],
                 'resources_provided' => $data['resources_provided'],
-                'state' => $data['state'],
                 'updated_by' => $userId,
                 'urgency' => $data['urgency'],
-                'zip' => $data['zip'],
             ]);
+
+            return $intake;
         });
+
+        return $intake;
     }
 
     public function updateIntake(Intake $intake, array $data): Intake
     {
+        $data['child_protective_services_experience'] = null;
+        $data['do_not_share_list'] = null;
+        $data['do_not_share_list'] = null;
+        $data['emotional_behavioral_medical_concerns'] = null;
+        $data['expected_support_duration'] = null;
+        $data['known_risks'] = null;
+        $data['family_preference'] = null;
+        $data['is_a_sffc_fit'] = null;
+        $data['resources_provided'] = null;
 
         $supportChoices = [
             'parent_declines_sffc_support' => null,
@@ -157,20 +195,17 @@ class IntakeService
         ];
         match ($data['requested_service']) {
             'host'  => $serviceChoices['requesting_host_family'] = true,
-            'family'    => $serviceChoices['requesting_family_friend'] = true,
+            'friend'    => $serviceChoices['requesting_family_friend'] = true,
         };
 
-        return DB::transaction(function () use ($intake, $data, $userId, $supportChoices, $serviceChoices) {
+        return DB::transaction(function () use ($intake, $data, $supportChoices, $serviceChoices) {
             $intake->update([
                 'first_name' => $data['first_name'],
                 'last_name' => $data['last_name'],
-                'address_line_1' => $data['address_line_1'],
-                'address_line_2' => $data['address_line_2'],
                 'can_text_reminder' => $data['can_text_reminder'],
                 'can_email_reminder' => $data['can_email_reminder'],
                 'child_protective_services_experience' => $data['child_protective_services_experience'],
-                'city' => $data['city'],
-                'completed_by_id' => $userId,
+                'completed_by_id' => auth()->id(),
                 'date_of_birth' => $data['date_of_birth'],
                 'do_not_share_list' => $data['do_not_share_list'],
                 'email' => $data['email'],
@@ -197,7 +232,6 @@ class IntakeService
                 'primary_language_spoken' => $data['primary_language_spoken'],
                 'reason_for_assistance' => $data['reason_for_assistance'],
                 'referral_contact' => $data['referral_contact'],
-                //'referral_date' => $data['referral_date'],
                 'referral_organization' => $data['referral_organization'],
                 'referral_organization_email' => $data['referral_organization_email'],
                 'referral_organization_phone' => $data['referral_organization_phone'],
@@ -205,12 +239,44 @@ class IntakeService
                 'requesting_host_family' => $serviceChoices['requesting_host_family'],
                 'requesting_resource_friend' => $data['requesting_resource_friend'],
                 'resources_provided' => $data['resources_provided'],
-                'state' => $data['state'],
-                'updated_by' => $userId,
+                'updated_by' => auth()->id(),
                 'urgency' => $data['urgency'],
-                'zip' => $data['zip'],
+                // 'address_line_1' => $data['address_line_1'],
+                // 'address_line_2' => $data['address_line_2'],
+                // 'city' => $data['city'],
+                // 'state' => $data['state'],
+                // 'zip' => $data['zip'],
             ]);
 
+            if (!empty(array_filter([
+                $data['address_line_1'] ?? null,
+                $data['address_line_2'] ?? null,
+                $data['city'] ?? null,
+                $data['state'] ?? null,
+                $data['zip'] ?? null,
+            ]))) {
+                if ($intake->address) {
+                    $intake->address->update([
+                        'address_line_1' => $data['address_line_1'] ?? null,
+                        'address_line_2' => $data['address_line_2'] ?? null,
+                        'city' => $data['city'] ?? null,
+                        'state' => $data['state'] ?? null,
+                        'zip' => $data['zip'] ?? null,
+                        'updated_by' => auth()->id(),
+                    ]);
+                } else {
+                    $address = Address::create([
+                        'address_line_1' => $data['address_line_1'] ?? null,
+                        'address_line_2' => $data['address_line_2'] ?? null,
+                        'city' => $data['city'] ?? null,
+                        'state' => $data['state'] ?? null,
+                        'zip' => $data['zip'] ?? null,
+                        'created_by' => auth()->id(),
+                        'updated_by' => auth()->id(),
+                    ]);
+                    $intake->address()->associate($address)->save();
+                }
+            }
             return $intake;
         });
     }

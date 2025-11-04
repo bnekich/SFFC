@@ -21,6 +21,9 @@
     @if ($item === 'new_volunteers')
         <x-dashboard-item-volunteers />
     @endif
+    @if ($item === 'new_referrals')
+        <x-dashboard-item-referrals />
+    @endif
 @empty
     No Dashboard Items Set
 @endforelse

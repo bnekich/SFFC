@@ -18,6 +18,7 @@ use App\Models\NotePrivacy;
 use App\Models\PersonsOrganizations;
 use App\Models\Volunteer;
 use App\Models\VolunteerStatus;
+use App\Models\Person;
 
 class DatabaseSeeder extends Seeder
 {
@@ -30,7 +31,6 @@ class DatabaseSeeder extends Seeder
         ReminderType::factory()->create();
         $this->call([
             RolePermissionSeeder::class,
-            PersonSeeder::class,
             OrganizationTypeSeeder::class,
             OrganizationSeeder::class,
             TagSeeder::class,
@@ -41,6 +41,7 @@ class DatabaseSeeder extends Seeder
             NoteStatusSeeder::class,
             NotePrivacySeeder::class,
         ]);
+        Person::factory()->count(100)->create();
         Intake::factory()->count(100)->create();
         Family::factory()->count(100)->create();
         CaseModel::factory()->count(100)->create();

@@ -23,7 +23,11 @@
                 {{ in_array('new_volunteers', auth()->user()->dashboard_preferences ?? []) ? 'checked' : '' }}>
             <label>New Volunteers</label>
         </div>
-
+        <div class="">
+            <input type="checkbox" name="dashboard_items[]" value="new_referrals"
+                {{ in_array('new_referrals', auth()->user()->dashboard_preferences ?? []) ? 'checked' : '' }}>
+            <label>New Referrals</label>
+        </div>
     </div>
     {{-- <div x-data="{ switchOn: false }" class="flex items-center justify-center space-x-2">
         <input id="open_cases" type="checkbox" name="dashboard_items[]" class="hidden" :checked="switchOn">

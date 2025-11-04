@@ -18,11 +18,7 @@ return new class extends Migration
             $table->string('primary_language_spoken', 255);
             $table->date('date_of_birth');
             $table->boolean('is_homeless')->default(false);
-            $table->string('address_line_1', 255);
-            $table->string('address_line_2', 255)->nullable();
-            $table->string('city', 255);
-            $table->string('state', 2);
-            $table->string('zip', 10);
+            $table->foreignId('address_id')->constrained('addresses')->onDelete('cascade');
             $table->string('email', 255);
             $table->string('mobile_phone', 20)->nullable();
             $table->string('other_phone', 255)->nullable();

@@ -33,6 +33,7 @@ class IntakeController extends Controller
             'search' => $request->search,
             'status' => $request->status,
         ];
+
         $sort = [
             'field' => $request->get('sort', 'id'),
             'direction' => $request->get('direction', 'asc')
@@ -90,7 +91,16 @@ class IntakeController extends Controller
     {
         $this->logAction("Edit Intake", "edit", "Intake", $intake->id);
         $intakeStatuses = IntakeStatus::all();
-        return view('intake.edit', compact('intake', 'intakeStatuses'));
+        $ethnicities = Ethnicity::cases();
+        $genders = Gender::cases();
+        $states = USState::cases();
+        $organizations = Organization::whereHas('organizationType', function ($query) {
+            $query->where('name', 'like', '%Safe Families%');
+        })->get();
+        $urgencies = ['Urgent', 'Within The Next Week', 'Within The Next Month'];
+        $orgTypes = OrganizationType::all();
+
+        return view('intake.edit', compact('intake', 'intakeStatuses', 'ethnicities', 'genders', 'states', 'organizations', 'orgTypes', 'urgencies'));
     }
 
     public function update(IntakeFormRequest $request, Intake $intake)

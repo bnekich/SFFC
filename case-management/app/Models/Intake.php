@@ -12,6 +12,8 @@ class Intake extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $casts = ['created_at' => 'date'];
+
     protected $fillable = [
         'address_line_1',
         'address_line_2',
@@ -47,7 +49,6 @@ class Intake extends Model
         'primary_language_spoken',
         'reason_for_assistance',
         'referral_contact',
-        //'referral_date',
         'referral_organization',
         'referral_organization_email',
         'referral_organization_phone',
@@ -59,6 +60,7 @@ class Intake extends Model
         'updated_by',
         'urgency',
         'zip',
+        'address_id'
     ];
 
     public function status()
@@ -74,5 +76,9 @@ class Intake extends Model
     public function organization()
     {
         return $this->belongsTo(Organization::class);
+    }
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
     }
 }

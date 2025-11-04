@@ -49,7 +49,7 @@ class NoteController extends Controller
         if ($request->input('person_id')) {
             $volunteer = Volunteer::where('person_id', $request->input('person_id'))
                 ->with('person')
-                ->first();
+                ->first()->select('person');
 
             if ($volunteer) {
                 $preselectedVolunteer = collect([$volunteer]);
