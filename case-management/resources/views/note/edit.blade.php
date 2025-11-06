@@ -76,7 +76,8 @@
         placeholder="Search for Cases..." labelKey="case_identifier" noteType="cases" />
 
     <x-choices-select id="volunteers" name="volunteers[]" label="Attach to Volunteers" url="/api/noteables/"
-        multiple="true" placeholder="Search for Volunteers..." noteType="volunteers" />
+        multiple="true" placeholder="Search for Volunteers..." noteType="volunteers" :options="$volunteers" :selected="$volunteerIds"
+        labelKey="name" />
 
     <button type="submit" class="sffc-btn-primary mt-3">Save</button>
     <a href="{{ route('note.show', $note) }}" class="sffc-btn-cancel mt-3">Cancel</a>

@@ -32,7 +32,6 @@ class Person extends Model
         'updated_by',
     ];
 
-
     public function address()
     {
         return $this->belongsTo(Address::class);

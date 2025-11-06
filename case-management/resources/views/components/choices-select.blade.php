@@ -6,8 +6,9 @@
         class="choices-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
         name="{{ $name }}" data-url="{{ $url }}" data-note-type="{{ $noteType ?? '' }}"
         data-label-key="{{ $labelKey ?? 'name' }}" {{ $multiple ? 'multiple' : '' }}>
+
         @foreach ($options as $option)
-            <option value="{{ $option->id }}" @selected(in_array($option->id, old(str_replace('[]', '', $name), $selected)))>
+            <option value="{{ $option['id'] }}" @selected(in_array($option['id'], old(str_replace('[]', '', $name), $selected)))>
                 {{ data_get($option, $labelKey) }}
             </option>
         @endforeach

@@ -66,7 +66,6 @@ export function initializeChoicesSelects() {
             // Force HTTPS if HTTP is explicitly used
             url = url.replace("http://", "https://");
         }
-        console.log(url);
         const choices = new Choices(el, {
             removeItemButton: true,
             searchEnabled: true,
@@ -110,8 +109,6 @@ export function initializeChoicesSelects() {
                     )}`
                 );
                 const data: PaginatedApiResponse = await response.json();
-                console.log(data);
-
                 const newChoices = data.items.map((item: ApiItem) => ({
                     value: item.id,
                     label:

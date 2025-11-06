@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use App\Models\Tag;
 use App\Models\NoteStatus;
 use App\Models\NotePrivacy;
+use App\Models\Person;
+
 
 class NoteController extends Controller
 {
@@ -43,17 +45,18 @@ class NoteController extends Controller
         $this->logAction("Create Note", "create", "Note");
         $noteStatuses = NoteStatus::all()->sortBy('name');
         $notePrivacies = NotePrivacy::all()->sortBy('name');
-        $preselectedVolunteer = collect(); // Collection of Volunteer models
+        $preselectedVolunteer = null; // Collection of Volunteer models
+        $preselectedVolunteerIds = []; // Array of volunteer IDs
         $preselectedCase = collect();
 
         if ($request->input('person_id')) {
-            $volunteer = Volunteer::where('person_id', $request->input('person_id'))
-                ->with('person')
-                ->first()->select('person');
 
-            if ($volunteer) {
-                $preselectedVolunteer = collect([$volunteer]);
-            }
+            $volunteer = Person::where("persons.id", $request->input('person_id'))
+                ->join("volunteers", "persons.id", "=", "volunteers.person_id")
+                ->select("volunteers.id", "persons.full_name as name")->get();
+
+            $preselectedVolunteerIds = $volunteer->pluck('id')->toArray();
+            $preselectedVolunteer = $volunteer;
         }
 
         if ($request->input('case_id')) {
@@ -64,7 +67,7 @@ class NoteController extends Controller
                 $preselectedCase = collect([$case]);
             }
         }
-        $preselectedVolunteerIds = $preselectedVolunteer->pluck('id')->toArray();
+
         $preselectedCaseIds = $preselectedCase->pluck('id')->toArray();
 
         return view('note.create', compact('preselectedCase', 'preselectedCaseIds', 'preselectedVolunteer', 'preselectedVolunteerIds', 'noteStatuses', 'notePrivacies'));
@@ -125,7 +128,15 @@ class NoteController extends Controller
         $noteStatuses = NoteStatus::all()->sortBy('name');
         $notePrivacies = NotePrivacy::all()->sortBy('name');
 
-        return view('note.edit', compact('note', 'noteStatuses', 'notePrivacies'));
+        $volunteers = $note->volunteers->map(function ($volunteer) {
+            return [
+                'id'   => $volunteer->id,
+                'name' => $volunteer->person->full_name,
+            ];
+        });
+
+        $volunteerIds = $note->volunteers->pluck('id')->toArray();
+        return view('note.edit', compact('note', 'noteStatuses', 'notePrivacies', 'volunteers', 'volunteerIds'));
     }
 
     public function update(NoteFormRequest $request, Note $note)
@@ -193,22 +204,24 @@ class NoteController extends Controller
 
         if ($type === 'volunteers') {
             $query = Volunteer::query()
-                ->join('persons', 'volunteers.person_id', '=', 'persons.id')
+                ->join("persons", "volunteers.person_id", "persons.id")
                 ->when($search, function ($q) use ($search) {
-                    $q->where('persons.first_name', 'like', '%' . $search . '%')
-                        ->orWhere('persons.last_name', 'like', '%' . $search . '%');
+                    $q->where("persons.first_name", "like", "%" . $search . "%")->orWhere(
+                        "persons.last_name",
+                        "like",
+                        "%" . $search . "%"
+                    );
                 })
-                ->select('volunteers.id', 'persons.first_name', 'persons.last_name')
-                ->orderBy('persons.last_name')
-                ->orderBy('persons.first_name');
-            $volunteers = $query->paginate($perPage, ['*'], 'page', $page);
+                ->select("volunteers.id", "persons.full_name");
+            //$query->get();
+            $volunteers = $query->paginate($perPage, ["*"], "page", $page);
 
             return response()->json([
                 //'items' => $volunteers->items(),
                 'items' => $volunteers->map(function ($volunteer) {
                     return [
                         'id' => $volunteer->id,
-                        'name' => $volunteer->first_name . ' ' . $volunteer->last_name
+                        'name' => $volunteer->full_name
                     ];
                 }),
 

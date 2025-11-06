@@ -11,10 +11,6 @@ class Volunteer extends Model
 
     protected $fillable = ['person_id', 'county', 'church_id', 'volunteer_status_id', 'created_by', 'updated_by'];
 
-    public function getFullNameAttribute()
-    {
-        return trim("{$this->person->first_name} {$this->person->last_name}");
-    }
     public function person()
     {
         return $this->belongsTo(Person::class, 'person_id');
@@ -35,12 +31,8 @@ class Volunteer extends Model
         return $this->morphToMany(Note::class, 'noteable');
     }
 
-    /**
-     * Get the church (organization) that the volunteer belongs to.
-     */
     public function church()
     {
-        // Note: The foreign key is 'church_id' on the volunteers table.
         return $this->belongsTo(Organization::class, 'church_id');
     }
 }

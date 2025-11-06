@@ -6,8 +6,10 @@
 
 @section('content')
 @section('header')
-    @if ($preselectedVolunteer->count() > 0)
-        Add Note to Volunteer ( {{ $preselectedVolunteer[0]['full_name'] }} )
+    @if ($preselectedVolunteer)
+        Add Note to Volunteer ( {{ $preselectedVolunteer[0]['name'] }} )
+    @elseif ($preselectedCase->count() > 0)
+        Add Notename'] }} )
     @elseif ($preselectedCase->count() > 0)
         Add Note to Case ( {{ $preselectedCase[0]['case_identifier'] }} )
     @else
@@ -74,10 +76,10 @@
             placeholder="Search for Cases..." labelKey="case_identifier" noteType="cases" />
     @endif
 
-    @if ($preselectedVolunteer->count() > 0)
+    @if ($preselectedVolunteer)
         <x-choices-select id="volunteers" name="volunteers[]" label="Attach to Volunteers" url="/api/noteables"
             multiple="true" placeholder="Search for Volunteers..." noteType="volunteers" :options="$preselectedVolunteer"
-            :selected="$preselectedVolunteerIds" labelKey="full_name" />
+            :selected="$preselectedVolunteerIds" labelKey="name" />
     @else
         <x-choices-select id="volunteers" name="volunteers[]" label="Attach to Volunteers" url="/api/noteables"
             multiple="true" placeholder="Search for Volunteers..." noteType="volunteers" />
