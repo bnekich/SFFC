@@ -16,11 +16,11 @@ return new class extends Migration
             $table->string('title', 255);
             $table->text('note');
             $table->text('comments')->nullable();
-            $table->bigInteger('note_privacy_id')->nullable();
-            $table->bigInteger('note_status_id')->nullable();
+            $table->foreignId('note_privacy_id')->nullable()->constrained('note_privacies')->onDelete('set null');
+            $table->bigInteger('note_status_id')->nullable()->constrained('note_statuses')->onDelete('set null');
             $table->boolean('approved');
-            $table->bigInteger('created_by')->nullable();
-            $table->bigInteger('updated_by')->nullable();
+            $table->foreignId('created_by')->constrained('users')->onDelete('restrict');
+            $table->foreignId('updated_by')->constrained('users')->onDelete('restrict');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -10,11 +10,11 @@ class CreateAppointmentsPersonsTable extends Migration
     {
         Schema::create('appointments_persons', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('appointment_id')->nullable();
-            $table->bigInteger('person_id')->nullable();
+            $table->foreignId('appointment_id')->constrained('appointments')->onDelete('restrict');
+            $table->foreignId('person_id')->constrained('persons')->onDelete('restrict');
             $table->timestamps();
-            $table->bigInteger('created_by')->nullable();
-            $table->bigInteger('updated_by')->nullable();
+            $table->foreignId('created_by')->constrained('users')->onDelete('restrict');
+            $table->foreignId('updated_by')->constrained('users')->onDelete('restrict');
             $table->softDeletes();
         });
     }

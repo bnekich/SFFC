@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('case_notes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('case_id')->constrained()->onDelete('cascade');
+            $table->foreignId('case_id')->constrained()->onDelete('restrict');
             $table->string('subject');
             $table->text('note');
             $table->string('privacy_level');
             $table->string('status');
             $table->boolean('is_approved')->default(false);
-            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
-            $table->foreignId('updated_by')->constrained('users')->onDelete('cascade');
+            $table->foreignId('created_by')->constrained('users')->onDelete('restrict');
+            $table->foreignId('updated_by')->constrained('users')->onDelete('restrict');
             $table->timestamps();
             $table->softDeletes();
         });

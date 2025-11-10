@@ -9,21 +9,16 @@ class Volunteer extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['person_id', 'county', 'church_id', 'volunteer_status_id', 'created_by', 'updated_by'];
-
-    public function person()
-    {
-        return $this->belongsTo(Person::class, 'person_id');
-    }
-
-    public function volunteerStatus()
-    {
-        return $this->belongsTo(VolunteerStatus::class, 'volunteer_status_id');
-    }
+    protected $fillable = ['church_id', 'county', 'person_id', 'volunteer_status_id', 'sffc_chapter_id', 'created_by', 'updated_by'];
 
     public function cases()
     {
         return $this->belongsToMany(CaseModel::class, 'cases_volunteers');
+    }
+
+    public function church()
+    {
+        return $this->belongsTo(Organization::class, 'church_id');
     }
 
     public function notes()
@@ -31,8 +26,18 @@ class Volunteer extends Model
         return $this->morphToMany(Note::class, 'noteable');
     }
 
-    public function church()
+    public function person()
     {
-        return $this->belongsTo(Organization::class, 'church_id');
+        return $this->belongsTo(Person::class, 'person_id');
+    }
+
+    public function sffc_chapter()
+    {
+        return $this->belongsTo(Organization::class, 'sffc_chapter_id');
+    }
+
+    public function volunteerStatus()
+    {
+        return $this->belongsTo(VolunteerStatus::class, 'volunteer_status_id');
     }
 }

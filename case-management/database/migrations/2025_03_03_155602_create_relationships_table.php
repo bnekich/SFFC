@@ -10,12 +10,12 @@ class CreateRelationshipsTable extends Migration
     {
         Schema::create('relationships', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('person_id_1')->nullable();
-            $table->bigInteger('person_id_2')->nullable();
-            $table->bigInteger('relationship_type_id')->nullable();
+            $table->foreignId('person_id_1')->nullable()->constrained('persons')->onDelete('set null');
+            $table->foreignId('person_id_2')->nullable()->constrained('persons')->onDelete('set null');
+            $table->foreignId('relationship_type_id')->constrained('relationship_types')->onDelete('restrict');
             $table->timestamps();
-            $table->bigInteger('created_by')->nullable();
-            $table->bigInteger('updated_by')->nullable();
+            $table->foreignId('created_by')->constrained('users')->onDelete('restrict');
+            $table->foreignId('updated_by')->constrained('users')->onDelete('restrict');
             $table->softDeletes();
         });
     }

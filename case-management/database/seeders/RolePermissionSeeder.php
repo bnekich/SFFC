@@ -276,8 +276,8 @@ class RolePermissionSeeder extends Seeder
             'city' => 'New York',
             'state' => 'NY',
             'zip' => '10001',
-            'created_by' => null,
-            'updated_by' => null
+            'created_by' => 1,
+            'updated_by' => 1
         ]);
 
         Person::create([

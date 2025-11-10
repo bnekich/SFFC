@@ -11,8 +11,8 @@ class CreateOrganizationsTable extends Migration
         Schema::create('organizations', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255);
-            $table->foreignId('organization_type_id')->constrained('organization_types')->onDelete('cascade');
-            $table->foreignId('address_id')->nullable()->constrained('addresses')->onDelete('cascade');
+            $table->foreignId('organization_type_id')->constrained('organization_types')->onDelete('restrict');
+            $table->foreignId('address_id')->nullable()->constrained('addresses')->onDelete('set null');
             $table->bigInteger('organization_status_id')->nullable();
             $table->string('contact_person_name', 255)->nullable();
             $table->string('contact_person_title', 255)->nullable();
@@ -24,8 +24,8 @@ class CreateOrganizationsTable extends Migration
             $table->boolean('is_community_partner')->default(false);
             $table->string('county', 50)->nullable();
             $table->timestamps();
-            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
-            $table->foreignId('updated_by')->constrained('users')->onDelete('cascade');
+            $table->foreignId('created_by')->constrained('users')->onDelete('restrict');
+            $table->foreignId('updated_by')->constrained('users')->onDelete('restrict');
             $table->softDeletes();
         });
     }

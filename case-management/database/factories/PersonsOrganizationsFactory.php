@@ -11,6 +11,8 @@ class PersonsOrganizationsFactory extends Factory
         return [
             'person_id' => fake()->numberBetween(1, 99),
             'organization_id' => fake()->numberBetween(1, 14),
+            'created_by' => 1,
+            'updated_by' => 1
         ];
     }
 }

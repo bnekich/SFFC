@@ -10,9 +10,11 @@ class CreatePersonsFamiliesTable extends Migration
     {
         Schema::create('persons_families', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('person_id')->nullable();
-            $table->bigInteger('family_id')->nullable();
+            $table->foreignId('person_id')->constrained('persons')->onDelete('restrict');
+            $table->foreignId('family_id')->constrained('families')->onDelete('restrict');
             $table->timestamps();
+            $table->foreignId('created_by')->constrained('users')->onDelete('restrict');
+            $table->foreignId('updated_by')->constrained('users')->onDelete('restrict');
             $table->softDeletes();
         });
     }

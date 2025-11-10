@@ -11,8 +11,8 @@ return new class extends Migration
         //force
         Schema::create('notes_tags', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('note_id')->unsigned();
-            $table->bigInteger('tag_id')->unsigned();
+            $table->foreignId('note_id')->constrained('notes')->onDelete('restrict');
+            $table->foreignId('tag_id')->constrained('tags')->onDelete('restrict');
             $table->timestamps();
         });
     }

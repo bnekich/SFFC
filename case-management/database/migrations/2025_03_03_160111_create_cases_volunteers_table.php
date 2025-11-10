@@ -10,9 +10,11 @@ class CreateCasesVolunteersTable extends Migration
     {
         Schema::create('cases_volunteers', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('case_id')->nullable();
-            $table->bigInteger('volunteer_id')->nullable();
+            $table->foreignId('case_id')->constrained('cases')->onDelete('restrict');
+            $table->foreignId('volunteer_id')->constrained('volunteers')->onDelete('restrict');
             $table->timestamps();
+            $table->foreignId('created_by')->constrained('users')->onDelete('set null');
+            $table->foreignId('updated_by')->constrained('users')->onDelete('set null');
             $table->softDeletes();
         });
     }

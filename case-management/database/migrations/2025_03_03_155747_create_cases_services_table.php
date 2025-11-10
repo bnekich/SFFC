@@ -10,9 +10,11 @@ class CreateCasesServicesTable extends Migration
     {
         Schema::create('cases_services', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('case_id')->nullable();
-            $table->bigInteger('service_id')->nullable();
+            $table->foreignId('case_id')->constrained('cases')->onDelete('set null');
+            $table->foreignId('service_id')->constrained('services')->onDelete('set null');
             $table->timestamps();
+            $table->foreignId('created_by')->constrained('users')->onDelete('set null');
+            $table->foreignId('updated_by')->constrained('users')->onDelete('set null');
             $table->softDeletes();
         });
     }

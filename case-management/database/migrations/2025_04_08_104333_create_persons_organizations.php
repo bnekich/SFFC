@@ -10,9 +10,11 @@ return new class extends Migration
     {
         Schema::create('persons_organizations', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('person_id');
-            $table->bigInteger('organization_id');
+            $table->foreignId('person_id')->constrained('persons')->onDelete('cascade');
+            $table->foreignId('organization_id')->constrained('organizations')->onDelete('cascade');
             $table->timestamps();
+            $table->foreignId('created_by')->constrained('users')->onDelete('restrict');
+            $table->foreignId('updated_by')->constrained('users')->onDelete('restrict');
             $table->softDeletes();
         });
     }

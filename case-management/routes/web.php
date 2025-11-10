@@ -28,6 +28,7 @@ use App\Http\Controllers\NoteController;
 use App\Http\Controllers\VolunteerStatusController;
 use App\Http\Controllers\VolunteerController;
 use App\Http\Controllers\IntakeStatusController;
+use App\Models\Volunteer;
 
 Route::get('/2fa/challenge', [TwoFactorController::class, 'showChallenge'])->name('2fa.challenge');
 Route::post('/2fa/challenge', [TwoFactorController::class, 'sendCode'])->name('2fa.challenge');
@@ -52,7 +53,12 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
 // Publicly accessible intake routes for "Get Help"
 Route::resource('intake', IntakeController::class)->only(['create', 'store']);
+Route::resource('intake', IntakeController::class)->only(['create', 'store']);
 Route::get('intake/thank-you', fn() => view('intake.thankyou'))->name('intake.thankyou');
+
+Route::resource('volunteer', VolunteerController::class)->only(['create', 'store']);
+Route::resource('volunteer', VolunteerController::class)->only(['create', 'store']);
+Route::get('volunteer/thank-you', fn() => view('volunteer.thankyou'))->name('volunteer.thankyou');
 
 // Authenticated intake routes
 Route::resource('case', CaseModelController::class)->middleware('auth');
@@ -66,7 +72,7 @@ Route::resource('casenote', CaseNoteController::class)->middleware('auth');
 Route::resource('tag', TagController::class)->middleware('auth');
 Route::resource('case-statuses', CaseStatusController::class)->middleware('auth');
 Route::resource('note', NoteController::class)->middleware('auth');
-Route::resource('volunteer', VolunteerController::class)->middleware('auth');
+Route::resource('volunteer', VolunteerController::class)->except(['create', 'store'])->middleware('auth');
 Route::resource('volunteer-statuses', VolunteerStatusController::class)->middleware('auth');
 
 

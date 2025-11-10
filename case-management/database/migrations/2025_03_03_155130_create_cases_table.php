@@ -12,15 +12,15 @@ class CreateCasesTable extends Migration
             $table->id();
             $table->string('case_identifier', 255)->unique()->default('NA');
             $table->text('case_description');
-            $table->bigInteger('client_family_id')->nullable();
-            $table->bigInteger('host_family_id')->nullable();
-            $table->bigInteger('assigned_staff_id')->nullable();
+            $table->foreignId('client_family_id')->nullable()->constrained('families')->onDelete('set null');
+            $table->foreignId('host_family_id')->nullable()->constrained('families')->onDelete('set null');
+            $table->foreignId('assigned_staff_id')->nullable()->constrained('users')->onDelete('set null');
             $table->date('start_date');
             $table->date('end_date')->nullable();
-            $table->bigInteger('case_status_id')->nullable();
+            $table->foreignId('case_status_id')->nullable()->constrained('case_statuses')->onDelete('set null');
             $table->timestamps();
-            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
-            $table->foreignId('updated_by')->constrained('users')->onDelete('cascade');
+            $table->foreignId('created_by')->constrained('users')->onDelete('restrict');
+            $table->foreignId('updated_by')->constrained('users')->onDelete('restrict');
             $table->softDeletes();
         });
     }

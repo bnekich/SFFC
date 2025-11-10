@@ -2,10 +2,13 @@
 
 namespace App\Providers;
 
+use Auth;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\View;
+use App\View\Composers\AuthComposer;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -43,5 +46,7 @@ class AppServiceProvider extends ServiceProvider
         if (app()->environment('production')) {
             URL::forceScheme('https');
         }
+
+        View::composer('*', AuthComposer::class);
     }
 }

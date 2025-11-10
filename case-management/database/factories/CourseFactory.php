@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Person;
 
 class CourseFactory extends Factory
 {
@@ -11,7 +10,9 @@ class CourseFactory extends Factory
     {
         return [
             'title' => fake()->words(3, true),
-            'instructor_id' => Person::factory()
+            'instructor_id' => fake()->numberBetween(1, 10),
+            'created_by' => 1,
+            'updated_by' => 1
         ];
     }
 }

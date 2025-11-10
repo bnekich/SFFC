@@ -64,8 +64,11 @@ class VolunteerController extends Controller
         $persons = Person::all()->sortBy('last_name');
         $churches = Organization::where('organization_type_id', '=', $orgTypeId)->get()->sortBy('name');
         $volunteerStatuses = VolunteerStatus::all()->sortBy('name');
+        $sffc_locations = Organization::whereHas('organizationType', function ($query) {
+            $query->where('name', 'like', 'Safe Families%');
+        })->get();
 
-        return view('volunteer.create', compact('persons', 'churches', 'volunteerStatuses'));
+        return view('volunteer.create', compact('persons', 'churches', 'volunteerStatuses', 'sffc_locations'));
     }
 
     public function store(VolunteerFormRequest $request)

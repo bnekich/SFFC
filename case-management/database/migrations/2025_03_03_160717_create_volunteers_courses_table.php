@@ -10,10 +10,12 @@ class CreateVolunteersCoursesTable extends Migration
     {
         Schema::create('volunteers_courses', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('course_id')->nullable();
-            $table->bigInteger('volunteer_id')->nullable();
+            $table->foreignId('course_id')->constrained('courses')->onDelete('restrict');
+            $table->foreignId('volunteer_id')->constrained('volunteers')->onDelete('restrict');
             $table->boolean('completed')->nullable();
             $table->timestamps();
+            $table->foreignId('created_by')->constrained('users')->onDelete('restrict');
+            $table->foreignId('updated_by')->constrained('users')->onDelete('restrict');
             $table->softDeletes();
         });
     }

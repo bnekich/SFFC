@@ -10,14 +10,14 @@ class CreateRemindersTable extends Migration
     {
         Schema::create('reminders', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('appointment_id')->nullable();
-            $table->bigInteger('for_person_id')->nullable();
-            $table->bigInteger('reminder_type')->nullable();
+            $table->foreignId('appointment_id')->nullable()->constrained('appointments')->onDelete('set null');
+            $table->foreignId('for_person_id')->nullable()->constrained('persons')->onDelete('set null');
+            $table->foreignId('reminder_type_id')->nullable()->constrained('reminder_types')->onDelete('set null');
             $table->dateTime('reminder_time')->nullable();
             $table->string('status', 10)->nullable();
             $table->timestamps();
-            $table->bigInteger('created_by')->nullable();
-            $table->bigInteger('updated_by')->nullable();
+            $table->foreignId('created_by')->constrained('users')->onDelete('restrict');
+            $table->foreignId('updated_by')->constrained('users')->onDelete('restrict');
             $table->softDeletes();
         });
     }

@@ -1,15 +1,22 @@
 @extends('layouts.app')
 
 @section('title')
-    - Request Help
+    @if ($isAuthenticated)
+        - Add New Intake
+    @else
+        - Request Help
+    @endif
 @endsection
 
 @section('content')
 @section('header')
-    <p> Please complete and submit the form below and someone from your area will contact you.</p>
-    <p>The <span class=" text-red-500">*</span> indicates required information.</p>
+    @if ($isAuthenticated)
+        Add New Intake
+    @else
+        <p> Please complete and submit the form below and someone from your area will contact you.</p>
+        <p>The <span class=" text-red-500">*</span> indicates required information.</p>
+    @endif
 @endsection
-
 <form action="{{ route('intake.store') }}" method="POST">
     @csrf
     <div class="grid grid-cols-4 gap-6">
@@ -83,9 +90,9 @@
             @enderror
         </div>
         <div>
-            <label for="email" class="sffc-label">Email<span class=" text-red-500">*</span></label>
+            <label for="email" class="sffc-label">Email</label>
             <input id="email" type="email" name="email" placeholder="Email"
-                class=" sffc-text-input @error('email') border-red-500 @enderror" value="{{ old('email') }}" required>
+                class=" sffc-text-input @error('email') border-red-500 @enderror" value="{{ old('email') }}">
             @error('email')
                 <p class="sffc-text-input-error">{{ $message }}</p>
             @enderror
@@ -113,7 +120,7 @@
             <label for="other_phone" class="sffc-label">Other Phone</label>
             <input id="other_phone" type="text" name="other_phone" placeholder="Parent other Phone Number"
                 class="sffc-text-input phone-input  @error('other_phone') border-red-500 @enderror"
-                value="{{ old('other_phone') }}" required>
+                value="{{ old('other_phone') }}">
             @error('other_phone')
                 <span class="sffc-text-input-error">{{ $message }}</span>
             @enderror
@@ -171,7 +178,7 @@
             <label for="number_of_children" class="sffc-label">Number of Children<span
                     class=" text-red-500">*</span></label>
             <input id="number_of_children" type="number" name="number_of_children" class="sffc-text-input"
-                required>
+                value="{{ old('number_of_children') }}" required>
             @error('number_of_children')
                 <span class="sffc-text-input-error">{{ $message }}</span>
             @enderror
@@ -195,7 +202,9 @@
         <div class="col-span-4">
             <label for="reason_for_assistance" class="sffc-label">Reason for Assisstance<span
                     class=" text-red-500">*</span></label>
-            <textarea id="reason_for_assistance" name="reason_for_assistance" class="sffc-text-input" required></textarea>
+            <textarea id="reason_for_assistance" name="reason_for_assistance" class="sffc-text-input" required>
+                {{ old('reason_for_assistance') }}
+            </textarea>
             @error('reason_for_assistance')
                 <span class="sffc-text-input-error">{{ $message }}</span>
             @enderror

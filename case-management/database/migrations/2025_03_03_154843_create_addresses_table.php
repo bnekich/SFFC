@@ -16,8 +16,8 @@ class CreateAddressesTable extends Migration
             $table->string('state', 2)->nullable();
             $table->string('zip', 10)->nullable();
             $table->timestamps();
-            $table->bigInteger('created_by')->nullable();
-            $table->bigInteger('updated_by')->nullable();
+            $table->foreignId('created_by')->constrained('users')->onDelete('set null');
+            $table->bigInteger('updated_by')->constrained('users')->onDelete('set null');
             $table->softDeletes();
         });
     }

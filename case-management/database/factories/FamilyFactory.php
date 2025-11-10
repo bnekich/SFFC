@@ -3,24 +3,16 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Address;
-use App\Models\Status;
-use App\Models\Family;
 
 class FamilyFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
 
         return [
             'family_name' => fake()->lastName(),
             'address_id' => 1,
-            'status_id' => 1,
+            // 'status_id' => 1,
             'created_by' => 1,
             'updated_by' => 1,
         ];

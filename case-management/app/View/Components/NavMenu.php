@@ -20,7 +20,7 @@ class NavMenu extends Component
         if (!Auth::check()) {
             $this->links = [
                 ['name' => 'Get Help', 'url' => route('intake.create')],
-                ['name' => 'Get Involved', 'url' => '#'],
+                ['name' => 'Get Involved', 'url' => route('volunteer.create')],
                 ['name' => 'Login', 'url' => route('login')]
             ];
         } else {

@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('intakes', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('completed_by_id')->nullable();
+            $table->foreignId('completed_by_id')->nullable()->constrained('users')->onDelete('set null');
             $table->string('first_name', 255)->nullable();
             $table->string('last_name', 255)->nullable();
             $table->string('ethnicity', 2);
@@ -18,12 +18,12 @@ return new class extends Migration
             $table->string('primary_language_spoken', 255);
             $table->date('date_of_birth');
             $table->boolean('is_homeless')->default(false);
-            $table->foreignId('address_id')->constrained('addresses')->onDelete('cascade');
-            $table->string('email', 255);
+            $table->foreignId('address_id')->constrained('addresses')->onDelete('restrict');
+            $table->string('email', 255)->nullable();
             $table->string('mobile_phone', 20)->nullable();
             $table->string('other_phone', 255)->nullable();
-            $table->foreignId('organization_id')->constrained('organizations')->onDelete('cascade'); //SFFC chapter
-            $table->foreignId('organization_type_id')->constrained('organization_types')->onDelete('cascade'); //how did you hear about us?
+            $table->foreignId('organization_id')->constrained('organizations')->onDelete('restrict'); //SFFC chapter
+            $table->foreignId('organization_type_id')->constrained('organization_types')->onDelete('restrict'); //how did you hear about us?
             $table->string('referral_organization', 255)->nullable();
             $table->string('referral_contact', 255)->nullable();
             $table->string('referral_organization_phone', 255)->nullable();
@@ -48,9 +48,9 @@ return new class extends Migration
             $table->text('emotional_behavioral_medical_concerns')->nullable();
             $table->boolean('is_a_sffc_fit')->nullable();
             $table->text('resources_provided')->nullable();
-            $table->foreignId('intake_status_id')->constrained('intake_statuses')->onDelete('cascade');
-            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
-            $table->foreignId('updated_by')->constrained('users')->onDelete('cascade');
+            $table->foreignId('intake_status_id')->constrained('intake_statuses')->onDelete('restrict');
+            $table->foreignId('created_by')->constrained('users')->onDelete('restrict');
+            $table->foreignId('updated_by')->constrained('users')->onDelete('restrict');
             $table->softDeletes();
             $table->timestamps();
         });
