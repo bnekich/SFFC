@@ -39,7 +39,10 @@ class Person extends Model
 
     public function families()
     {
-        return $this->belongsToMany(Family::class, 'persons_families', 'person_id', 'family_id');
+        return $this->belongsToMany(Family::class, 'family_person')
+            ->withPivot('relationship_type_id', 'is_primary_contact', 'joined_at', 'left_at')
+            ->withTimestamps()
+            ->using(FamilyPerson::class);
     }
 
     public function organizations()

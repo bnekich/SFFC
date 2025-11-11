@@ -9,10 +9,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class RelationshipType extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable = ['name'];
 
-    public function relationships()
+    protected $fillable = ['name', 'inverse_type_id', 'created_by', 'updated_by'];
+
+    public function inverse()
     {
-        return $this->hasMany(Relationship::class);
+        return $this->belongsTo(self::class, 'inverse_type_id');
     }
 }

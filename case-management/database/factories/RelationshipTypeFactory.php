@@ -9,6 +9,6 @@ class RelationshipTypeFactory extends Factory
 {
     public function definition(): array
     {
-        return ['name' => 'Relationship Type'];
+        return [];
     }
 }

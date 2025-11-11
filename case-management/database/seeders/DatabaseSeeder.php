@@ -27,7 +27,6 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
-        RelationshipType::factory()->create();
         ReminderType::factory()->create();
         $this->call([
             RolePermissionSeeder::class,
@@ -40,6 +39,7 @@ class DatabaseSeeder extends Seeder
             VolunteerStatusSeeder::class,
             NoteStatusSeeder::class,
             NotePrivacySeeder::class,
+            RelationshipTypeSeeder::class,
         ]);
         Person::factory()->count(100)->create();
         Intake::factory()->count(100)->create();

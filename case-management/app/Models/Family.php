@@ -12,9 +12,23 @@ class Family extends Model
 
     protected $fillable = ['family_name', 'address_id', 'status_id', 'created_by', 'updated_by'];
 
-    public function persons()
+    public function members()
     {
-        return $this->belongsToMany(Person::class, 'persons_families', 'person_id', 'family_id');
+        return $this->belongsToMany(Person::class, 'family_person')->withPivot(
+            'relationship_type_id',
+            'is_primary_contact',
+            'joined_at',
+            'left_at'
+        )
+            ->withTimestamps()
+            ->using(FamilyPerson::class);
+    }
+
+    public function primaryContact()
+    {
+        return $this->members()
+            ->wherePivot('is_primary_contact', true)
+            ->first();
     }
 
     public function address()
